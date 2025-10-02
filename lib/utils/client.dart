@@ -28,6 +28,16 @@ query {
     id
     name
   }
+  externals {
+    id
+    public_name
+    url
+    media_id
+    media_type
+    song_lyric {
+      id
+    }
+  }
   songbooks {
     id
     name
@@ -71,7 +81,6 @@ query {
     lang_string
     type_enum
     is_arrangement
-    has_chords
     song {
       id
     }
@@ -87,13 +96,6 @@ query {
           id
         }
       }
-    }
-    externals {
-      id
-      public_name
-      url
-      media_id
-      media_type
     }
     authors_pivot {
       pivot {
@@ -121,7 +123,6 @@ query {
     lang_string
     type_enum
     is_arrangement
-    has_chords
     song {
       id
     }
@@ -135,16 +136,6 @@ query {
         songbook {
           id
         }
-      }
-    }
-    externals {
-      id
-      public_name
-      url
-      media_id
-      media_type
-      authors {
-        id
       }
     }
     authors_pivot {

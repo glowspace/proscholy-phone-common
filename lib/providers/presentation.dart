@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:proscholy_common/views/content_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proscholy_common/components/song_lyric/utils/parser.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
@@ -144,17 +145,17 @@ class PresentationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void change(DisplayableItem displayableItem) {
+  void change(ContentItem contentItem) {
     _part = 0;
 
-    final changeFunction = switch (displayableItem) {
+    final changeFunction = switch (contentItem) {
       (BiblePassage biblePassage) => () {
           _songLyricsParser = null;
 
           _changeShowingData(_presentationData.copyWith(
             songLyricId: null,
             isCustomText: false,
-            name: biblePassage.displayName,
+            name: biblePassage.name,
             text: biblePassage.text,
           ));
         },

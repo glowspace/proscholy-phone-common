@@ -27,6 +27,21 @@ mixin _$CustomText {
       _$CustomTextCopyWithImpl<CustomText>(this as CustomText, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CustomText &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, super.hashCode, id, name, content);
+
+  @override
   String toString() {
     return 'CustomText(id: $id, name: $name, content: $content)';
   }
@@ -256,6 +271,21 @@ class _CustomText extends CustomText {
   @pragma('vm:prefer-inline')
   _$CustomTextCopyWith<_CustomText> get copyWith =>
       __$CustomTextCopyWithImpl<_CustomText>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _CustomText &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, super.hashCode, id, name, content);
 
   @override
   String toString() {

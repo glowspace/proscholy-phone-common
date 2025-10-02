@@ -8,7 +8,7 @@ import 'package:proscholy_common/models/songbook.dart';
 
 @immutable
 class DisplayScreenArguments {
-  final List<DisplayableItem> items;
+  final List<ContentItem> items;
   final int initialIndex;
 
   final bool showSearchScreen;

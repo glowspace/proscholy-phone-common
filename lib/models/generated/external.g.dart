@@ -12,5 +12,4 @@ _External _$ExternalFromJson(Map<String, dynamic> json) => _External(
       mediaId: json['media_id'] as String?,
       url: json['url'] as String?,
       dbMediaType: MediaType.rawValueFromString(json['media_type'] as String?),
-      songLyric: _songLyricFromJson(json['song_lyric']),
     );

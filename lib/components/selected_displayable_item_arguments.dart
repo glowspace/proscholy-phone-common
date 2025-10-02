@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 
 class SelectedDisplayableItemArguments extends InheritedWidget {
-  final ValueNotifier<DisplayScreenArguments> displayableItemArgumentsNotifier;
+  final ValueNotifier<DisplayScreenArguments> contentItemArgumentsNotifier;
 
   const SelectedDisplayableItemArguments({
     super.key,
     required super.child,
-    required this.displayableItemArgumentsNotifier,
+    required this.contentItemArgumentsNotifier,
   });
 
   @override
   bool updateShouldNotify(SelectedDisplayableItemArguments oldWidget) {
-    return displayableItemArgumentsNotifier != oldWidget.displayableItemArgumentsNotifier;
+    return contentItemArgumentsNotifier != oldWidget.contentItemArgumentsNotifier;
   }
 
   static ValueNotifier<DisplayScreenArguments>? of(BuildContext context, {bool listen = true}) {
@@ -20,6 +20,6 @@ class SelectedDisplayableItemArguments extends InheritedWidget {
         ? context.dependOnInheritedWidgetOfExactType<SelectedDisplayableItemArguments>()
         : context.getInheritedWidgetOfExactType<SelectedDisplayableItemArguments>();
 
-    return widget?.displayableItemArgumentsNotifier;
+    return widget?.contentItemArgumentsNotifier;
   }
 }

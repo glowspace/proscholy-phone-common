@@ -3,8 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'generated/spotlight_item.freezed.dart';
 part 'generated/spotlight_item.g.dart';
 
-@freezed
+@Freezed(toJson: true)
 sealed class SpotlightItem with _$SpotlightItem {
+  @JsonSerializable(fieldRename: FieldRename.none)
   const factory SpotlightItem({
     required String identifier,
     required String title,

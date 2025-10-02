@@ -290,7 +290,8 @@ extension PresentationDataPatterns on PresentationData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _PresentationData implements PresentationData {
   const _PresentationData(
       {this.songLyricId,
@@ -695,7 +696,8 @@ extension PresentationSettingsPatterns on PresentationSettings {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _PresentationSettings implements PresentationSettings {
   const _PresentationSettings(
       {required this.darkMode,

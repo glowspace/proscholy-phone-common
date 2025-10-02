@@ -43,9 +43,17 @@ class TranslationsSheet extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SongLyricsSectionTitle(title: songLyricType.description),
+        SongLyricsSectionTitle(title: songLyricType.title),
         for (final songLyric in songLyrics) SongLyricRow(songLyric: songLyric, isInsideTranslationSheet: true)
       ],
     );
   }
+}
+
+extension _SongLyricTypeView on SongLyricType {
+  String get title => switch(this) {
+    SongLyricType.original => 'Originál',
+    SongLyricType.translation => 'Překlad',
+    SongLyricType.authorizedTranslation => 'Autorizovaný překlad',
+  };
 }

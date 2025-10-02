@@ -308,9 +308,8 @@ extension SongbookPatterns on Songbook {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: Songbook)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _Songbook extends Songbook {
   const _Songbook(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,

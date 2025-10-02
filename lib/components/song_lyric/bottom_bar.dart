@@ -9,6 +9,7 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/presentation.dart';
 import 'package:proscholy_common/providers/settings.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 const double _bottomBarHeight = 64;
 
@@ -31,7 +32,7 @@ class SongLyricBottomBar extends ConsumerWidget {
           child: Row(children: [
             HighlightableWidget(
               padding: const EdgeInsets.all(kDefaultPadding),
-              isEnabled: songLyric?.hasChordsReal ?? false,
+              isEnabled: songLyric?.hasChords ?? false,
               onTap: () => showModalBottomSheet(
                 context: context,
                 builder: (context) => SongLyricSettingsModelWidget(songLyric: songLyric!),

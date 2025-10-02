@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:proscholy_common/views/content_item.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:proscholy_common/components/playlist/playlist_record_row.dart';
 import 'package:proscholy_common/components/selected_displayable_item_arguments.dart';
@@ -60,14 +61,14 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
       final selectedDisplayableItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context, listen: false);
 
       if (selectedDisplayableItemArgumentsNotifier != null) {
-        final displayableItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
+        final contentItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
 
-        for (int i = 0; i < displayableItems.length; i++) {
-          if (displayableItems[i] ==
+        for (int i = 0; i < contentItems.length; i++) {
+          if (contentItems[i] ==
               selectedDisplayableItemArgumentsNotifier
                   .value.items[selectedDisplayableItemArgumentsNotifier.value.initialIndex]) {
             selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments(
-              items: displayableItems,
+              items: contentItems,
               initialIndex: i,
               playlist: widget.playlist,
             );
@@ -77,7 +78,7 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
         }
 
         selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments(
-          items: displayableItems,
+          items: contentItems,
           initialIndex: 0,
           playlist: widget.playlist,
         );
@@ -104,12 +105,12 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
       );
     }
 
-    final displayableItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
+    final contentItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
 
     return ReorderableListView.builder(
       primary: false,
       padding: const EdgeInsets.only(top: kDefaultPadding / 3),
-      itemCount: displayableItems.length,
+      itemCount: contentItems.length,
       itemBuilder: (_, index) => Slidable(
         key: Key('${_recordsOrdered[index].id}'),
         groupTag: 'playlist_record',
@@ -129,7 +130,7 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
         child: PlaylistRecordRow(
           playlistRecord: _recordsOrdered[index],
           displayScreenArguments: DisplayScreenArguments(
-            items: displayableItems,
+            items: contentItems,
             initialIndex: index,
             playlist: widget.playlist,
           ),
@@ -154,7 +155,7 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
     }).toList();
   }
 
-  DisplayableItem _unwrapPlaylistRecord(PlaylistRecord playlistRecord) {
+  ContentItem _unwrapPlaylistRecord(PlaylistRecord playlistRecord) {
     final biblePassage = ref.watch(biblePassageProvider(playlistRecord.biblePassage.targetId));
     final customText = ref.watch(customTextProvider(playlistRecord.customText.targetId));
     final songLyric = ref.watch(songLyricProvider(playlistRecord.songLyric.targetId));
@@ -214,7 +215,7 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
   void _sortedAlphabeticallyChanged() {
     if (widget.sortedAlphabeticallyNotifier.value) {
       setState(() => _recordsOrdered = widget.playlist.records
-          .sorted((a, b) => _unwrapPlaylistRecord(a).displayName.compareTo(_unwrapPlaylistRecord(b).displayName)));
+          .sorted((a, b) => _unwrapPlaylistRecord(a).name.compareTo(_unwrapPlaylistRecord(b).name)));
     } else {
       setState(() => _recordsOrdered = widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank)));
     }

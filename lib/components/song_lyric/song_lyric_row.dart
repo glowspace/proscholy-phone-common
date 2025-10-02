@@ -9,6 +9,7 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 const double _iconSize = 16;
 const _disabledAlpha = 0x20;
@@ -81,7 +82,7 @@ class SongLyricRow extends StatelessWidget {
                 ),
                 const SizedBox(width: kDefaultPadding),
                 FaIcon(
-                  songLyric.hasChordsReal ? FontAwesomeIcons.guitar : FontAwesomeIcons.alignLeft,
+                  songLyric.hasChords ? FontAwesomeIcons.guitar : FontAwesomeIcons.alignLeft,
                   size: _iconSize,
                   color: blueScheme.primary.withAlpha(songLyric.hasLyrics ? 0xFF : _disabledAlpha),
                 ),

@@ -9,46 +9,6 @@ part of '../update.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(graphQLClient)
-const graphQLClientProvider = GraphQLClientProvider._();
-
-final class GraphQLClientProvider
-    extends $FunctionalProvider<Client, Client, Client> with $Provider<Client> {
-  const GraphQLClientProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'graphQLClientProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$graphQLClientHash();
-
-  @$internal
-  @override
-  $ProviderElement<Client> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  Client create(Ref ref) {
-    return graphQLClient(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Client value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<Client>(value),
-    );
-  }
-}
-
-String _$graphQLClientHash() => r'9f6e28b05c9d7c2b492b193f830631ce52f58d46';
-
 @ProviderFor(update)
 const updateProvider = UpdateProvider._();
 
@@ -81,4 +41,4 @@ final class UpdateProvider extends $FunctionalProvider<AsyncValue<UpdateStatus>,
   }
 }
 
-String _$updateHash() => r'f87c4dd64a366a03129d04bd7f6a41ff3af0f58b';
+String _$updateHash() => r'83dd3f007e8017e976060f7c511ac8794496cfc1';

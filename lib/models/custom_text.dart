@@ -4,8 +4,8 @@ import 'package:proscholy_common/models/model.dart';
 
 part 'generated/custom_text.freezed.dart';
 
-@Freezed(equal: false)
-sealed class CustomText with _$CustomText implements DisplayableItem, Identifiable, RecentItem {
+@freezed
+sealed class CustomText extends Model with _$CustomText, ContentItem, RecentItem {
   const CustomText._();
 
   @Entity(realClass: CustomText)
@@ -14,16 +14,4 @@ sealed class CustomText with _$CustomText implements DisplayableItem, Identifiab
     required String name,
     required String content,
   }) = _CustomText;
-
-  @override
-  String get displayName => name;
-
-  @override
-  RecentItemType get recentItemType => RecentItemType.customText;
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is CustomText && id == other.id && name == other.name;
 }

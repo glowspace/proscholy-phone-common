@@ -30,6 +30,24 @@ mixin _$NewsItem {
       _$NewsItemCopyWithImpl<NewsItem>(this as NewsItem, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NewsItem &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, super.hashCode, id, text, link, expiresAt);
+
+  @override
   String toString() {
     return 'NewsItem(id: $id, text: $text, link: $link, expiresAt: $expiresAt)';
   }
@@ -254,9 +272,8 @@ extension NewsItemPatterns on NewsItem {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: NewsItem)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _NewsItem extends NewsItem {
   const _NewsItem(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,
@@ -286,6 +303,24 @@ class _NewsItem extends NewsItem {
   @pragma('vm:prefer-inline')
   _$NewsItemCopyWith<_NewsItem> get copyWith =>
       __$NewsItemCopyWithImpl<_NewsItem>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NewsItem &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, super.hashCode, id, text, link, expiresAt);
 
   @override
   String toString() {

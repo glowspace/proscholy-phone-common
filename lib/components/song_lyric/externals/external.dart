@@ -9,6 +9,7 @@ import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
 import 'package:proscholy_common/utils/extensions.dart';
 import 'package:proscholy_common/utils/url_launcher.dart';
+import 'package:proscholy_common/views/external.dart';
 
 class ExternalWidget extends StatefulWidget {
   final External external;

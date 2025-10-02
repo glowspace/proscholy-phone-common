@@ -17,7 +17,7 @@ import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/utils.dart';
-import 'package:proscholy_common/utils/client.dart';
+import 'package:proscholy_common/utils/api_client.dart';
 import 'package:proscholy_common/utils/services/spotlight.dart';
 
 part 'generated/update.g.dart';
@@ -30,9 +30,6 @@ const _initialLastUpdate = isZPS ? '2025-09-24 09:00:00' : (isEZ ? '2025-09-24 0
 const _updatePeriod = Duration(hours: 1);
 
 final _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-
-@Riverpod(keepAlive: true)
-Client graphQLClient(Ref ref) => Client();
 
 sealed class UpdateStatus {
   const UpdateStatus();
@@ -62,7 +59,7 @@ Future<void> loadInitial(AppDependencies appDependencies) async {
 
   final songLyrics = await storeSongLyrics(
     appDependencies.store,
-    readJsonList(json['data'][SongLyric.fieldKey], mapper: SongLyric.fromJson),
+    readJsonList(json['data']['song_lyrics'], mapper: SongLyric.fromJson),
   );
 
   // drop "song_lyrics_search" table as there might be change in structure from last version
@@ -77,13 +74,13 @@ Future<void> loadInitial(AppDependencies appDependencies) async {
 
 @riverpod
 Stream<UpdateStatus> update(Ref ref) async* {
-  final client = ref.read(graphQLClientProvider);
+  final client = ApiClient();
   final appDependencies = ref.read(appDependenciesProvider);
 
   // update news
   try {
     final newsItems =
-        await client.getNews().then((json) => readJsonList(json[NewsItem.fieldKey], mapper: NewsItem.fromJson));
+        await client.getNews().then((json) => readJsonList(json['news_items'], mapper: NewsItem.fromJson));
 
     // remove all news items, that were deleted on server
     appDependencies.store.box<NewsItem>().removeAll();
@@ -137,7 +134,7 @@ Stream<UpdateStatus> update(Ref ref) async* {
   // update song lyrics
   final songLyrics = await client
       .getSongLyrics(lastUpdate)
-      .then((json) => readJsonList(json[SongLyric.fieldKey], mapper: SongLyric.fromJson));
+      .then((json) => readJsonList(json['song_lyrics'], mapper: SongLyric.fromJson));
 
   for (final songLyric in songLyrics) {
     missingSongLyricIds.remove(songLyric.id);
@@ -166,7 +163,7 @@ Stream<UpdateStatus> update(Ref ref) async* {
 // FIXME: does not seem to work correctly? try removing based on song_lyric ids
 void _cleanup(AppDependencies appDependencies) async {
   // remove externals that were associated with removed song lyrics
-  _removeRelations(appDependencies.store, External_.songLyric.equals(0));
+  // _removeRelations(appDependencies.store, External_.songLyric.equals(0));
 
   // remove songbook records that were associated with removed song lyrics
   _removeRelations(appDependencies.store, SongbookRecord_.songLyric.equals(0));

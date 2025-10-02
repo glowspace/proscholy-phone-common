@@ -19,8 +19,9 @@ const defaultPresentationSettings = PresentationSettings(
 
 enum PresentationAlignment { top, center, bottom }
 
-@freezed
+@Freezed(toJson: true)
 sealed class PresentationData with _$PresentationData {
+  @JsonSerializable(fieldRename: FieldRename.none)
   const factory PresentationData({
     int? songLyricId,
     @Default(false) bool isCustomText,
@@ -32,8 +33,9 @@ sealed class PresentationData with _$PresentationData {
   factory PresentationData.fromJson(Map<String, Object?> json) => _$PresentationDataFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: true)
 sealed class PresentationSettings with _$PresentationSettings {
+  @JsonSerializable(fieldRename: FieldRename.none)
   const factory PresentationSettings({
     required bool darkMode,
     required bool showName,

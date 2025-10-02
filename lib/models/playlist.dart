@@ -12,8 +12,8 @@ const _favoritesName = 'Písně s hvězdičkou';
 // offset for songbook tags, tags from API have id > 0, songbook tags have negative id starting from -1000, so offset -2000 should be enough
 const playlistIdOffset = -2000;
 
-@Freezed(equal: false)
-sealed class Playlist with _$Playlist implements Identifiable, RecentItem, SongsList {
+@freezed
+sealed class Playlist extends Model with _$Playlist, RecentItem implements SongsList {
   const Playlist._();
 
   @Entity(realClass: Playlist)
@@ -39,16 +39,4 @@ sealed class Playlist with _$Playlist implements Identifiable, RecentItem, Songs
       );
 
   bool get isFavorites => id == favoritesPlaylistId;
-
-  @override
-  String get displayName => name;
-
-  @override
-  RecentItemType get recentItemType => RecentItemType.playlist;
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is Playlist && id == other.id && name == other.name;
 }

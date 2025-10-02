@@ -254,12 +254,6 @@ final _entities = <obx_int.ModelEntity>[
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 4779117914827910420),
-        name: 'langDescription',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
         id: const obx_int.IdUid(9, 6562831056286277746),
         name: 'songId',
         type: 11,
@@ -274,30 +268,6 @@ final _entities = <obx_int.ModelEntity>[
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(12, 4793601887131442231),
-        name: 'hasChords',
-        type: 1,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(22, 4355414326890607438),
-        name: 'accidentals',
-        type: 6,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(23, 7347294181262392126),
-        name: 'showChords',
-        type: 1,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(24, 8592014509296857970),
-        name: 'transposition',
-        type: 6,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
         id: const obx_int.IdUid(27, 6291458277285942163),
         name: 'settingsId',
         type: 11,
@@ -306,8 +276,8 @@ final _entities = <obx_int.ModelEntity>[
         relationTarget: 'SongLyricSettingsModel',
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(35, 3799126751953551979),
-        name: 'hymnologyNew',
+        id: const obx_int.IdUid(30, 4993132736196042096),
+        name: 'hymnology',
         type: 9,
         flags: 0,
       ),
@@ -429,14 +399,6 @@ final _entities = <obx_int.ModelEntity>[
         name: 'url',
         type: 9,
         flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 4552902403603048801),
-        name: 'songLyricId',
-        type: 11,
-        flags: 520,
-        indexId: const obx_int.IdUid(25, 6759144687015843733),
-        relationTarget: 'SongLyric',
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -718,6 +680,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       6416834576335019143,
       2335111573671041561,
       1526469212631298588,
+      6759144687015843733,
     ],
     retiredPropertyUids: const [
       1286404604582147955,
@@ -798,11 +761,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
       3715311129381295890,
       2627035804185762219,
       4624595427649584957,
-      4993132736196042096,
       4119502192344556831,
       6098338462102959253,
       3138933648918384884,
       7820390369179908800,
+      4552902403603048801,
+      4779117914827910420,
+      4793601887131442231,
+      4355414326890607438,
+      7347294181262392126,
+      8592014509296857970,
     ],
     retiredRelationUids: const [
       7916874752771113838,
@@ -1164,18 +1132,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
       objectToFB: (SongLyric object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
-        final secondaryName1Offset = object.secondaryName1 == null
-            ? null
-            : fbb.writeString(object.secondaryName1!);
-        final secondaryName2Offset = object.secondaryName2 == null
-            ? null
-            : fbb.writeString(object.secondaryName2!);
-        final lyricsOffset = object.lyrics == null
-            ? null
-            : fbb.writeString(object.lyrics!);
+        final secondaryName1Offset = fbb.writeString(object.secondaryName1);
+        final secondaryName2Offset = fbb.writeString(object.secondaryName2);
+        final lyricsOffset = fbb.writeString(object.lyrics);
         final langOffset = fbb.writeString(object.lang);
-        final langDescriptionOffset = fbb.writeString(object.langDescription);
-        final hymnologyNewOffset = fbb.writeString(object.hymnologyNew);
+        final hymnologyOffset = fbb.writeString(object.hymnology);
         final displayIdOffset = fbb.writeString(object.displayId);
         final displayNameOffset = fbb.writeString(object.displayName);
         fbb.startTable(40);
@@ -1185,15 +1146,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(3, secondaryName2Offset);
         fbb.addOffset(4, lyricsOffset);
         fbb.addOffset(6, langOffset);
-        fbb.addOffset(7, langDescriptionOffset);
         fbb.addInt64(8, object.song.targetId);
         fbb.addInt64(10, object.dbType);
-        fbb.addBool(11, object.hasChords);
-        fbb.addInt64(21, object.accidentals);
-        fbb.addBool(22, object.showChords);
-        fbb.addInt64(23, object.transposition);
         fbb.addInt64(26, object.settings.targetId);
-        fbb.addOffset(34, hymnologyNewOffset);
+        fbb.addOffset(29, hymnologyOffset);
         fbb.addOffset(36, displayIdOffset);
         fbb.addOffset(37, displayNameOffset);
         fbb.addBool(38, object.isArrangement);
@@ -1220,33 +1176,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
         ).vTableGet(buffer, rootOffset, 6, '');
         final secondaryName1Param = const fb.StringReader(
           asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 8);
+        ).vTableGet(buffer, rootOffset, 8, '');
         final secondaryName2Param = const fb.StringReader(
           asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 10);
+        ).vTableGet(buffer, rootOffset, 10, '');
         final lyricsParam = const fb.StringReader(
           asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 12);
-        final hymnologyNewParam = const fb.StringReader(
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final hymnologyParam = const fb.StringReader(
           asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 72, '');
+        ).vTableGet(buffer, rootOffset, 62, '');
         final langParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 16, '');
-        final langDescriptionParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 18, '');
         final dbTypeParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
           24,
           0,
-        );
-        final hasChordsParam = const fb.BoolReader().vTableGet(
-          buffer,
-          rootOffset,
-          26,
-          false,
         );
         final isArrangementParam = const fb.BoolReader().vTableGet(
           buffer,
@@ -1254,31 +1201,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
           80,
           false,
         );
-        final accidentalsParam = const fb.Int64Reader().vTableGetNullable(
-          buffer,
-          rootOffset,
-          46,
-        );
-        final showChordsParam = const fb.BoolReader().vTableGetNullable(
-          buffer,
-          rootOffset,
-          48,
-        );
-        final transpositionParam = const fb.Int64Reader().vTableGetNullable(
-          buffer,
-          rootOffset,
-          50,
-        );
+        final authorsParam = obx.ToMany<Author>();
+        final externalsParam = obx.ToMany<External>();
         final songParam = obx.ToOne<Song>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0),
         );
+        final songbookRecordsParam = obx.ToMany<SongbookRecord>();
+        final tagsParam = obx.ToMany<Tag>();
         final settingsParam = obx.ToOne<SongLyricSettingsModel>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 56, 0),
         );
-        final authorsParam = obx.ToMany<Author>();
-        final tagsParam = obx.ToMany<Tag>();
-        final externalsParam = obx.ToMany<External>();
-        final songbookRecordsParam = obx.ToMany<SongbookRecord>();
         final playlistRecordsParam = obx.ToMany<PlaylistRecord>();
         final object = SongLyric(
           id: idParam,
@@ -1288,21 +1220,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
           secondaryName1: secondaryName1Param,
           secondaryName2: secondaryName2Param,
           lyrics: lyricsParam,
-          hymnologyNew: hymnologyNewParam,
+          hymnology: hymnologyParam,
           lang: langParam,
-          langDescription: langDescriptionParam,
           dbType: dbTypeParam,
-          hasChords: hasChordsParam,
           isArrangement: isArrangementParam,
-          accidentals: accidentalsParam,
-          showChords: showChordsParam,
-          transposition: transpositionParam,
-          song: songParam,
-          settings: settingsParam,
           authors: authorsParam,
-          tags: tagsParam,
           externals: externalsParam,
+          song: songParam,
           songbookRecords: songbookRecordsParam,
+          tags: tagsParam,
+          settings: settingsParam,
           playlistRecords: playlistRecordsParam,
         );
         object.song.attach(store);
@@ -1405,7 +1332,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     ),
     External: obx_int.EntityDefinition<External>(
       model: _entities[7],
-      toOneRelations: (External object) => [object.songLyric],
+      toOneRelations: (External object) => [],
       toManyRelations: (External object) => {},
       getId: (External object) => object.id,
       setId: (External object, int id) {
@@ -1433,7 +1360,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(2, mediaIdOffset);
         fbb.addInt64(3, object.dbMediaType);
         fbb.addOffset(5, urlOffset);
-        fbb.addInt64(6, object.songLyric.targetId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1461,18 +1387,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           10,
           0,
         );
-        final songLyricParam = obx.ToOne<SongLyric>(
-          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
-        );
         final object = External(
           id: idParam,
           publicName: publicNameParam,
           mediaId: mediaIdParam,
           url: urlParam,
           dbMediaType: dbMediaTypeParam,
-          songLyric: songLyricParam,
         );
-        object.songLyric.attach(store);
+
         return object;
       },
     ),
@@ -1591,14 +1513,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           12,
           0,
         );
-        final songLyricParam = obx.ToOne<SongLyric>(
-          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+        final biblePassageParam = obx.ToOne<BiblePassage>(
+          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
         final customTextParam = obx.ToOne<CustomText>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
         );
-        final biblePassageParam = obx.ToOne<BiblePassage>(
-          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
+        final songLyricParam = obx.ToOne<SongLyric>(
+          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
         );
         final playlistParam = obx.ToOne<Playlist>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
@@ -1606,9 +1528,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final object = PlaylistRecord(
           id: idParam,
           rank: rankParam,
-          songLyric: songLyricParam,
-          customText: customTextParam,
           biblePassage: biblePassageParam,
+          customText: customTextParam,
+          songLyric: songLyricParam,
           playlist: playlistParam,
         );
         object.songLyric.attach(store);
@@ -1966,65 +1888,40 @@ class SongLyric_ {
     _entities[5].properties[5],
   );
 
-  /// See [SongLyric.langDescription].
-  static final langDescription = obx.QueryStringProperty<SongLyric>(
-    _entities[5].properties[6],
-  );
-
   /// See [SongLyric.song].
   static final song = obx.QueryRelationToOne<SongLyric, Song>(
-    _entities[5].properties[7],
+    _entities[5].properties[6],
   );
 
   /// See [SongLyric.dbType].
   static final dbType = obx.QueryIntegerProperty<SongLyric>(
-    _entities[5].properties[8],
-  );
-
-  /// See [SongLyric.hasChords].
-  static final hasChords = obx.QueryBooleanProperty<SongLyric>(
-    _entities[5].properties[9],
-  );
-
-  /// See [SongLyric.accidentals].
-  static final accidentals = obx.QueryIntegerProperty<SongLyric>(
-    _entities[5].properties[10],
-  );
-
-  /// See [SongLyric.showChords].
-  static final showChords = obx.QueryBooleanProperty<SongLyric>(
-    _entities[5].properties[11],
-  );
-
-  /// See [SongLyric.transposition].
-  static final transposition = obx.QueryIntegerProperty<SongLyric>(
-    _entities[5].properties[12],
+    _entities[5].properties[7],
   );
 
   /// See [SongLyric.settings].
   static final settings =
       obx.QueryRelationToOne<SongLyric, SongLyricSettingsModel>(
-        _entities[5].properties[13],
+        _entities[5].properties[8],
       );
 
-  /// See [SongLyric.hymnologyNew].
-  static final hymnologyNew = obx.QueryStringProperty<SongLyric>(
-    _entities[5].properties[14],
+  /// See [SongLyric.hymnology].
+  static final hymnology = obx.QueryStringProperty<SongLyric>(
+    _entities[5].properties[9],
   );
 
   /// See [SongLyric.displayId].
   static final displayId = obx.QueryStringProperty<SongLyric>(
-    _entities[5].properties[15],
+    _entities[5].properties[10],
   );
 
   /// See [SongLyric.displayName].
   static final displayName = obx.QueryStringProperty<SongLyric>(
-    _entities[5].properties[16],
+    _entities[5].properties[11],
   );
 
   /// See [SongLyric.isArrangement].
   static final isArrangement = obx.QueryBooleanProperty<SongLyric>(
-    _entities[5].properties[17],
+    _entities[5].properties[12],
   );
 
   /// see [SongLyric.authors]
@@ -2103,11 +2000,6 @@ class External_ {
   /// See [External.url].
   static final url = obx.QueryStringProperty<External>(
     _entities[7].properties[4],
-  );
-
-  /// See [External.songLyric].
-  static final songLyric = obx.QueryRelationToOne<External, SongLyric>(
-    _entities[7].properties[5],
   );
 }
 

@@ -39,12 +39,14 @@ import 'package:proscholy_common/screens/playlist.dart';
 import 'package:proscholy_common/screens/search.dart';
 import 'package:proscholy_common/screens/songbook.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/content_item.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 // step value when scrolling by pressing hardware key (up, pageUp, down, pageDown)
 const double _scrollStep = 100.0;
 
 class DisplayScreen extends StatelessWidget {
-  final List<DisplayableItem> items;
+  final List<ContentItem> items;
   final int initialIndex;
 
   final bool showSearchScreen;
@@ -72,7 +74,7 @@ class DisplayScreen extends StatelessWidget {
 }
 
 class _DisplayScaffold extends ConsumerStatefulWidget {
-  final List<DisplayableItem> items;
+  final List<ContentItem> items;
   final int initialIndex;
 
   const _DisplayScaffold({required this.items, required this.initialIndex});
@@ -88,7 +90,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 
   final _autoScrollControllers = <int, AutoScrollController>{};
 
-  late List<DisplayableItem> _items = widget.items;
+  late List<ContentItem> _items = widget.items;
 
   late int _currentIndex;
 
@@ -98,7 +100,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 
   final FocusNode _focusNode = FocusNode();
 
-  DisplayableItem get _currentItem => _items[_currentIndex];
+  ContentItem get _currentItem => _items[_currentIndex];
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +146,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
                   if (ref.watch(presentationProvider
                       .select((presentation) => presentation.isPresenting && presentation.isPresentingLocally))) {
                     if (ref.watch(presentationProvider
-                        .select((presentation) => presentation.presentationData.name == item.displayName))) {
+                        .select((presentation) => presentation.presentationData.name == item.name))) {
                       return Consumer(
                         builder: (_, ref, __) => Presentation(
                           onExternalDisplay: false,
@@ -238,7 +240,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
     return switch (_currentItem) {
       (BiblePassage biblePassage) => AppBar(
           leading: const CustomBackButton(),
-          title: Text(biblePassage.displayName),
+          title: Text(biblePassage.name),
           actions: [
             HighlightableWidget(
               onTap: () => _editBiblePassage(biblePassage),
@@ -413,7 +415,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
     _addRecentItemTimer?.cancel();
     _addRecentItemTimer = Timer(
       const Duration(seconds: 2),
-      () => ref.read(recentItemsProvider.notifier).add(_currentItem),
+      () => ref.read(recentItemsProvider.notifier).add(_currentItem as RecentItem),
     );
 
     ref.read(activePlayerProvider.notifier).dismiss();
@@ -449,7 +451,7 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 }
 
 class _DisplayScreenTablet extends ConsumerStatefulWidget {
-  final List<DisplayableItem> items;
+  final List<ContentItem> items;
   final int initialIndex;
 
   final Playlist? playlist;
@@ -472,7 +474,7 @@ class _DisplayScreenTabletState extends ConsumerState<_DisplayScreenTablet> {
     final fullScreen = ref.watch(displayScreenStatusProvider.select((status) => status.fullScreen));
 
     return SelectedDisplayableItemArguments(
-      displayableItemArgumentsNotifier: _selectedDisplayableItemArgumentsNotifier,
+      contentItemArgumentsNotifier: _selectedDisplayableItemArgumentsNotifier,
       child: SplitView(
         showingOnlyDetail: menuCollapsed || fullScreen,
         detail: _DisplayScaffold(items: widget.items, initialIndex: widget.initialIndex),

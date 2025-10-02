@@ -16,10 +16,10 @@ import 'package:proscholy_common/utils/services/spotlight.dart';
 final _chordRE = RegExp(r'\[[^\]]+\]');
 
 Future<void> parseAndStoreData(Store store, Map<String, dynamic> json) async {
-  final authors = readJsonList(json[Author.fieldKey], mapper: Author.fromJson);
-  final songs = readJsonList(json[Song.fieldKey], mapper: Song.fromJson);
-  final songbooks = readJsonList(json[Songbook.fieldKey], mapper: Songbook.fromJson);
-  final tags = readJsonList(json[Tag.fieldKey], mapper: Tag.fromJson);
+  final authors = readJsonList(json['authors'], mapper: Author.fromJson);
+  final songs = readJsonList(json['songs'], mapper: Song.fromJson);
+  final songbooks = readJsonList(json['songbooks'], mapper: Songbook.fromJson);
+  final tags = readJsonList(json['tags_enum'], mapper: Tag.fromJson);
 
   await Future.wait([
     store.box<Author>().putManyAsync(authors),
@@ -43,8 +43,7 @@ Future<List<SongLyric>> storeSongLyrics(Store store, List<SongLyric> songLyrics)
   query.close();
 
   for (final songLyric in songLyrics) {
-    externals
-        .addAll(songLyric.externals.map((external) => external.copyWith(songLyric: ToOne(targetId: songLyric.id))));
+    externals.addAll(songLyric.externals.map((external) => external));
     songbookRecords.addAll(songLyric.songbookRecords);
 
     if (songLyricsWithSettings.containsKey(songLyric.id)) {
@@ -72,7 +71,7 @@ Future<List<SongLyric>> storeSongLyrics(Store store, List<SongLyric> songLyrics)
   return (await store.box<SongLyric>().getManyAsync(songLyricIds)).cast();
 }
 
-int nextId<T extends Identifiable, D>(Ref ref, QueryProperty<T, D> idProperty) {
+int nextId<T extends Model, D>(Ref ref, QueryProperty<T, D> idProperty) {
   final box = ref.read(appDependenciesProvider).store.box<T>();
   final queryBuilder = box.query()..order(idProperty, flags: Order.descending);
   final query = queryBuilder.build();

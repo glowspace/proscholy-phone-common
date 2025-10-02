@@ -251,7 +251,8 @@ extension SpotlightItemPatterns on SpotlightItem {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _SpotlightItem implements SpotlightItem {
   const _SpotlightItem(
       {required this.identifier,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:proscholy_common/models/model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:proscholy_common/models/playlist.dart';
@@ -85,7 +86,7 @@ class AppNavigatorObserver extends NavigatorObserver {
                 .read(recentSongLyricsProvider.notifier)
                 .add(arguments.items[arguments.initialIndex] as SongLyric);
           } else {
-            recentItemsNotifier.add(arguments.items[arguments.initialIndex]);
+            recentItemsNotifier.add(arguments.items[arguments.initialIndex] as RecentItem);
           }
         }
 

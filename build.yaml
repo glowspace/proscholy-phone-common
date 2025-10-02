@@ -1,6 +1,18 @@
 targets:
   $default:
     builders:
+      freezed|freezed:
+        enabled: true
+        options:
+          to_json: false
+          build_extensions:
+            '^lib/models/{{}}.dart': 'lib/models/generated/{{}}.freezed.dart'
+            '^lib/providers/{{}}.dart': 'lib/providers/generated/{{}}.freezed.dart'
+
+      json_serializable:
+        options:
+          field_rename: "snake"
+
       source_gen|combining_builder:
         generate_for:
           - lib/**.dart
@@ -11,9 +23,3 @@ targets:
             '^lib/components/song_lyric/utils/active_player_controller.dart': 'lib/components/song_lyric/utils/active_player_controller.g.dart'
             '^lib/routing/navigator_observer.dart': 'lib/routing/navigator_observer.g.dart'
             '^lib/utils/bible_api_client.dart': 'lib/utils/bible_api_client.g.dart'
-      freezed|freezed:
-        enabled: true
-        options:
-          build_extensions:
-            '^lib/models/{{}}.dart': 'lib/models/generated/{{}}.freezed.dart'
-            '^lib/providers/{{}}.dart': 'lib/providers/generated/{{}}.freezed.dart'

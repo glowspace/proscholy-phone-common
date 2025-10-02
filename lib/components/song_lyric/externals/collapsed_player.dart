@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/song_lyric/utils/active_player_controller.dart';
 import 'package:proscholy_common/constants.dart';
+import 'package:proscholy_common/views/external.dart';
 
 class CollapsedPlayer extends StatelessWidget {
   final ActivePlayerController controller;

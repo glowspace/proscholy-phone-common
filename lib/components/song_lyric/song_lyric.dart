@@ -17,6 +17,7 @@ import 'package:proscholy_common/components/song_lyric/utils/lyrics_controller.d
 import 'package:proscholy_common/components/song_lyric/utils/parser.dart';
 import 'package:proscholy_common/providers/svgs.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class SongLyricWidget extends ConsumerStatefulWidget {
   final SongLyric songLyric;

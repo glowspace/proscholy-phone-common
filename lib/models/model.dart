@@ -1,10 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 
-abstract class Identifiable {
-  int get id;
-}
-
 abstract class Record {
   ToOne<SongLyric> get songLyric;
 }
@@ -15,37 +11,20 @@ abstract class SongsList {
   List<Record> get records;
 }
 
-enum RecentItemType {
-  biblePassage,
-  customText,
-  playlist,
-  songbook,
-  songLyric;
+abstract class Model {
+  int get id;
 
-  int get rawValue => switch (this) {
-        RecentItemType.biblePassage => 0,
-        RecentItemType.customText => 1,
-        RecentItemType.playlist => 2,
-        RecentItemType.songbook => 3,
-        RecentItemType.songLyric => 4,
-      };
+  const Model();
 
-  factory RecentItemType.fromRawValue(int value) {
-    return switch (value) {
-      0 => RecentItemType.biblePassage,
-      1 => RecentItemType.customText,
-      2 => RecentItemType.playlist,
-      3 => RecentItemType.songbook,
-      4 => RecentItemType.songLyric,
-      _ => throw UnsupportedError('invalid raw value for `RecentItemType`'),
-    };
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || (other is Model && runtimeType == other.runtimeType && id == other.id);
   }
 }
 
-abstract class RecentItem extends Identifiable {
-  String get displayName;
+mixin ContentItem on Model {}
 
-  RecentItemType get recentItemType;
-}
-
-abstract class DisplayableItem extends RecentItem {}
+mixin RecentItem on Model {}

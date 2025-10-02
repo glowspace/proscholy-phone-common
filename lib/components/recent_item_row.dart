@@ -9,6 +9,7 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/bible_passage.dart';
 
 class RecentItemRow extends StatelessWidget {
   final RecentItem recentItem;
@@ -24,41 +25,60 @@ class RecentItemRow extends StatelessWidget {
       child: Row(children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-          child: Icon(switch (recentItem.recentItemType) {
-            RecentItemType.biblePassage => Icons.book_outlined,
-            RecentItemType.customText => Icons.edit_note,
-            RecentItemType.playlist => Icons.playlist_play_rounded,
-            RecentItemType.songbook => Icons.book,
-            RecentItemType.songLyric => Icons.music_note,
-          }),
+          child: Icon(recentItem.icon),
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2, vertical: kDefaultPadding / 2),
-            child: Text(recentItem.displayName),
+            child: Text(recentItem.title),
           ),
         ),
       ]),
     );
   }
 
-  void _push(BuildContext context) {
-    switch (recentItem.recentItemType) {
-      case RecentItemType.biblePassage:
-        context.push('/display', arguments: DisplayScreenArguments.biblePassage(recentItem as BiblePassage));
-        break;
-      case RecentItemType.customText:
-        context.push('/display', arguments: DisplayScreenArguments.customText(recentItem as CustomText));
-        break;
-      case RecentItemType.playlist:
-        context.push('/playlist', arguments: recentItem as Playlist);
-        break;
-      case RecentItemType.songbook:
-        context.push('/songbook', arguments: recentItem as Songbook);
-        break;
-      case RecentItemType.songLyric:
-        context.push('/display', arguments: DisplayScreenArguments.songLyric(recentItem as SongLyric));
-        break;
-    }
-  }
+  Future<T?> _push<T>(BuildContext context) => recentItem.map(
+        biblePassage: (biblePassage) =>
+            context.push('/display', arguments: DisplayScreenArguments.biblePassage(biblePassage)),
+        customText: (customText) =>
+            context.push('/display', arguments: DisplayScreenArguments.customText(recentItem as CustomText)),
+        playlist: (playlist) => context.push('/playlist', arguments: recentItem as Playlist),
+        songbook: (songbook) => context.push('/songbook', arguments: recentItem as Songbook),
+        songLyric: (songLyric) =>
+            context.push('/display', arguments: DisplayScreenArguments.songLyric(recentItem as SongLyric)),
+      );
+}
+
+extension _RecentItemView on RecentItem {
+  IconData get icon => map(
+        biblePassage: (_) => Icons.book_outlined,
+        customText: (_) => Icons.edit_note,
+        playlist: (_) => Icons.playlist_play_rounded,
+        songbook: (_) => Icons.book,
+        songLyric: (_) => Icons.music_note,
+      );
+
+  String get title => map(
+        biblePassage: (biblePassage) => biblePassage.name,
+        customText: (customText) => customText.name,
+        playlist: (playlist) => playlist.name,
+        songbook: (songbook) => songbook.name,
+        songLyric: (songLyric) => songLyric.name,
+      );
+
+  T map<T>({
+    required T Function(BiblePassage) biblePassage,
+    required T Function(CustomText) customText,
+    required T Function(Playlist) playlist,
+    required T Function(Songbook) songbook,
+    required T Function(SongLyric) songLyric,
+  }) =>
+      switch (this) {
+        BiblePassage value => biblePassage(value),
+        CustomText value => customText(value),
+        Playlist value => playlist(value),
+        Songbook value => songbook(value),
+        SongLyric value => songLyric(value),
+        _ => throw UnimplementedError('$this is not supported `RecentItem`'),
+      };
 }

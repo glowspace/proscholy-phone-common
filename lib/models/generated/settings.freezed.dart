@@ -341,7 +341,8 @@ extension GlobalSettingsPatterns on GlobalSettings {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _GlobalSettings implements GlobalSettings {
   const _GlobalSettings(
       {this.darkModeEnabled,
@@ -512,6 +513,29 @@ mixin _$SongLyricSettingsModel {
   $SongLyricSettingsModelCopyWith<SongLyricSettingsModel> get copyWith =>
       _$SongLyricSettingsModelCopyWithImpl<SongLyricSettingsModel>(
           this as SongLyricSettingsModel, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SongLyricSettingsModel &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.showChords, showChords) ||
+                other.showChords == showChords) &&
+            (identical(other.showMusicalNotes, showMusicalNotes) ||
+                other.showMusicalNotes == showMusicalNotes) &&
+            (identical(other.accidentals, accidentals) ||
+                other.accidentals == accidentals) &&
+            (identical(other.transposition, transposition) ||
+                other.transposition == transposition) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, showChords,
+      showMusicalNotes, accidentals, transposition, songLyric);
 
   @override
   String toString() {
@@ -795,6 +819,29 @@ class _SongLyricSettingsModel extends SongLyricSettingsModel {
   _$SongLyricSettingsModelCopyWith<_SongLyricSettingsModel> get copyWith =>
       __$SongLyricSettingsModelCopyWithImpl<_SongLyricSettingsModel>(
           this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SongLyricSettingsModel &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.showChords, showChords) ||
+                other.showChords == showChords) &&
+            (identical(other.showMusicalNotes, showMusicalNotes) ||
+                other.showMusicalNotes == showMusicalNotes) &&
+            (identical(other.accidentals, accidentals) ||
+                other.accidentals == accidentals) &&
+            (identical(other.transposition, transposition) ||
+                other.transposition == transposition) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, showChords,
+      showMusicalNotes, accidentals, transposition, songLyric);
 
   @override
   String toString() {

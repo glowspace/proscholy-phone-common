@@ -32,23 +32,23 @@ class RecentItems extends _$RecentItems {
     for (final recentItemString in appDependencies.sharedPreferences.getStringList(_recentItemsKey) ?? <String>[]) {
       final splitted = recentItemString.split(';');
 
-      switch (RecentItemType.fromRawValue(int.parse(splitted[0]))) {
-        case RecentItemType.biblePassage:
-          biblePassageIds.add(int.parse(splitted[1]));
-          break;
-        case RecentItemType.customText:
-          customTextIds.add(int.parse(splitted[1]));
-          break;
-        case RecentItemType.playlist:
-          playlistIds.add(int.parse(splitted[1]));
-          break;
-        case RecentItemType.songbook:
-          songbookIds.add(int.parse(splitted[1]));
-          break;
-        case RecentItemType.songLyric:
-          songLyricIds.add(int.parse(splitted[1]));
-          break;
-      }
+      // switch (RecentItemType.fromRawValue(int.parse(splitted[0]))) {
+      //   case RecentItemType.biblePassage:
+      //     biblePassageIds.add(int.parse(splitted[1]));
+      //     break;
+      //   case RecentItemType.customText:
+      //     customTextIds.add(int.parse(splitted[1]));
+      //     break;
+      //   case RecentItemType.playlist:
+      //     playlistIds.add(int.parse(splitted[1]));
+      //     break;
+      //   case RecentItemType.songbook:
+      //     songbookIds.add(int.parse(splitted[1]));
+      //     break;
+      //   case RecentItemType.songLyric:
+      //     songLyricIds.add(int.parse(splitted[1]));
+      //     break;
+      // }
     }
 
     final recentItems = appDependencies.store
@@ -73,7 +73,7 @@ class RecentItems extends _$RecentItems {
 
     final newState = [
       recentItem,
-      ...state.where((element) => element.id != recentItem.id || element.recentItemType != recentItem.recentItemType)
+      // ...state.where((element) => element.id != recentItem.id || element.recentItemType != recentItem.recentItemType)
     ];
 
     _update(newState);
@@ -132,8 +132,8 @@ class RecentItems extends _$RecentItems {
   void _update(List<RecentItem> newState) {
     state = newState.sublist(0, min(5, newState.length));
 
-    ref.read(appDependenciesProvider).sharedPreferences.setStringList(
-        _recentItemsKey, state.map((recentItem) => '${recentItem.recentItemType.rawValue};${recentItem.id}').toList());
+    // ref.read(appDependenciesProvider).sharedPreferences.setStringList(
+    //     _recentItemsKey, state.map((recentItem) => '${recentItem.recentItemType.rawValue};${recentItem.id}').toList());
   }
 }
 

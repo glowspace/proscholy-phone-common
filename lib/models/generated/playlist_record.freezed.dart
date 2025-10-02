@@ -17,9 +17,9 @@ mixin _$PlaylistRecord {
   @Id(assignable: true)
   int get id;
   int get rank;
-  ToOne<SongLyric> get songLyric;
-  ToOne<CustomText> get customText;
   ToOne<BiblePassage> get biblePassage;
+  ToOne<CustomText> get customText;
+  ToOne<SongLyric> get songLyric;
   ToOne<Playlist> get playlist;
 
   /// Create a copy of PlaylistRecord
@@ -31,8 +31,30 @@ mixin _$PlaylistRecord {
           this as PlaylistRecord, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PlaylistRecord &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.biblePassage, biblePassage) ||
+                other.biblePassage == biblePassage) &&
+            (identical(other.customText, customText) ||
+                other.customText == customText) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric) &&
+            (identical(other.playlist, playlist) ||
+                other.playlist == playlist));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
+      biblePassage, customText, songLyric, playlist);
+
+  @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, biblePassage: $biblePassage, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, biblePassage: $biblePassage, customText: $customText, songLyric: $songLyric, playlist: $playlist)';
   }
 }
 
@@ -45,9 +67,9 @@ abstract mixin class $PlaylistRecordCopyWith<$Res> {
   $Res call(
       {@Id(assignable: true) int id,
       int rank,
-      ToOne<SongLyric> songLyric,
-      ToOne<CustomText> customText,
       ToOne<BiblePassage> biblePassage,
+      ToOne<CustomText> customText,
+      ToOne<SongLyric> songLyric,
       ToOne<Playlist> playlist});
 }
 
@@ -66,9 +88,9 @@ class _$PlaylistRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rank = null,
-    Object? songLyric = null,
-    Object? customText = null,
     Object? biblePassage = null,
+    Object? customText = null,
+    Object? songLyric = null,
     Object? playlist = null,
   }) {
     return _then(_self.copyWith(
@@ -80,18 +102,18 @@ class _$PlaylistRecordCopyWithImpl<$Res>
           ? _self.rank
           : rank // ignore: cast_nullable_to_non_nullable
               as int,
-      songLyric: null == songLyric
-          ? _self.songLyric
-          : songLyric // ignore: cast_nullable_to_non_nullable
-              as ToOne<SongLyric>,
-      customText: null == customText
-          ? _self.customText
-          : customText // ignore: cast_nullable_to_non_nullable
-              as ToOne<CustomText>,
       biblePassage: null == biblePassage
           ? _self.biblePassage
           : biblePassage // ignore: cast_nullable_to_non_nullable
               as ToOne<BiblePassage>,
+      customText: null == customText
+          ? _self.customText
+          : customText // ignore: cast_nullable_to_non_nullable
+              as ToOne<CustomText>,
+      songLyric: null == songLyric
+          ? _self.songLyric
+          : songLyric // ignore: cast_nullable_to_non_nullable
+              as ToOne<SongLyric>,
       playlist: null == playlist
           ? _self.playlist
           : playlist // ignore: cast_nullable_to_non_nullable
@@ -194,9 +216,9 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult Function(
             @Id(assignable: true) int id,
             int rank,
-            ToOne<SongLyric> songLyric,
-            ToOne<CustomText> customText,
             ToOne<BiblePassage> biblePassage,
+            ToOne<CustomText> customText,
+            ToOne<SongLyric> songLyric,
             ToOne<Playlist> playlist)?
         $default, {
     required TResult orElse(),
@@ -204,8 +226,8 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord() when $default != null:
-        return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.biblePassage, _that.playlist);
+        return $default(_that.id, _that.rank, _that.biblePassage,
+            _that.customText, _that.songLyric, _that.playlist);
       case _:
         return orElse();
     }
@@ -229,17 +251,17 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult Function(
             @Id(assignable: true) int id,
             int rank,
-            ToOne<SongLyric> songLyric,
-            ToOne<CustomText> customText,
             ToOne<BiblePassage> biblePassage,
+            ToOne<CustomText> customText,
+            ToOne<SongLyric> songLyric,
             ToOne<Playlist> playlist)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord():
-        return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.biblePassage, _that.playlist);
+        return $default(_that.id, _that.rank, _that.biblePassage,
+            _that.customText, _that.songLyric, _that.playlist);
     }
   }
 
@@ -260,17 +282,17 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult? Function(
             @Id(assignable: true) int id,
             int rank,
-            ToOne<SongLyric> songLyric,
-            ToOne<CustomText> customText,
             ToOne<BiblePassage> biblePassage,
+            ToOne<CustomText> customText,
+            ToOne<SongLyric> songLyric,
             ToOne<Playlist> playlist)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord() when $default != null:
-        return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.biblePassage, _that.playlist);
+        return $default(_that.id, _that.rank, _that.biblePassage,
+            _that.customText, _that.songLyric, _that.playlist);
       case _:
         return null;
     }
@@ -284,9 +306,9 @@ class _PlaylistRecord extends PlaylistRecord {
   const _PlaylistRecord(
       {@Id(assignable: true) required this.id,
       required this.rank,
-      required this.songLyric,
-      required this.customText,
       required this.biblePassage,
+      required this.customText,
+      required this.songLyric,
       required this.playlist})
       : super._();
 
@@ -296,11 +318,11 @@ class _PlaylistRecord extends PlaylistRecord {
   @override
   final int rank;
   @override
-  final ToOne<SongLyric> songLyric;
+  final ToOne<BiblePassage> biblePassage;
   @override
   final ToOne<CustomText> customText;
   @override
-  final ToOne<BiblePassage> biblePassage;
+  final ToOne<SongLyric> songLyric;
   @override
   final ToOne<Playlist> playlist;
 
@@ -313,8 +335,30 @@ class _PlaylistRecord extends PlaylistRecord {
       __$PlaylistRecordCopyWithImpl<_PlaylistRecord>(this, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PlaylistRecord &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.biblePassage, biblePassage) ||
+                other.biblePassage == biblePassage) &&
+            (identical(other.customText, customText) ||
+                other.customText == customText) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric) &&
+            (identical(other.playlist, playlist) ||
+                other.playlist == playlist));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
+      biblePassage, customText, songLyric, playlist);
+
+  @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, biblePassage: $biblePassage, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, biblePassage: $biblePassage, customText: $customText, songLyric: $songLyric, playlist: $playlist)';
   }
 }
 
@@ -329,9 +373,9 @@ abstract mixin class _$PlaylistRecordCopyWith<$Res>
   $Res call(
       {@Id(assignable: true) int id,
       int rank,
-      ToOne<SongLyric> songLyric,
-      ToOne<CustomText> customText,
       ToOne<BiblePassage> biblePassage,
+      ToOne<CustomText> customText,
+      ToOne<SongLyric> songLyric,
       ToOne<Playlist> playlist});
 }
 
@@ -350,9 +394,9 @@ class __$PlaylistRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rank = null,
-    Object? songLyric = null,
-    Object? customText = null,
     Object? biblePassage = null,
+    Object? customText = null,
+    Object? songLyric = null,
     Object? playlist = null,
   }) {
     return _then(_PlaylistRecord(
@@ -364,18 +408,18 @@ class __$PlaylistRecordCopyWithImpl<$Res>
           ? _self.rank
           : rank // ignore: cast_nullable_to_non_nullable
               as int,
-      songLyric: null == songLyric
-          ? _self.songLyric
-          : songLyric // ignore: cast_nullable_to_non_nullable
-              as ToOne<SongLyric>,
-      customText: null == customText
-          ? _self.customText
-          : customText // ignore: cast_nullable_to_non_nullable
-              as ToOne<CustomText>,
       biblePassage: null == biblePassage
           ? _self.biblePassage
           : biblePassage // ignore: cast_nullable_to_non_nullable
               as ToOne<BiblePassage>,
+      customText: null == customText
+          ? _self.customText
+          : customText // ignore: cast_nullable_to_non_nullable
+              as ToOne<CustomText>,
+      songLyric: null == songLyric
+          ? _self.songLyric
+          : songLyric // ignore: cast_nullable_to_non_nullable
+              as ToOne<SongLyric>,
       playlist: null == playlist
           ? _self.playlist
           : playlist // ignore: cast_nullable_to_non_nullable

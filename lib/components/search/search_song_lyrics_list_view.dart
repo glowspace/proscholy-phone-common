@@ -8,13 +8,13 @@ import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/providers/recent_items.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
 import 'package:proscholy_common/providers/sort.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class SearchSongLyricsListView extends ConsumerWidget {
   const SearchSongLyricsListView({super.key});

@@ -4,8 +4,8 @@ import 'package:proscholy_common/models/model.dart';
 
 part 'generated/bible_passage.freezed.dart';
 
-@Freezed(equal: false)
-sealed class BiblePassage with _$BiblePassage implements DisplayableItem, Identifiable, RecentItem {
+@freezed
+sealed class BiblePassage extends Model with _$BiblePassage, ContentItem, RecentItem {
   const BiblePassage._();
 
   @Entity(realClass: BiblePassage)
@@ -17,20 +17,6 @@ sealed class BiblePassage with _$BiblePassage implements DisplayableItem, Identi
     int? endVerse,
     required String text,
   }) = _BiblePassage;
-
-  @override
-  String get displayName => endVerse == null
-      ? '${supportedBibleBooks[book]} $chapter:$startVerse'
-      : '${supportedBibleBooks[book]} $chapter:$startVerse-$endVerse';
-
-  @override
-  RecentItemType get recentItemType => RecentItemType.biblePassage;
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is BiblePassage && id == other.id && displayName == other.displayName;
 }
 
 @immutable

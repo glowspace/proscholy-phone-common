@@ -137,17 +137,11 @@ enum TagType {
   }
 }
 
-@Freezed(
-  toJson: false,
-  equal: false,
-)
-sealed class Tag with _$Tag implements Identifiable {
-  static const String fieldKey = 'tags_enum';
-
+@freezed
+sealed class Tag extends Model with _$Tag {
   const Tag._();
 
   @Entity(realClass: Tag)
-  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
   const factory Tag({
     @Id(assignable: true) @JsonKey(fromJson: int.parse) required int id,
     required String name,

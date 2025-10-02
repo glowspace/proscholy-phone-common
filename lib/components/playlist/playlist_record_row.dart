@@ -10,6 +10,7 @@ import 'package:proscholy_common/providers/custom_text.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/bible_passage.dart';
 
 class PlaylistRecordRow extends ConsumerWidget {
   final PlaylistRecord playlistRecord;
@@ -30,7 +31,7 @@ class PlaylistRecordRow extends ConsumerWidget {
     final String title;
     final IconData? icon;
     if (biblePassage != null) {
-      title = biblePassage.displayName;
+      title = biblePassage.name;
       icon = Icons.book_outlined;
     } else if (customText != null) {
       title = customText.name;

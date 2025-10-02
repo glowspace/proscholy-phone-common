@@ -19,8 +19,9 @@ const defaultGlobalSettings = GlobalSettings(
   autoScrollSpeedIndex: 6,
 );
 
-@freezed
+@Freezed(toJson: true)
 sealed class GlobalSettings with _$GlobalSettings {
+  @JsonSerializable(fieldRename: FieldRename.none)
   const factory GlobalSettings({
     bool? darkModeEnabled,
     required int seedColor,
@@ -34,8 +35,8 @@ sealed class GlobalSettings with _$GlobalSettings {
   factory GlobalSettings.fromJson(Map<String, Object?> json) => _$GlobalSettingsFromJson(json);
 }
 
-@Freezed(equal: false)
-sealed class SongLyricSettingsModel with _$SongLyricSettingsModel implements Identifiable {
+@freezed
+sealed class SongLyricSettingsModel extends Model with _$SongLyricSettingsModel {
   const SongLyricSettingsModel._();
 
   @Entity(realClass: SongLyricSettingsModel)

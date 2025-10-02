@@ -8,14 +8,13 @@ import 'package:proscholy_common/models/songbook.dart';
 part 'generated/songbook_record.freezed.dart';
 part 'generated/songbook_record.g.dart';
 
-@Freezed(toJson: false, equal: false)
-sealed class SongbookRecord with _$SongbookRecord implements Comparable<SongbookRecord>, Identifiable, Record {
+@freezed
+sealed class SongbookRecord extends Model with _$SongbookRecord implements Comparable<SongbookRecord>, Record {
   static const String fieldKey = 'songbook_records';
 
   const SongbookRecord._();
 
   @Entity(realClass: SongbookRecord)
-  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
   const factory SongbookRecord({
     @Id(assignable: true) @JsonKey(fromJson: int.parse) required int id,
     required String number,

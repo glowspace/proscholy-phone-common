@@ -8,23 +8,17 @@ import 'package:proscholy_common/models/song_lyric.dart';
 
 part 'generated/playlist_record.freezed.dart';
 
-@Freezed(equal: false)
-sealed class PlaylistRecord with _$PlaylistRecord implements Identifiable, Record {
+@freezed
+sealed class PlaylistRecord extends Model with _$PlaylistRecord implements Record {
   const PlaylistRecord._();
 
   @Entity(realClass: PlaylistRecord)
   const factory PlaylistRecord({
     @Id(assignable: true) required int id,
     required int rank,
-    required ToOne<SongLyric> songLyric,
-    required ToOne<CustomText> customText,
     required ToOne<BiblePassage> biblePassage,
+    required ToOne<CustomText> customText,
+    required ToOne<SongLyric> songLyric,
     required ToOne<Playlist> playlist,
   }) = _PlaylistRecord;
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is PlaylistRecord && id == other.id;
 }

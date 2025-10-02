@@ -31,6 +31,26 @@ mixin _$BiblePassage {
           this as BiblePassage, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BiblePassage &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.book, book) || other.book == book) &&
+            (identical(other.chapter, chapter) || other.chapter == chapter) &&
+            (identical(other.startVerse, startVerse) ||
+                other.startVerse == startVerse) &&
+            (identical(other.endVerse, endVerse) ||
+                other.endVerse == endVerse) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, book,
+      chapter, startVerse, endVerse, text);
+
+  @override
   String toString() {
     return 'BiblePassage(id: $id, book: $book, chapter: $chapter, startVerse: $startVerse, endVerse: $endVerse, text: $text)';
   }
@@ -295,6 +315,26 @@ class _BiblePassage extends BiblePassage {
   @pragma('vm:prefer-inline')
   _$BiblePassageCopyWith<_BiblePassage> get copyWith =>
       __$BiblePassageCopyWithImpl<_BiblePassage>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _BiblePassage &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.book, book) || other.book == book) &&
+            (identical(other.chapter, chapter) || other.chapter == chapter) &&
+            (identical(other.startVerse, startVerse) ||
+                other.startVerse == startVerse) &&
+            (identical(other.endVerse, endVerse) ||
+                other.endVerse == endVerse) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, book,
+      chapter, startVerse, endVerse, text);
 
   @override
   String toString() {

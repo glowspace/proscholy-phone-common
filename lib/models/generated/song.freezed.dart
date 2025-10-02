@@ -253,9 +253,8 @@ extension SongPatterns on Song {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: Song)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _Song extends Song {
   const _Song(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,

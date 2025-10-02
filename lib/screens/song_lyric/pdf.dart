@@ -6,6 +6,7 @@ import 'package:proscholy_common/components/custom/close_button.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/routing/safe_area_wrapper.dart';
+import 'package:proscholy_common/views/external.dart';
 
 const _noInternetMessage =
     'Noty jsou dostupné pouze přes internet. Zkontrolujte prosím připojení k${unbreakableSpace}internetu.';

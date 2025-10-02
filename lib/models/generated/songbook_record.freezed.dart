@@ -261,9 +261,8 @@ extension SongbookRecordPatterns on SongbookRecord {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: SongbookRecord)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _SongbookRecord extends SongbookRecord {
   const _SongbookRecord(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,

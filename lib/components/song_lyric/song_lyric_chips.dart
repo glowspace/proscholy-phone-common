@@ -8,6 +8,7 @@ import 'package:proscholy_common/components/song_lyric/song_lyric_tags.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/components/translations.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class SongLyricChips extends StatelessWidget {
   final SongLyric songLyric;
@@ -18,7 +19,7 @@ class SongLyricChips extends StatelessWidget {
   Widget build(BuildContext context) {
     final fontSizeScale = MediaQuery.textScaleFactorOf(context);
 
-    final displayableItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context);
+    final contentItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context);
 
     return Wrap(
       spacing: fontSizeScale * kDefaultPadding / 2,
@@ -40,9 +41,9 @@ class SongLyricChips extends StatelessWidget {
             onTap: () => showModalBottomSheet(
               context: context,
               builder: (_) {
-                if (displayableItemArgumentsNotifier != null) {
+                if (contentItemArgumentsNotifier != null) {
                   return SelectedDisplayableItemArguments(
-                    displayableItemArgumentsNotifier: displayableItemArgumentsNotifier,
+                    contentItemArgumentsNotifier: contentItemArgumentsNotifier,
                     child: TranslationsSheet(songLyric: songLyric),
                   );
                 }

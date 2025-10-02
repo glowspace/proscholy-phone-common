@@ -260,9 +260,8 @@ extension TagPatterns on Tag {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: Tag)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _Tag extends Tag {
   const _Tag(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,

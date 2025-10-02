@@ -22,8 +22,6 @@ mixin _$External {
   String? get url;
   @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
   int get dbMediaType;
-  @JsonKey(fromJson: _songLyricFromJson)
-  ToOne<SongLyric> get songLyric;
 
   /// Create a copy of External
   /// with the given fields replaced by the non-null parameter values.
@@ -33,8 +31,28 @@ mixin _$External {
       _$ExternalCopyWithImpl<External>(this as External, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is External &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.publicName, publicName) ||
+                other.publicName == publicName) &&
+            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.dbMediaType, dbMediaType) ||
+                other.dbMediaType == dbMediaType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, publicName, mediaId, url, dbMediaType);
+
+  @override
   String toString() {
-    return 'External(id: $id, publicName: $publicName, mediaId: $mediaId, url: $url, dbMediaType: $dbMediaType, songLyric: $songLyric)';
+    return 'External(id: $id, publicName: $publicName, mediaId: $mediaId, url: $url, dbMediaType: $dbMediaType)';
   }
 }
 
@@ -49,8 +67,7 @@ abstract mixin class $ExternalCopyWith<$Res> {
       String? mediaId,
       String? url,
       @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-      int dbMediaType,
-      @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric});
+      int dbMediaType});
 }
 
 /// @nodoc
@@ -70,7 +87,6 @@ class _$ExternalCopyWithImpl<$Res> implements $ExternalCopyWith<$Res> {
     Object? mediaId = freezed,
     Object? url = freezed,
     Object? dbMediaType = null,
-    Object? songLyric = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -93,10 +109,6 @@ class _$ExternalCopyWithImpl<$Res> implements $ExternalCopyWith<$Res> {
           ? _self.dbMediaType
           : dbMediaType // ignore: cast_nullable_to_non_nullable
               as int,
-      songLyric: null == songLyric
-          ? _self.songLyric
-          : songLyric // ignore: cast_nullable_to_non_nullable
-              as ToOne<SongLyric>,
     ));
   }
 }
@@ -198,8 +210,7 @@ extension ExternalPatterns on External {
             String? mediaId,
             String? url,
             @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-            int dbMediaType,
-            @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric)?
+            int dbMediaType)?
         $default, {
     required TResult orElse(),
   }) {
@@ -207,7 +218,7 @@ extension ExternalPatterns on External {
     switch (_that) {
       case _External() when $default != null:
         return $default(_that.id, _that.publicName, _that.mediaId, _that.url,
-            _that.dbMediaType, _that.songLyric);
+            _that.dbMediaType);
       case _:
         return orElse();
     }
@@ -234,15 +245,14 @@ extension ExternalPatterns on External {
             String? mediaId,
             String? url,
             @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-            int dbMediaType,
-            @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric)
+            int dbMediaType)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _External():
         return $default(_that.id, _that.publicName, _that.mediaId, _that.url,
-            _that.dbMediaType, _that.songLyric);
+            _that.dbMediaType);
     }
   }
 
@@ -266,15 +276,14 @@ extension ExternalPatterns on External {
             String? mediaId,
             String? url,
             @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-            int dbMediaType,
-            @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric)?
+            int dbMediaType)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _External() when $default != null:
         return $default(_that.id, _that.publicName, _that.mediaId, _that.url,
-            _that.dbMediaType, _that.songLyric);
+            _that.dbMediaType);
       case _:
         return null;
     }
@@ -282,9 +291,8 @@ extension ExternalPatterns on External {
 }
 
 /// @nodoc
-
+@JsonSerializable(createToJson: false)
 @Entity(realClass: External)
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
 class _External extends External {
   const _External(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,
@@ -292,8 +300,7 @@ class _External extends External {
       this.mediaId,
       this.url,
       @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-      required this.dbMediaType,
-      @JsonKey(fromJson: _songLyricFromJson) required this.songLyric})
+      required this.dbMediaType})
       : super._();
   factory _External.fromJson(Map<String, dynamic> json) =>
       _$ExternalFromJson(json);
@@ -311,9 +318,6 @@ class _External extends External {
   @override
   @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
   final int dbMediaType;
-  @override
-  @JsonKey(fromJson: _songLyricFromJson)
-  final ToOne<SongLyric> songLyric;
 
   /// Create a copy of External
   /// with the given fields replaced by the non-null parameter values.
@@ -324,8 +328,28 @@ class _External extends External {
       __$ExternalCopyWithImpl<_External>(this, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _External &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.publicName, publicName) ||
+                other.publicName == publicName) &&
+            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.dbMediaType, dbMediaType) ||
+                other.dbMediaType == dbMediaType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, publicName, mediaId, url, dbMediaType);
+
+  @override
   String toString() {
-    return 'External(id: $id, publicName: $publicName, mediaId: $mediaId, url: $url, dbMediaType: $dbMediaType, songLyric: $songLyric)';
+    return 'External(id: $id, publicName: $publicName, mediaId: $mediaId, url: $url, dbMediaType: $dbMediaType)';
   }
 }
 
@@ -342,8 +366,7 @@ abstract mixin class _$ExternalCopyWith<$Res>
       String? mediaId,
       String? url,
       @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString)
-      int dbMediaType,
-      @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric});
+      int dbMediaType});
 }
 
 /// @nodoc
@@ -363,7 +386,6 @@ class __$ExternalCopyWithImpl<$Res> implements _$ExternalCopyWith<$Res> {
     Object? mediaId = freezed,
     Object? url = freezed,
     Object? dbMediaType = null,
-    Object? songLyric = null,
   }) {
     return _then(_External(
       id: null == id
@@ -386,10 +408,6 @@ class __$ExternalCopyWithImpl<$Res> implements _$ExternalCopyWith<$Res> {
           ? _self.dbMediaType
           : dbMediaType // ignore: cast_nullable_to_non_nullable
               as int,
-      songLyric: null == songLyric
-          ? _self.songLyric
-          : songLyric // ignore: cast_nullable_to_non_nullable
-              as ToOne<SongLyric>,
     ));
   }
 }

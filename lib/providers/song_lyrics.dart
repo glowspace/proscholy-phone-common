@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:proscholy_common/providers/svgs.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';

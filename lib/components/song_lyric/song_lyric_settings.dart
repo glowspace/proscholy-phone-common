@@ -8,6 +8,7 @@ import 'package:proscholy_common/components/selector_widget.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/settings.dart';
 import 'package:proscholy_common/providers/svgs.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class SongLyricSettingsModelWidget extends ConsumerWidget {
   final SongLyric songLyric;
