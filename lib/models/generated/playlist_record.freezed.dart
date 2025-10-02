@@ -19,7 +19,7 @@ mixin _$PlaylistRecord {
   int get rank;
   ToOne<SongLyric> get songLyric;
   ToOne<CustomText> get customText;
-  ToOne<BibleVerse> get bibleVerse;
+  ToOne<BiblePassage> get biblePassage;
   ToOne<Playlist> get playlist;
 
   /// Create a copy of PlaylistRecord
@@ -32,7 +32,7 @@ mixin _$PlaylistRecord {
 
   @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, bibleVerse: $bibleVerse, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, biblePassage: $biblePassage, playlist: $playlist)';
   }
 }
 
@@ -47,7 +47,7 @@ abstract mixin class $PlaylistRecordCopyWith<$Res> {
       int rank,
       ToOne<SongLyric> songLyric,
       ToOne<CustomText> customText,
-      ToOne<BibleVerse> bibleVerse,
+      ToOne<BiblePassage> biblePassage,
       ToOne<Playlist> playlist});
 }
 
@@ -68,7 +68,7 @@ class _$PlaylistRecordCopyWithImpl<$Res>
     Object? rank = null,
     Object? songLyric = null,
     Object? customText = null,
-    Object? bibleVerse = null,
+    Object? biblePassage = null,
     Object? playlist = null,
   }) {
     return _then(_self.copyWith(
@@ -88,10 +88,10 @@ class _$PlaylistRecordCopyWithImpl<$Res>
           ? _self.customText
           : customText // ignore: cast_nullable_to_non_nullable
               as ToOne<CustomText>,
-      bibleVerse: null == bibleVerse
-          ? _self.bibleVerse
-          : bibleVerse // ignore: cast_nullable_to_non_nullable
-              as ToOne<BibleVerse>,
+      biblePassage: null == biblePassage
+          ? _self.biblePassage
+          : biblePassage // ignore: cast_nullable_to_non_nullable
+              as ToOne<BiblePassage>,
       playlist: null == playlist
           ? _self.playlist
           : playlist // ignore: cast_nullable_to_non_nullable
@@ -196,7 +196,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
             int rank,
             ToOne<SongLyric> songLyric,
             ToOne<CustomText> customText,
-            ToOne<BibleVerse> bibleVerse,
+            ToOne<BiblePassage> biblePassage,
             ToOne<Playlist> playlist)?
         $default, {
     required TResult orElse(),
@@ -205,7 +205,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     switch (_that) {
       case _PlaylistRecord() when $default != null:
         return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.bibleVerse, _that.playlist);
+            _that.biblePassage, _that.playlist);
       case _:
         return orElse();
     }
@@ -231,7 +231,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
             int rank,
             ToOne<SongLyric> songLyric,
             ToOne<CustomText> customText,
-            ToOne<BibleVerse> bibleVerse,
+            ToOne<BiblePassage> biblePassage,
             ToOne<Playlist> playlist)
         $default,
   ) {
@@ -239,7 +239,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     switch (_that) {
       case _PlaylistRecord():
         return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.bibleVerse, _that.playlist);
+            _that.biblePassage, _that.playlist);
     }
   }
 
@@ -262,7 +262,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
             int rank,
             ToOne<SongLyric> songLyric,
             ToOne<CustomText> customText,
-            ToOne<BibleVerse> bibleVerse,
+            ToOne<BiblePassage> biblePassage,
             ToOne<Playlist> playlist)?
         $default,
   ) {
@@ -270,7 +270,7 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     switch (_that) {
       case _PlaylistRecord() when $default != null:
         return $default(_that.id, _that.rank, _that.songLyric, _that.customText,
-            _that.bibleVerse, _that.playlist);
+            _that.biblePassage, _that.playlist);
       case _:
         return null;
     }
@@ -286,7 +286,7 @@ class _PlaylistRecord extends PlaylistRecord {
       required this.rank,
       required this.songLyric,
       required this.customText,
-      required this.bibleVerse,
+      required this.biblePassage,
       required this.playlist})
       : super._();
 
@@ -300,7 +300,7 @@ class _PlaylistRecord extends PlaylistRecord {
   @override
   final ToOne<CustomText> customText;
   @override
-  final ToOne<BibleVerse> bibleVerse;
+  final ToOne<BiblePassage> biblePassage;
   @override
   final ToOne<Playlist> playlist;
 
@@ -314,7 +314,7 @@ class _PlaylistRecord extends PlaylistRecord {
 
   @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, bibleVerse: $bibleVerse, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, songLyric: $songLyric, customText: $customText, biblePassage: $biblePassage, playlist: $playlist)';
   }
 }
 
@@ -331,7 +331,7 @@ abstract mixin class _$PlaylistRecordCopyWith<$Res>
       int rank,
       ToOne<SongLyric> songLyric,
       ToOne<CustomText> customText,
-      ToOne<BibleVerse> bibleVerse,
+      ToOne<BiblePassage> biblePassage,
       ToOne<Playlist> playlist});
 }
 
@@ -352,7 +352,7 @@ class __$PlaylistRecordCopyWithImpl<$Res>
     Object? rank = null,
     Object? songLyric = null,
     Object? customText = null,
-    Object? bibleVerse = null,
+    Object? biblePassage = null,
     Object? playlist = null,
   }) {
     return _then(_PlaylistRecord(
@@ -372,10 +372,10 @@ class __$PlaylistRecordCopyWithImpl<$Res>
           ? _self.customText
           : customText // ignore: cast_nullable_to_non_nullable
               as ToOne<CustomText>,
-      bibleVerse: null == bibleVerse
-          ? _self.bibleVerse
-          : bibleVerse // ignore: cast_nullable_to_non_nullable
-              as ToOne<BibleVerse>,
+      biblePassage: null == biblePassage
+          ? _self.biblePassage
+          : biblePassage // ignore: cast_nullable_to_non_nullable
+              as ToOne<BiblePassage>,
       playlist: null == playlist
           ? _self.playlist
           : playlist // ignore: cast_nullable_to_non_nullable

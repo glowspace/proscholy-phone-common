@@ -9,14 +9,14 @@ part of 'bible_api_client.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(bibleVerses)
-const bibleVersesProvider = BibleVersesFamily._();
+@ProviderFor(biblePassages)
+const biblePassagesProvider = BiblePassagesFamily._();
 
-final class BibleVersesProvider extends $FunctionalProvider<
+final class BiblePassagesProvider extends $FunctionalProvider<
         AsyncValue<List<dynamic>>, List<dynamic>, FutureOr<List<dynamic>>>
     with $FutureModifier<List<dynamic>>, $FutureProvider<List<dynamic>> {
-  const BibleVersesProvider._(
-      {required BibleVersesFamily super.from,
+  const BiblePassagesProvider._(
+      {required BiblePassagesFamily super.from,
       required (
         BibleTranslation,
         BibleBook,
@@ -25,18 +25,18 @@ final class BibleVersesProvider extends $FunctionalProvider<
           super.argument})
       : super(
           retry: null,
-          name: r'bibleVersesProvider',
+          name: r'biblePassagesProvider',
           isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
 
   @override
-  String debugGetCreateSourceHash() => _$bibleVersesHash();
+  String debugGetCreateSourceHash() => _$biblePassagesHash();
 
   @override
   String toString() {
-    return r'bibleVersesProvider'
+    return r'biblePassagesProvider'
         ''
         '$argument';
   }
@@ -54,7 +54,7 @@ final class BibleVersesProvider extends $FunctionalProvider<
       BibleBook,
       int,
     );
-    return bibleVerses(
+    return biblePassages(
       ref,
       argument.$1,
       argument.$2,
@@ -64,7 +64,7 @@ final class BibleVersesProvider extends $FunctionalProvider<
 
   @override
   bool operator ==(Object other) {
-    return other is BibleVersesProvider && other.argument == argument;
+    return other is BiblePassagesProvider && other.argument == argument;
   }
 
   @override
@@ -73,9 +73,9 @@ final class BibleVersesProvider extends $FunctionalProvider<
   }
 }
 
-String _$bibleVersesHash() => r'acd28f6fea75821a7a96bb15a33449b003e337a0';
+String _$biblePassagesHash() => r'615ffcbb9d08def4d044f2d5cad34ddfd20ea1de';
 
-final class BibleVersesFamily extends $Family
+final class BiblePassagesFamily extends $Family
     with
         $FunctionalFamilyOverride<
             FutureOr<List<dynamic>>,
@@ -84,38 +84,38 @@ final class BibleVersesFamily extends $Family
               BibleBook,
               int,
             )> {
-  const BibleVersesFamily._()
+  const BiblePassagesFamily._()
       : super(
           retry: null,
-          name: r'bibleVersesProvider',
+          name: r'biblePassagesProvider',
           dependencies: null,
           $allTransitiveDependencies: null,
           isAutoDispose: false,
         );
 
-  BibleVersesProvider call(
+  BiblePassagesProvider call(
     BibleTranslation translation,
     BibleBook book,
     int chapter,
   ) =>
-      BibleVersesProvider._(argument: (
+      BiblePassagesProvider._(argument: (
         translation,
         book,
         chapter,
       ), from: this);
 
   @override
-  String toString() => r'bibleVersesProvider';
+  String toString() => r'biblePassagesProvider';
 }
 
-@ProviderFor(bibleVerse)
-const bibleVerseProvider = BibleVerseFamily._();
+@ProviderFor(biblePassage)
+const biblePassageProvider = BiblePassageFamily._();
 
-final class BibleVerseProvider
+final class BiblePassageProvider
     extends $FunctionalProvider<AsyncValue<String>, String, FutureOr<String>>
     with $FutureModifier<String>, $FutureProvider<String> {
-  const BibleVerseProvider._(
-      {required BibleVerseFamily super.from,
+  const BiblePassageProvider._(
+      {required BiblePassageFamily super.from,
       required (
         BibleTranslation,
         BibleBook,
@@ -126,18 +126,18 @@ final class BibleVerseProvider
           super.argument})
       : super(
           retry: null,
-          name: r'bibleVerseProvider',
+          name: r'biblePassageProvider',
           isAutoDispose: true,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
 
   @override
-  String debugGetCreateSourceHash() => _$bibleVerseHash();
+  String debugGetCreateSourceHash() => _$biblePassageHash();
 
   @override
   String toString() {
-    return r'bibleVerseProvider'
+    return r'biblePassageProvider'
         ''
         '$argument';
   }
@@ -156,7 +156,7 @@ final class BibleVerseProvider
       int, {
       int? endVerse,
     });
-    return bibleVerse(
+    return biblePassage(
       ref,
       argument.$1,
       argument.$2,
@@ -168,7 +168,7 @@ final class BibleVerseProvider
 
   @override
   bool operator ==(Object other) {
-    return other is BibleVerseProvider && other.argument == argument;
+    return other is BiblePassageProvider && other.argument == argument;
   }
 
   @override
@@ -177,9 +177,9 @@ final class BibleVerseProvider
   }
 }
 
-String _$bibleVerseHash() => r'd5dd1b90dc108f12058fa99c5bb5ea4c86592ec4';
+String _$biblePassageHash() => r'871183bb91d948b2a61845d5d0d28728552183b2';
 
-final class BibleVerseFamily extends $Family
+final class BiblePassageFamily extends $Family
     with
         $FunctionalFamilyOverride<
             FutureOr<String>,
@@ -190,23 +190,23 @@ final class BibleVerseFamily extends $Family
               int, {
               int? endVerse,
             })> {
-  const BibleVerseFamily._()
+  const BiblePassageFamily._()
       : super(
           retry: null,
-          name: r'bibleVerseProvider',
+          name: r'biblePassageProvider',
           dependencies: null,
           $allTransitiveDependencies: null,
           isAutoDispose: true,
         );
 
-  BibleVerseProvider call(
+  BiblePassageProvider call(
     BibleTranslation translation,
     BibleBook book,
     int chapter,
     int startVerse, {
     int? endVerse,
   }) =>
-      BibleVerseProvider._(argument: (
+      BiblePassageProvider._(argument: (
         translation,
         book,
         chapter,
@@ -215,5 +215,5 @@ final class BibleVerseFamily extends $Family
       ), from: this);
 
   @override
-  String toString() => r'bibleVerseProvider';
+  String toString() => r'biblePassageProvider';
 }
