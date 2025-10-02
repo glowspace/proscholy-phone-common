@@ -213,3 +213,53 @@ final class SongsListSongLyricsFamily extends $Family
   @override
   String toString() => r'songsListSongLyricsProvider';
 }
+
+@ProviderFor(RecentSongLyrics)
+const recentSongLyricsProvider = RecentSongLyricsProvider._();
+
+final class RecentSongLyricsProvider
+    extends $NotifierProvider<RecentSongLyrics, List<SongLyric>> {
+  const RecentSongLyricsProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'recentSongLyricsProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$recentSongLyricsHash();
+
+  @$internal
+  @override
+  RecentSongLyrics create() => RecentSongLyrics();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<SongLyric> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<SongLyric>>(value),
+    );
+  }
+}
+
+String _$recentSongLyricsHash() => r'1e35b9efc5d0fd755363fb702944271d6e13ee78';
+
+abstract class _$RecentSongLyrics extends $Notifier<List<SongLyric>> {
+  List<SongLyric> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<List<SongLyric>, List<SongLyric>>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<List<SongLyric>, List<SongLyric>>,
+        List<SongLyric>,
+        Object?,
+        Object?>;
+    element.handleValue(ref, created);
+  }
+}

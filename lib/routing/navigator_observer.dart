@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/models/model.dart';
+import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:proscholy_common/models/playlist.dart';

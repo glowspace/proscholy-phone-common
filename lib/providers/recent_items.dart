@@ -1,21 +1,21 @@
-import 'dart:math';
-
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:proscholy_common/models/bible_passage.dart';
-import 'package:proscholy_common/models/custom_text.dart';
-import 'package:proscholy_common/models/model.dart';
-import 'package:proscholy_common/models/playlist.dart';
-import 'package:proscholy_common/models/song_lyric.dart';
-import 'package:proscholy_common/models/songbook.dart';
-import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/providers/bible_passage.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/providers/custom_text.dart';
 import 'package:proscholy_common/providers/playlists.dart';
+import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/providers/songbooks.dart';
+import 'package:proscholy_common/views/recent_item.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:proscholy_common/models/model.dart';
+import 'package:proscholy_common/providers/app_dependencies.dart';
+import 'package:proscholy_common/providers/bible_passage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'generated/recent_items.g.dart';
 
-const _recentItemsKey = 'recent_items';
-const _recentSongLyricsKey = 'recent_song_lyrics';
+const int _maxRecentItems = 5;
+const String _recentItemsKey = 'recent_items';
+
+// recent items are only stored in shared preferences as string list in format ['RECENT_ITEM_TYPE;RECENT_ITEM_ID', ...]
 
 @riverpod
 class RecentItems extends _$RecentItems {
@@ -23,142 +23,69 @@ class RecentItems extends _$RecentItems {
   List<RecentItem> build() {
     final appDependencies = ref.read(appDependenciesProvider);
 
-    final biblePassageIds = <int>[];
-    final customTextIds = <int>[];
-    final playlistIds = <int>[];
-    final songbookIds = <int>[];
-    final songLyricIds = <int>[];
-
-    for (final recentItemString in appDependencies.sharedPreferences.getStringList(_recentItemsKey) ?? <String>[]) {
-      final splitted = recentItemString.split(';');
-
-      // switch (RecentItemType.fromRawValue(int.parse(splitted[0]))) {
-      //   case RecentItemType.biblePassage:
-      //     biblePassageIds.add(int.parse(splitted[1]));
-      //     break;
-      //   case RecentItemType.customText:
-      //     customTextIds.add(int.parse(splitted[1]));
-      //     break;
-      //   case RecentItemType.playlist:
-      //     playlistIds.add(int.parse(splitted[1]));
-      //     break;
-      //   case RecentItemType.songbook:
-      //     songbookIds.add(int.parse(splitted[1]));
-      //     break;
-      //   case RecentItemType.songLyric:
-      //     songLyricIds.add(int.parse(splitted[1]));
-      //     break;
-      // }
-    }
-
-    final recentItems = appDependencies.store
-        .box<BiblePassage>()
-        .getMany(biblePassageIds, growableResult: true)
-        .nonNulls
-        .cast<RecentItem>()
-        .toList();
-
-    recentItems.addAll(appDependencies.store.box<CustomText>().getMany(customTextIds).nonNulls);
-    recentItems.addAll(appDependencies.store.box<Playlist>().getMany(playlistIds).nonNulls);
-    recentItems.addAll(appDependencies.store.box<Songbook>().getMany(songbookIds).nonNulls);
-    recentItems.addAll(appDependencies.store.box<SongLyric>().getMany(songLyricIds).nonNulls);
-
-    recentItems.forEach(_watchForChanges);
-
-    return recentItems;
+    return appDependencies.store.runInTransaction(
+      TxMode.read,
+      () => _loadRecentItems(appDependencies.sharedPreferences, appDependencies.store),
+    );
   }
 
-  void add(RecentItem recentItem) {
-    _watchForChanges(recentItem);
-
-    final newState = [
-      recentItem,
-      // ...state.where((element) => element.id != recentItem.id || element.recentItemType != recentItem.recentItemType)
+  void add(RecentItem item) {
+    final items = [
+      item,
+      for (final recentItem in state)
+        if (recentItem != item) recentItem,
     ];
 
-    _update(newState);
-  }
-
-  void _watchForChanges(RecentItem recentItem) {
-    switch (recentItem) {
-      case (BiblePassage biblePassage):
-        final subscription = ref.listen(
-          biblePassageProvider(biblePassage.id),
-          (_, newBiblePassage) => _updateItem(newBiblePassage, biblePassage.id),
-        );
-
-        ref.onDispose(subscription.close);
-
-        break;
-      case (CustomText customText):
-        final subscription = ref.listen(
-          customTextProvider(customText.id),
-          (_, newCustomText) => _updateItem(newCustomText, customText.id),
-        );
-
-        ref.onDispose(subscription.close);
-
-        break;
-      case (Playlist playlist):
-        final subscription = ref.listen(
-          playlistProvider(playlist.id),
-          (_, newPlaylist) => _updateItem(newPlaylist, playlist.id),
-        );
-
-        ref.onDispose(subscription.close);
-
-        break;
-    }
-  }
-
-  void _updateItem(RecentItem? newItem, int id) {
-    final oldItemIndex = state.indexWhere((element) => element.id == id);
-
-    if (oldItemIndex != -1) {
-      final newState = <RecentItem>[];
-
-      for (int i = 0; i < state.length; i++) {
-        if (i == oldItemIndex) {
-          if (newItem != null) newState.add(newItem);
-        } else {
-          newState.add(state[i]);
-        }
-      }
-
-      _update(newState);
-    }
-  }
-
-  void _update(List<RecentItem> newState) {
-    state = newState.sublist(0, min(5, newState.length));
-
-    // ref.read(appDependenciesProvider).sharedPreferences.setStringList(
-    //     _recentItemsKey, state.map((recentItem) => '${recentItem.recentItemType.rawValue};${recentItem.id}').toList());
-  }
-}
-
-@riverpod
-class RecentSongLyrics extends _$RecentSongLyrics {
-  @override
-  List<SongLyric> build() {
-    final appDependencies = ref.read(appDependenciesProvider);
-    final ids = (appDependencies.sharedPreferences.getStringList(_recentSongLyricsKey) ?? [])
-        .map((id) => int.parse(id))
-        .toList();
-
-    return appDependencies.store.box<SongLyric>().getMany(ids).nonNulls.toList();
-  }
-
-  void add(SongLyric songLyric) {
-    final newState = [songLyric, ...state.where((element) => element.id != songLyric.id)];
-
-    state = newState.sublist(0, min(5, newState.length));
+    if (items.length > _maxRecentItems) items.removeLast();
 
     ref
         .read(appDependenciesProvider)
         .sharedPreferences
-        .setStringList(_recentSongLyricsKey, state.map((songLyric) => '${songLyric.id}').toList());
+        .setStringList(_recentItemsKey, items.map((item) => item.serialize()).toList());
 
-    ref.read(recentItemsProvider.notifier).add(songLyric);
+    state = items;
+  }
+
+  List<RecentItem> _loadRecentItems(SharedPreferences sharedPreferences, Store store) {
+    final items = <RecentItem>[];
+
+    for (final string in sharedPreferences.getStringList(_recentItemsKey) ?? <String>[]) {
+      final itemProvider = _RecentItemSerialization.deserialize(string);
+      // watching for changes of the recent item, e.g. when playlist is renamed
+      final item = ref.watch(itemProvider);
+
+      if (item != null) items.add(item);
+    }
+
+    return items;
+  }
+}
+
+extension _RecentItemSerialization on RecentItem {
+  static ProviderListenable<RecentItem?> deserialize(String string) {
+    final parts = string.split(';');
+    final type = int.parse(parts[0]);
+    final id = int.parse(parts[1]);
+
+    return switch (type) {
+      0 => biblePassageProvider(id),
+      1 => customTextProvider(id),
+      2 => playlistProvider(id),
+      3 => songbookProvider(id),
+      4 => songLyricProvider(id),
+      final value => throw UnimplementedError('$value is not valid recent item type'),
+    };
+  }
+
+  String serialize() {
+    final type = map(
+      biblePassage: (_) => 0,
+      customText: (_) => 1,
+      playlist: (_) => 2,
+      songbook: (_) => 3,
+      songLyric: (_) => 4,
+    );
+
+    return '$type;$id';
   }
 }

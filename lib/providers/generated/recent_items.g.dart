@@ -41,7 +41,7 @@ final class RecentItemsProvider
   }
 }
 
-String _$recentItemsHash() => r'33f36636a3a06e284532390d2a417751f393ed2f';
+String _$recentItemsHash() => r'938a0c49fb84534d4970888dcce8ff544c149100';
 
 abstract class _$RecentItems extends $Notifier<List<RecentItem>> {
   List<RecentItem> build();
@@ -53,56 +53,6 @@ abstract class _$RecentItems extends $Notifier<List<RecentItem>> {
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<List<RecentItem>, List<RecentItem>>,
         List<RecentItem>,
-        Object?,
-        Object?>;
-    element.handleValue(ref, created);
-  }
-}
-
-@ProviderFor(RecentSongLyrics)
-const recentSongLyricsProvider = RecentSongLyricsProvider._();
-
-final class RecentSongLyricsProvider
-    extends $NotifierProvider<RecentSongLyrics, List<SongLyric>> {
-  const RecentSongLyricsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'recentSongLyricsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$recentSongLyricsHash();
-
-  @$internal
-  @override
-  RecentSongLyrics create() => RecentSongLyrics();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<SongLyric> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<SongLyric>>(value),
-    );
-  }
-}
-
-String _$recentSongLyricsHash() => r'7b1db55b92f0aeb61db2f8576488ffaee5f2aa94';
-
-abstract class _$RecentSongLyrics extends $Notifier<List<SongLyric>> {
-  List<SongLyric> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final created = build();
-    final ref = this.ref as $Ref<List<SongLyric>, List<SongLyric>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<SongLyric>, List<SongLyric>>,
-        List<SongLyric>,
         Object?,
         Object?>;
     element.handleValue(ref, created);
