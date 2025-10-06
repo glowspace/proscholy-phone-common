@@ -10,6 +10,7 @@ import 'package:proscholy_common/providers/svgs.dart';
 import 'package:proscholy_common/providers/update.dart';
 import 'package:proscholy_common/utils/extensions.dart';
 import 'package:proscholy_common/utils/url_launcher.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class UpdateSection extends ConsumerStatefulWidget {
   const UpdateSection({super.key});

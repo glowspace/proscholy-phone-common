@@ -7,10 +7,7 @@ import 'package:proscholy_common/constants.dart';
 
 final _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
-final _link = HttpLink(
-  'https://zpevnik.proscholy.cz/graphql',
-  defaultHeaders: {if (isEZ) 'Filter-Content': 'ez' else if (isEK) 'Filter-Content': 'ek'},
-);
+const String _apiLink = 'https://zpevnik.proscholy.cz/graphql';
 
 const _newsQuery = '''
 query {
@@ -61,22 +58,15 @@ query {
   }
 }''';
 
-const _idPlaceholder = '[ID]';
-const _updatedAfterPlaceholder = '[UPDATED_AFTER]';
-
-const _ezAdditionalQueryFields = '''
-    hymnology
-''';
-
 const _songLyricsQuery = '''
 query {
-  song_lyrics(updated_after: $_updatedAfterPlaceholder) {
+  song_lyrics(updated_after: \$updated_after) {
     id
     name
     secondary_name_1
     secondary_name_2
     lyrics
-    ${isEZ || isEK ? _ezAdditionalQueryFields : ''}
+    ${isEZ || isEK ? 'hymnology' : ''}
     lang
     lang_string
     type_enum
@@ -112,13 +102,13 @@ query {
 
 const _songLyricQuery = '''
 query {
-  song_lyric(id: $_idPlaceholder) {
+  song_lyric(id: \$id) {
     id
     name
     secondary_name_1
     secondary_name_2
     lyrics
-    ${isEZ || isEK ? _ezAdditionalQueryFields : ''}
+    ${isEZ || isEK ? 'hymnology' : ''}
     lang
     lang_string
     type_enum
@@ -130,6 +120,7 @@ query {
       pivot {
         id
         number
+        ${isEZ || isEK ? 'song_name' : ''}
         song_lyric {
           id
         }
@@ -151,45 +142,28 @@ query {
   }
 }''';
 
-class Client {
-  final GraphQLClient client;
-
-  Client() : client = GraphQLClient(link: _link, cache: GraphQLCache(), queryRequestTimeout: Duration(seconds: 60));
+class ApiClient {
+  late final GraphQLClient graphQLClient = GraphQLClient(
+    link: HttpLink(_apiLink),
+    cache: GraphQLCache(),
+    // big enough timeout, so it hopefully does not timeout often
+    queryRequestTimeout: const Duration(seconds: 60),
+  );
 
   Future<Map<String, dynamic>> getNews() async {
-    final result = await client.query(QueryOptions(document: gql(_newsQuery)));
-
-    if (result.hasException) throw result.exception!;
-
-    return result.data!;
+    return _query(QueryOptions(document: gql(_newsQuery)));
   }
 
   Future<Map<String, dynamic>> getData() async {
-    final result = await client.query(QueryOptions(document: gql(_updateQuery)));
-
-    if (result.hasException) throw result.exception!;
-
-    return result.data!;
+    return _query(QueryOptions(document: gql(_updateQuery)));
   }
 
   Future<Map<String, dynamic>> getSongLyrics(DateTime updatedAfter) async {
-    final result = await client.query(
-      QueryOptions(
-        document: gql(_songLyricsQuery.replaceFirst(_updatedAfterPlaceholder, '"${_dateFormat.format(updatedAfter)}"')),
-      ),
-    );
-
-    if (result.hasException) throw result.exception!;
-
-    return result.data!;
+    return _query(QueryOptions(document: gql(_songLyricsQuery), variables: {'updated_after': _dateFormat.format(updatedAfter)}));
   }
 
   Future<Map<String, dynamic>> getSongLyric(int id) async {
-    final result = await client.query(QueryOptions(document: gql(_songLyricQuery.replaceFirst(_idPlaceholder, '$id'))));
-
-    if (result.hasException) throw result.exception!;
-
-    return result.data!['song_lyric'];
+    return _query(QueryOptions(document: gql(_songLyricQuery), variables: {'id': id}));
   }
 
   Future<List<int>> getSvgs(DateTime updatedAfter) async {
@@ -197,5 +171,13 @@ class Client {
         .get(Uri.https('zpevnik.proscholy.cz', 'download-svgs', {'updated_after': _dateFormat.format(updatedAfter)}));
 
     return response.bodyBytes;
+  }
+
+  Future<Map<String, dynamic>> _query(QueryOptions options) async {
+    final result = await graphQLClient.query(options);
+
+    if (result.hasException) throw result.exception!;
+
+    return result.data!;
   }
 }
