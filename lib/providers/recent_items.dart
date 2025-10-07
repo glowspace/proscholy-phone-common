@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:proscholy_common/providers/custom_text.dart';
+import 'package:proscholy_common/providers/user_text.dart';
 import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
@@ -69,7 +69,7 @@ extension _RecentItemSerialization on RecentItem {
 
     return switch (type) {
       0 => biblePassageProvider(id),
-      1 => customTextProvider(id),
+      1 => userTextProvider(id),
       2 => playlistProvider(id),
       3 => songbookProvider(id),
       4 => songLyricProvider(id),
@@ -80,7 +80,7 @@ extension _RecentItemSerialization on RecentItem {
   String serialize() {
     final type = map(
       biblePassage: (_) => 0,
-      customText: (_) => 1,
+      userText: (_) => 1,
       playlist: (_) => 2,
       songbook: (_) => 3,
       songLyric: (_) => 4,

@@ -35,7 +35,7 @@ class RecentItemRow extends StatelessWidget {
   Future<T?> _push<T>(BuildContext context) => recentItem.map(
         biblePassage: (biblePassage) =>
             context.push('/display', arguments: DisplayScreenArguments.biblePassage(biblePassage)),
-        customText: (customText) => context.push('/display', arguments: DisplayScreenArguments.customText(customText)),
+        userText: (userText) => context.push('/display', arguments: DisplayScreenArguments.userText(userText)),
         playlist: (playlist) => context.push('/playlist', arguments: playlist),
         songbook: (songbook) => context.push('/songbook', arguments: songbook),
         songLyric: (songLyric) => context.push('/display', arguments: DisplayScreenArguments.songLyric(songLyric)),

@@ -2,14 +2,14 @@ import 'package:collection/collection.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
-import 'package:proscholy_common/models/custom_text.dart';
+import 'package:proscholy_common/models/user_text.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/playlist_record.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/bible_passage.dart';
-import 'package:proscholy_common/providers/custom_text.dart';
+import 'package:proscholy_common/providers/user_text.dart';
 import 'package:proscholy_common/providers/settings.dart';
 import 'package:proscholy_common/providers/utils.dart';
 
@@ -43,13 +43,13 @@ class Playlists extends _$Playlists {
   Box<Playlist> get _playlistsBox => ref.read(appDependenciesProvider).store.box<Playlist>();
   Box<PlaylistRecord> get _playlistRecordsBox => ref.read(appDependenciesProvider).store.box<PlaylistRecord>();
   Box<BiblePassage> get _biblePassageBox => ref.read(appDependenciesProvider).store.box<BiblePassage>();
-  Box<CustomText> get _customTextBox => ref.read(appDependenciesProvider).store.box<CustomText>();
+  Box<UserText> get _userTextBox => ref.read(appDependenciesProvider).store.box<UserText>();
 
   late int _nextPlaylistId;
   late int _nextPlaylistRecordId;
 
   late int _nextBiblePassageId;
-  late int _nextCustomTextId;
+  late int _nextUserTextId;
 
   @override
   List<Playlist> build() {
@@ -57,7 +57,7 @@ class Playlists extends _$Playlists {
     _nextPlaylistId = nextId(ref, Playlist_.id);
     _nextPlaylistRecordId = nextId(ref, PlaylistRecord_.id);
     _nextBiblePassageId = nextId(ref, BiblePassage_.id);
-    _nextCustomTextId = nextId(ref, CustomText_.id);
+    _nextUserTextId = nextId(ref, UserText_.id);
 
     final playlists = queryStore(ref, condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
 
@@ -91,7 +91,7 @@ class Playlists extends _$Playlists {
     // for bible verses and custom texts make also duplicates, so that changes in duplicated playlist don't alter records in previous
     for (final playlistRecord in playlist.records) {
       final biblePassage = ref.read(biblePassageProvider(playlistRecord.biblePassage.targetId));
-      final customText = ref.read(customTextProvider(playlistRecord.customText.targetId));
+      final userText = ref.read(userTextProvider(playlistRecord.userText.targetId));
 
       if (biblePassage != null) {
         final duplicatedBiblePassage = biblePassage.copyWith(id: _nextBiblePassageId++);
@@ -100,13 +100,13 @@ class Playlists extends _$Playlists {
 
         playlistRecords.add(
             playlistRecord.copyWith(id: _nextPlaylistRecordId++, biblePassage: ToOne(target: duplicatedBiblePassage)));
-      } else if (customText != null) {
-        final duplicatedCustomText = customText.copyWith(id: _nextCustomTextId++);
+      } else if (userText != null) {
+        final duplicatedUserText = userText.copyWith(id: _nextUserTextId++);
 
-        _customTextBox.put(duplicatedCustomText);
+        _userTextBox.put(duplicatedUserText);
 
         playlistRecords
-            .add(playlistRecord.copyWith(id: _nextPlaylistRecordId++, customText: ToOne(target: duplicatedCustomText)));
+            .add(playlistRecord.copyWith(id: _nextPlaylistRecordId++, userText: ToOne(target: duplicatedUserText)));
       } else {
         playlistRecords.add(playlistRecord.copyWith(id: _nextPlaylistRecordId++));
       }
@@ -135,11 +135,11 @@ class Playlists extends _$Playlists {
         id: _nextPlaylistRecordId++,
         rank: playlistRecordData['rank'],
         songLyric: ToOne(targetId: playlistRecordData['song_lyric']?['id']),
-        customText: ToOne(
-          target: playlistRecordData.containsKey('custom_text')
-              ? createCustomText(
-                  name: playlistRecordData['custom_text']['name'],
-                  content: playlistRecordData['custom_text']['content'],
+        userText: ToOne(
+          target: playlistRecordData.containsKey('user_text')
+              ? createUserText(
+                  name: playlistRecordData['user_text']['name'],
+                  content: playlistRecordData['user_text']['content'],
                 )
               : null,
         ),
@@ -190,7 +190,7 @@ class Playlists extends _$Playlists {
 
     for (final playlistRecord in playlist.records) {
       final biblePassage = ref.read(biblePassageProvider(playlistRecord.biblePassage.targetId));
-      final customText = ref.read(customTextProvider(playlistRecord.customText.targetId));
+      final userText = ref.read(userTextProvider(playlistRecord.userText.targetId));
       final songLyricSettings = ref.read(songLyricSettingsProvider(playlistRecord.songLyric.targetId));
 
       final record = {
@@ -211,10 +211,10 @@ class Playlists extends _$Playlists {
             'end_verse': biblePassage.endVerse,
             'text': biblePassage.text,
           },
-        if (customText != null)
-          'custom_text': {
-            'name': customText.name,
-            'content': customText.content,
+        if (userText != null)
+          'user_text': {
+            'name': userText.name,
+            'content': userText.content,
           },
       };
 
@@ -252,8 +252,8 @@ class Playlists extends _$Playlists {
 
     // delete this with delay, so it does not lead to exceptions when poping from playlist screen
     Future.delayed(const Duration(seconds: 1), () {
-      _customTextBox.removeMany(playlistToRemove.records
-          .map((playlistRecord) => playlistRecord.customText.targetId)
+      _userTextBox.removeMany(playlistToRemove.records
+          .map((playlistRecord) => playlistRecord.userText.targetId)
           .where((id) => id != 0)
           .toList());
       _biblePassageBox.removeMany(playlistToRemove.records
@@ -266,14 +266,14 @@ class Playlists extends _$Playlists {
   void addToPlaylist(
     Playlist playlist, {
     SongLyric? songLyric,
-    CustomText? customText,
+    UserText? userText,
     BiblePassage? biblePassage,
     int? afterRank,
   }) {
     // prevent duplicates
     if (playlist.records.any((playlistRecord) =>
         playlistRecord.songLyric.targetId == songLyric?.id ||
-        playlistRecord.customText.targetId == customText?.id ||
+        playlistRecord.userText.targetId == userText?.id ||
         playlistRecord.biblePassage.targetId == biblePassage?.id)) {
       return;
     }
@@ -292,7 +292,7 @@ class Playlists extends _$Playlists {
       id: _nextPlaylistRecordId++,
       rank: lastRank + 1,
       songLyric: ToOne(target: songLyric),
-      customText: ToOne(target: customText),
+      userText: ToOne(target: userText),
       biblePassage: ToOne(target: biblePassage),
       playlist: ToOne(target: playlist),
     );
@@ -321,8 +321,8 @@ class Playlists extends _$Playlists {
 
     playlist.records.removeWhere((playlistRecord) => playlistRecord.id == playlistRecordToRemove.id);
 
-    if (playlistRecordToRemove.customText.targetId != 0) {
-      _customTextBox.remove(playlistRecordToRemove.customText.targetId);
+    if (playlistRecordToRemove.userText.targetId != 0) {
+      _userTextBox.remove(playlistRecordToRemove.userText.targetId);
     } else if (playlistRecordToRemove.biblePassage.targetId != 0) {
       _biblePassageBox.remove(playlistRecordToRemove.biblePassage.targetId);
     }
@@ -378,15 +378,15 @@ class Playlists extends _$Playlists {
     return biblePassage;
   }
 
-  CustomText createCustomText({required String name, required String content}) {
-    final customText = CustomText(
-      id: _nextCustomTextId++,
+  UserText createUserText({required String name, required String content}) {
+    final userText = UserText(
+      id: _nextUserTextId++,
       name: name,
       content: content,
     );
 
-    _customTextBox.put(customText);
+    _userTextBox.put(userText);
 
-    return customText;
+    return userText;
   }
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PresentationData {
   int? get songLyricId;
-  bool get isCustomText;
+  bool get isUserText;
   String get name;
   String get text;
   PresentationSettings get settings;
@@ -38,8 +38,8 @@ mixin _$PresentationData {
             other is PresentationData &&
             (identical(other.songLyricId, songLyricId) ||
                 other.songLyricId == songLyricId) &&
-            (identical(other.isCustomText, isCustomText) ||
-                other.isCustomText == isCustomText) &&
+            (identical(other.isUserText, isUserText) ||
+                other.isUserText == isUserText) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.settings, settings) ||
@@ -49,11 +49,11 @@ mixin _$PresentationData {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, songLyricId, isCustomText, name, text, settings);
+      Object.hash(runtimeType, songLyricId, isUserText, name, text, settings);
 
   @override
   String toString() {
-    return 'PresentationData(songLyricId: $songLyricId, isCustomText: $isCustomText, name: $name, text: $text, settings: $settings)';
+    return 'PresentationData(songLyricId: $songLyricId, isUserText: $isUserText, name: $name, text: $text, settings: $settings)';
   }
 }
 
@@ -65,7 +65,7 @@ abstract mixin class $PresentationDataCopyWith<$Res> {
   @useResult
   $Res call(
       {int? songLyricId,
-      bool isCustomText,
+      bool isUserText,
       String name,
       String text,
       PresentationSettings settings});
@@ -87,7 +87,7 @@ class _$PresentationDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? songLyricId = freezed,
-    Object? isCustomText = null,
+    Object? isUserText = null,
     Object? name = null,
     Object? text = null,
     Object? settings = null,
@@ -97,9 +97,9 @@ class _$PresentationDataCopyWithImpl<$Res>
           ? _self.songLyricId
           : songLyricId // ignore: cast_nullable_to_non_nullable
               as int?,
-      isCustomText: null == isCustomText
-          ? _self.isCustomText
-          : isCustomText // ignore: cast_nullable_to_non_nullable
+      isUserText: null == isUserText
+          ? _self.isUserText
+          : isUserText // ignore: cast_nullable_to_non_nullable
               as bool,
       name: null == name
           ? _self.name
@@ -218,7 +218,7 @@ extension PresentationDataPatterns on PresentationData {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int? songLyricId, bool isCustomText, String name,
+    TResult Function(int? songLyricId, bool isUserText, String name,
             String text, PresentationSettings settings)?
         $default, {
     required TResult orElse(),
@@ -226,7 +226,7 @@ extension PresentationDataPatterns on PresentationData {
     final _that = this;
     switch (_that) {
       case _PresentationData() when $default != null:
-        return $default(_that.songLyricId, _that.isCustomText, _that.name,
+        return $default(_that.songLyricId, _that.isUserText, _that.name,
             _that.text, _that.settings);
       case _:
         return orElse();
@@ -248,14 +248,14 @@ extension PresentationDataPatterns on PresentationData {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int? songLyricId, bool isCustomText, String name,
+    TResult Function(int? songLyricId, bool isUserText, String name,
             String text, PresentationSettings settings)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PresentationData():
-        return $default(_that.songLyricId, _that.isCustomText, _that.name,
+        return $default(_that.songLyricId, _that.isUserText, _that.name,
             _that.text, _that.settings);
     }
   }
@@ -274,14 +274,14 @@ extension PresentationDataPatterns on PresentationData {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int? songLyricId, bool isCustomText, String name,
+    TResult? Function(int? songLyricId, bool isUserText, String name,
             String text, PresentationSettings settings)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PresentationData() when $default != null:
-        return $default(_that.songLyricId, _that.isCustomText, _that.name,
+        return $default(_that.songLyricId, _that.isUserText, _that.name,
             _that.text, _that.settings);
       case _:
         return null;
@@ -295,7 +295,7 @@ extension PresentationDataPatterns on PresentationData {
 class _PresentationData implements PresentationData {
   const _PresentationData(
       {this.songLyricId,
-      this.isCustomText = false,
+      this.isUserText = false,
       required this.name,
       required this.text,
       required this.settings});
@@ -306,7 +306,7 @@ class _PresentationData implements PresentationData {
   final int? songLyricId;
   @override
   @JsonKey()
-  final bool isCustomText;
+  final bool isUserText;
   @override
   final String name;
   @override
@@ -336,8 +336,8 @@ class _PresentationData implements PresentationData {
             other is _PresentationData &&
             (identical(other.songLyricId, songLyricId) ||
                 other.songLyricId == songLyricId) &&
-            (identical(other.isCustomText, isCustomText) ||
-                other.isCustomText == isCustomText) &&
+            (identical(other.isUserText, isUserText) ||
+                other.isUserText == isUserText) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.settings, settings) ||
@@ -347,11 +347,11 @@ class _PresentationData implements PresentationData {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, songLyricId, isCustomText, name, text, settings);
+      Object.hash(runtimeType, songLyricId, isUserText, name, text, settings);
 
   @override
   String toString() {
-    return 'PresentationData(songLyricId: $songLyricId, isCustomText: $isCustomText, name: $name, text: $text, settings: $settings)';
+    return 'PresentationData(songLyricId: $songLyricId, isUserText: $isUserText, name: $name, text: $text, settings: $settings)';
   }
 }
 
@@ -365,7 +365,7 @@ abstract mixin class _$PresentationDataCopyWith<$Res>
   @useResult
   $Res call(
       {int? songLyricId,
-      bool isCustomText,
+      bool isUserText,
       String name,
       String text,
       PresentationSettings settings});
@@ -388,7 +388,7 @@ class __$PresentationDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? songLyricId = freezed,
-    Object? isCustomText = null,
+    Object? isUserText = null,
     Object? name = null,
     Object? text = null,
     Object? settings = null,
@@ -398,9 +398,9 @@ class __$PresentationDataCopyWithImpl<$Res>
           ? _self.songLyricId
           : songLyricId // ignore: cast_nullable_to_non_nullable
               as int?,
-      isCustomText: null == isCustomText
-          ? _self.isCustomText
-          : isCustomText // ignore: cast_nullable_to_non_nullable
+      isUserText: null == isUserText
+          ? _self.isUserText
+          : isUserText // ignore: cast_nullable_to_non_nullable
               as bool,
       name: null == name
           ? _self.name
