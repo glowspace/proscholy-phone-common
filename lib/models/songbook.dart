@@ -1,20 +1,15 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/songbook_record.dart';
-import 'package:proscholy_common/models/tag.dart';
 
 part 'generated/songbook.freezed.dart';
 part 'generated/songbook.g.dart';
 
-// prioritized songbook shortcuts in sorting
-const prioritized = {'H1': 0, 'H2': 1, 'K': 2, 'Kan': 3};
-
-// offset for songbook tags, tags from API have id > 0, language tags have negative id starting from -1, so offset -1000 should be enough
-const _songbookIdOffset = -1000;
-
 @freezed
-sealed class Songbook extends Model with _$Songbook, RecentItem implements Comparable<Songbook>, SongsList {
+sealed class Songbook extends Model with _$Songbook, RecentItem {
   const Songbook._();
 
   @Entity(realClass: Songbook)
@@ -25,40 +20,10 @@ sealed class Songbook extends Model with _$Songbook, RecentItem implements Compa
     String? color,
     String? colorText,
     required bool isPrivate,
-    @Deprecated('is handled independently on model') bool? isPinned,
     @Backlink() @JsonKey(fromJson: _songbookRecordsFromJson) required ToMany<SongbookRecord> records,
   }) = _Songbook;
 
-  factory Songbook.fromJson(Map<String, Object?> json) => _$SongbookFromJson(json);
-
-  Tag get tag => Tag(
-        id: id + _songbookIdOffset,
-        name: name,
-        dbType: TagType.songbook.rawValue,
-        songLyricsCount: records.length,
-      );
-
-  @override
-  int compareTo(Songbook other) {
-    if (prioritized.containsKey(shortcut) && prioritized.containsKey(other.shortcut)) {
-      return prioritized[shortcut]!.compareTo(prioritized[other.shortcut]!);
-    } else if (prioritized.containsKey(shortcut)) {
-      return -1;
-    } else if (prioritized.containsKey(other.shortcut)) {
-      return 1;
-    }
-
-    return name.compareTo(other.name);
-  }
-
-  @override
-  String get displayName => name;
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is Songbook && id == other.id;
+  factory Songbook.fromJson(Map<String, dynamic> json) => _$SongbookFromJson(json);
 }
 
 ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic>? jsonList) => ToMany();

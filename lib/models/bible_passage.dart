@@ -28,7 +28,7 @@ class BibleTranslation {
   const BibleTranslation(this.name, this.abbreviation);
 
   @override
-  String toString() => name;
+  String toString() => 'BibleTranslation(name: $name)';
 }
 
 @immutable
@@ -42,7 +42,7 @@ class BibleBook {
   const BibleBook(this.name, this.number, this.verseCounts);
 
   @override
-  String toString() => name;
+  String toString() => 'BibleBook(name: $name)';
 }
 
 const supportedBibleTranslations = [

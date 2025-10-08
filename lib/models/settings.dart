@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/constants.dart';
@@ -32,7 +34,7 @@ sealed class GlobalSettings with _$GlobalSettings {
     required int autoScrollSpeedIndex,
   }) = _GlobalSettings;
 
-  factory GlobalSettings.fromJson(Map<String, Object?> json) => _$GlobalSettingsFromJson(json);
+  factory GlobalSettings.fromJson(Map<String, dynamic> json) => _$GlobalSettingsFromJson(json);
 }
 
 @freezed

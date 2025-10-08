@@ -148,7 +148,7 @@ final class TagsProvider
   }
 }
 
-String _$tagsHash() => r'c00876b414b3add119c7d09973a4144a6c9982a1';
+String _$tagsHash() => r'fea990e1ae0e6ebb6d920ae5186c4e6ea5537564';
 
 final class TagsFamily extends $Family
     with $FunctionalFamilyOverride<List<Tag>, TagType> {

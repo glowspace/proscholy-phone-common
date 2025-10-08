@@ -1,3 +1,4 @@
+import 'package:proscholy_common/providers/comparators/songbook.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
@@ -23,21 +24,22 @@ class PinnedSongbookIds extends _$PinnedSongbookIds {
   }
 
   @override
-  Set<int> build() {
-    return {for (final id in _sharedPreferences.getStringList(_pinnedSongbookIdsKey) ?? []) int.parse(id)};
+  List<int> build() {
+    return _sharedPreferences.getStringList(_pinnedSongbookIdsKey)?.map(int.parse).toList() ?? [];
   }
 
   void togglePin(Songbook songbook) {
-    if (state.contains(songbook.id)) {
-      state = {
+    final pinnedSongbookIds = [
+      if (!state.contains(songbook.id)) songbook.id,
+      ...[
         for (final id in state)
           if (id != songbook.id) id
-      };
-    } else {
-      state = {songbook.id, ...state};
-    }
+      ]
+    ];
 
-    _sharedPreferences.setStringList(_pinnedSongbookIdsKey, [for (final id in state) '$id']);
+    _sharedPreferences.setStringList(_pinnedSongbookIdsKey, [for (final id in pinnedSongbookIds) '$id']);
+
+    state = pinnedSongbookIds;
   }
 }
 
@@ -46,17 +48,7 @@ List<Songbook> songbooks(Ref ref) {
   final songbooks = queryStore(ref, condition: Songbook_.isPrivate.equals(false));
   final pinnedSongbookIds = ref.watch(pinnedSongbookIdsProvider);
 
-  songbooks.sort((a, b) {
-    if (pinnedSongbookIds.contains(a.id) && pinnedSongbookIds.contains(b.id)) {
-      return a.compareTo(b);
-    } else if (pinnedSongbookIds.contains(a.id)) {
-      return -1;
-    } else if (pinnedSongbookIds.contains(b.id)) {
-      return 1;
-    } else {
-      return a.compareTo(b);
-    }
-  });
+  songbooks.sort((a, b) => compareSongbooks(a, b, pinnedSongbookIds));
 
   return songbooks;
 }

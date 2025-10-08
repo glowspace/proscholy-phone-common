@@ -1,4 +1,5 @@
-import 'package:collection/collection.dart';
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/model.dart';
@@ -18,17 +19,7 @@ sealed class Song extends Model with _$Song {
     @Backlink() @JsonKey(fromJson: _songLyricsFromJson) required ToMany<SongLyric> songLyrics,
   }) = _Song;
 
-  factory Song.fromJson(Map<String, Object?> json) => _$SongFromJson(json);
-
-  bool get hasTranslations => songLyrics.length > 1;
-
-  SongLyric? get original => songLyrics.firstWhereOrNull((songLyric) => songLyric.type == SongLyricType.original);
-
-  @override
-  int get hashCode => id;
-
-  @override
-  bool operator ==(Object other) => other is Song && id == other.id;
+  factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
 }
 
-ToMany<SongLyric> _songLyricsFromJson(List<dynamic>? jsonList) => ToMany();
+ToMany<SongLyric> _songLyricsFromJson(List<dynamic> jsonList) => ToMany();

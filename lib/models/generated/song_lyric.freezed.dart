@@ -17,10 +17,6 @@ mixin _$SongLyric {
   @Id(assignable: true)
   @JsonKey(fromJson: int.parse)
   int get id;
-  @JsonKey(readValue: _readDisplayId)
-  String get displayId;
-  @JsonKey(readValue: _readDisplayName)
-  String get displayName;
   String get name;
   @JsonKey(name: 'secondary_name_1')
   String get secondaryName1;
@@ -33,12 +29,12 @@ mixin _$SongLyric {
   @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
   int get dbType;
   bool get isArrangement;
+  @JsonKey(fromJson: _songFromJson)
+  ToOne<Song> get song;
   @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
   ToMany<Author> get authors;
   @JsonKey(fromJson: _externalsFromJson)
   ToMany<External> get externals;
-  @JsonKey(fromJson: _songFromJson)
-  ToOne<Song> get song;
   @Backlink()
   @JsonKey(fromJson: _songbookRecordsFromJson)
   ToMany<SongbookRecord> get songbookRecords;
@@ -65,10 +61,6 @@ mixin _$SongLyric {
             other is SongLyric &&
             super == other &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.displayId, displayId) ||
-                other.displayId == displayId) &&
-            (identical(other.displayName, displayName) ||
-                other.displayName == displayName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.secondaryName1, secondaryName1) ||
                 other.secondaryName1 == secondaryName1) &&
@@ -81,9 +73,9 @@ mixin _$SongLyric {
             (identical(other.dbType, dbType) || other.dbType == dbType) &&
             (identical(other.isArrangement, isArrangement) ||
                 other.isArrangement == isArrangement) &&
+            (identical(other.song, song) || other.song == song) &&
             const DeepCollectionEquality().equals(other.authors, authors) &&
             const DeepCollectionEquality().equals(other.externals, externals) &&
-            (identical(other.song, song) || other.song == song) &&
             const DeepCollectionEquality()
                 .equals(other.songbookRecords, songbookRecords) &&
             const DeepCollectionEquality().equals(other.tags, tags) &&
@@ -95,32 +87,29 @@ mixin _$SongLyric {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        super.hashCode,
-        id,
-        displayId,
-        displayName,
-        name,
-        secondaryName1,
-        secondaryName2,
-        lyrics,
-        hymnology,
-        lang,
-        dbType,
-        isArrangement,
-        const DeepCollectionEquality().hash(authors),
-        const DeepCollectionEquality().hash(externals),
-        song,
-        const DeepCollectionEquality().hash(songbookRecords),
-        const DeepCollectionEquality().hash(tags),
-        settings,
-        const DeepCollectionEquality().hash(playlistRecords)
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      id,
+      name,
+      secondaryName1,
+      secondaryName2,
+      lyrics,
+      hymnology,
+      lang,
+      dbType,
+      isArrangement,
+      song,
+      const DeepCollectionEquality().hash(authors),
+      const DeepCollectionEquality().hash(externals),
+      const DeepCollectionEquality().hash(songbookRecords),
+      const DeepCollectionEquality().hash(tags),
+      settings,
+      const DeepCollectionEquality().hash(playlistRecords));
 
   @override
   String toString() {
-    return 'SongLyric(id: $id, displayId: $displayId, displayName: $displayName, name: $name, secondaryName1: $secondaryName1, secondaryName2: $secondaryName2, lyrics: $lyrics, hymnology: $hymnology, lang: $lang, dbType: $dbType, isArrangement: $isArrangement, authors: $authors, externals: $externals, song: $song, songbookRecords: $songbookRecords, tags: $tags, settings: $settings, playlistRecords: $playlistRecords)';
+    return 'SongLyric(id: $id, name: $name, secondaryName1: $secondaryName1, secondaryName2: $secondaryName2, lyrics: $lyrics, hymnology: $hymnology, lang: $lang, dbType: $dbType, isArrangement: $isArrangement, song: $song, authors: $authors, externals: $externals, songbookRecords: $songbookRecords, tags: $tags, settings: $settings, playlistRecords: $playlistRecords)';
   }
 }
 
@@ -131,8 +120,6 @@ abstract mixin class $SongLyricCopyWith<$Res> {
   @useResult
   $Res call(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
-      @JsonKey(readValue: _readDisplayId) String displayId,
-      @JsonKey(readValue: _readDisplayName) String displayName,
       String name,
       @JsonKey(name: 'secondary_name_1') String secondaryName1,
       @JsonKey(name: 'secondary_name_2') String secondaryName2,
@@ -142,10 +129,10 @@ abstract mixin class $SongLyricCopyWith<$Res> {
       @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
       int dbType,
       bool isArrangement,
+      @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       ToMany<Author> authors,
       @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
-      @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> songbookRecords,
@@ -170,8 +157,6 @@ class _$SongLyricCopyWithImpl<$Res> implements $SongLyricCopyWith<$Res> {
   @override
   $Res call({
     Object? id = null,
-    Object? displayId = null,
-    Object? displayName = null,
     Object? name = null,
     Object? secondaryName1 = null,
     Object? secondaryName2 = null,
@@ -180,9 +165,9 @@ class _$SongLyricCopyWithImpl<$Res> implements $SongLyricCopyWith<$Res> {
     Object? lang = null,
     Object? dbType = null,
     Object? isArrangement = null,
+    Object? song = null,
     Object? authors = null,
     Object? externals = null,
-    Object? song = null,
     Object? songbookRecords = null,
     Object? tags = null,
     Object? settings = null,
@@ -193,14 +178,6 @@ class _$SongLyricCopyWithImpl<$Res> implements $SongLyricCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      displayId: null == displayId
-          ? _self.displayId
-          : displayId // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _self.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -233,6 +210,10 @@ class _$SongLyricCopyWithImpl<$Res> implements $SongLyricCopyWith<$Res> {
           ? _self.isArrangement
           : isArrangement // ignore: cast_nullable_to_non_nullable
               as bool,
+      song: null == song
+          ? _self.song
+          : song // ignore: cast_nullable_to_non_nullable
+              as ToOne<Song>,
       authors: null == authors
           ? _self.authors
           : authors // ignore: cast_nullable_to_non_nullable
@@ -241,10 +222,6 @@ class _$SongLyricCopyWithImpl<$Res> implements $SongLyricCopyWith<$Res> {
           ? _self.externals
           : externals // ignore: cast_nullable_to_non_nullable
               as ToMany<External>,
-      song: null == song
-          ? _self.song
-          : song // ignore: cast_nullable_to_non_nullable
-              as ToOne<Song>,
       songbookRecords: null == songbookRecords
           ? _self.songbookRecords
           : songbookRecords // ignore: cast_nullable_to_non_nullable
@@ -358,8 +335,6 @@ extension SongLyricPatterns on SongLyric {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
-            @JsonKey(readValue: _readDisplayId) String displayId,
-            @JsonKey(readValue: _readDisplayName) String displayName,
             String name,
             @JsonKey(name: 'secondary_name_1') String secondaryName1,
             @JsonKey(name: 'secondary_name_2') String secondaryName2,
@@ -370,10 +345,10 @@ extension SongLyricPatterns on SongLyric {
                 name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
             int dbType,
             bool isArrangement,
+            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
             @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
-            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -391,8 +366,6 @@ extension SongLyricPatterns on SongLyric {
       case _SongLyric() when $default != null:
         return $default(
             _that.id,
-            _that.displayId,
-            _that.displayName,
             _that.name,
             _that.secondaryName1,
             _that.secondaryName2,
@@ -401,9 +374,9 @@ extension SongLyricPatterns on SongLyric {
             _that.lang,
             _that.dbType,
             _that.isArrangement,
+            _that.song,
             _that.authors,
             _that.externals,
-            _that.song,
             _that.songbookRecords,
             _that.tags,
             _that.settings,
@@ -430,8 +403,6 @@ extension SongLyricPatterns on SongLyric {
   TResult when<TResult extends Object?>(
     TResult Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
-            @JsonKey(readValue: _readDisplayId) String displayId,
-            @JsonKey(readValue: _readDisplayName) String displayName,
             String name,
             @JsonKey(name: 'secondary_name_1') String secondaryName1,
             @JsonKey(name: 'secondary_name_2') String secondaryName2,
@@ -442,10 +413,10 @@ extension SongLyricPatterns on SongLyric {
                 name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
             int dbType,
             bool isArrangement,
+            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
             @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
-            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -462,8 +433,6 @@ extension SongLyricPatterns on SongLyric {
       case _SongLyric():
         return $default(
             _that.id,
-            _that.displayId,
-            _that.displayName,
             _that.name,
             _that.secondaryName1,
             _that.secondaryName2,
@@ -472,9 +441,9 @@ extension SongLyricPatterns on SongLyric {
             _that.lang,
             _that.dbType,
             _that.isArrangement,
+            _that.song,
             _that.authors,
             _that.externals,
-            _that.song,
             _that.songbookRecords,
             _that.tags,
             _that.settings,
@@ -498,8 +467,6 @@ extension SongLyricPatterns on SongLyric {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
-            @JsonKey(readValue: _readDisplayId) String displayId,
-            @JsonKey(readValue: _readDisplayName) String displayName,
             String name,
             @JsonKey(name: 'secondary_name_1') String secondaryName1,
             @JsonKey(name: 'secondary_name_2') String secondaryName2,
@@ -510,10 +477,10 @@ extension SongLyricPatterns on SongLyric {
                 name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
             int dbType,
             bool isArrangement,
+            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
             @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
-            @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -530,8 +497,6 @@ extension SongLyricPatterns on SongLyric {
       case _SongLyric() when $default != null:
         return $default(
             _that.id,
-            _that.displayId,
-            _that.displayName,
             _that.name,
             _that.secondaryName1,
             _that.secondaryName2,
@@ -540,9 +505,9 @@ extension SongLyricPatterns on SongLyric {
             _that.lang,
             _that.dbType,
             _that.isArrangement,
+            _that.song,
             _that.authors,
             _that.externals,
-            _that.song,
             _that.songbookRecords,
             _that.tags,
             _that.settings,
@@ -559,8 +524,6 @@ extension SongLyricPatterns on SongLyric {
 class _SongLyric extends SongLyric {
   const _SongLyric(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,
-      @JsonKey(readValue: _readDisplayId) required this.displayId,
-      @JsonKey(readValue: _readDisplayName) required this.displayName,
       required this.name,
       @JsonKey(name: 'secondary_name_1') this.secondaryName1 = '',
       @JsonKey(name: 'secondary_name_2') this.secondaryName2 = '',
@@ -570,10 +533,10 @@ class _SongLyric extends SongLyric {
       @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
       required this.dbType,
       required this.isArrangement,
+      @JsonKey(fromJson: _songFromJson) required this.song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       required this.authors,
       @JsonKey(fromJson: _externalsFromJson) required this.externals,
-      @JsonKey(fromJson: _songFromJson) required this.song,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       required this.songbookRecords,
@@ -590,12 +553,6 @@ class _SongLyric extends SongLyric {
   @Id(assignable: true)
   @JsonKey(fromJson: int.parse)
   final int id;
-  @override
-  @JsonKey(readValue: _readDisplayId)
-  final String displayId;
-  @override
-  @JsonKey(readValue: _readDisplayName)
-  final String displayName;
   @override
   final String name;
   @override
@@ -618,14 +575,14 @@ class _SongLyric extends SongLyric {
   @override
   final bool isArrangement;
   @override
+  @JsonKey(fromJson: _songFromJson)
+  final ToOne<Song> song;
+  @override
   @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
   final ToMany<Author> authors;
   @override
   @JsonKey(fromJson: _externalsFromJson)
   final ToMany<External> externals;
-  @override
-  @JsonKey(fromJson: _songFromJson)
-  final ToOne<Song> song;
   @override
   @Backlink()
   @JsonKey(fromJson: _songbookRecordsFromJson)
@@ -657,10 +614,6 @@ class _SongLyric extends SongLyric {
             other is _SongLyric &&
             super == other &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.displayId, displayId) ||
-                other.displayId == displayId) &&
-            (identical(other.displayName, displayName) ||
-                other.displayName == displayName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.secondaryName1, secondaryName1) ||
                 other.secondaryName1 == secondaryName1) &&
@@ -673,9 +626,9 @@ class _SongLyric extends SongLyric {
             (identical(other.dbType, dbType) || other.dbType == dbType) &&
             (identical(other.isArrangement, isArrangement) ||
                 other.isArrangement == isArrangement) &&
+            (identical(other.song, song) || other.song == song) &&
             const DeepCollectionEquality().equals(other.authors, authors) &&
             const DeepCollectionEquality().equals(other.externals, externals) &&
-            (identical(other.song, song) || other.song == song) &&
             const DeepCollectionEquality()
                 .equals(other.songbookRecords, songbookRecords) &&
             const DeepCollectionEquality().equals(other.tags, tags) &&
@@ -687,32 +640,29 @@ class _SongLyric extends SongLyric {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        super.hashCode,
-        id,
-        displayId,
-        displayName,
-        name,
-        secondaryName1,
-        secondaryName2,
-        lyrics,
-        hymnology,
-        lang,
-        dbType,
-        isArrangement,
-        const DeepCollectionEquality().hash(authors),
-        const DeepCollectionEquality().hash(externals),
-        song,
-        const DeepCollectionEquality().hash(songbookRecords),
-        const DeepCollectionEquality().hash(tags),
-        settings,
-        const DeepCollectionEquality().hash(playlistRecords)
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      id,
+      name,
+      secondaryName1,
+      secondaryName2,
+      lyrics,
+      hymnology,
+      lang,
+      dbType,
+      isArrangement,
+      song,
+      const DeepCollectionEquality().hash(authors),
+      const DeepCollectionEquality().hash(externals),
+      const DeepCollectionEquality().hash(songbookRecords),
+      const DeepCollectionEquality().hash(tags),
+      settings,
+      const DeepCollectionEquality().hash(playlistRecords));
 
   @override
   String toString() {
-    return 'SongLyric(id: $id, displayId: $displayId, displayName: $displayName, name: $name, secondaryName1: $secondaryName1, secondaryName2: $secondaryName2, lyrics: $lyrics, hymnology: $hymnology, lang: $lang, dbType: $dbType, isArrangement: $isArrangement, authors: $authors, externals: $externals, song: $song, songbookRecords: $songbookRecords, tags: $tags, settings: $settings, playlistRecords: $playlistRecords)';
+    return 'SongLyric(id: $id, name: $name, secondaryName1: $secondaryName1, secondaryName2: $secondaryName2, lyrics: $lyrics, hymnology: $hymnology, lang: $lang, dbType: $dbType, isArrangement: $isArrangement, song: $song, authors: $authors, externals: $externals, songbookRecords: $songbookRecords, tags: $tags, settings: $settings, playlistRecords: $playlistRecords)';
   }
 }
 
@@ -726,8 +676,6 @@ abstract mixin class _$SongLyricCopyWith<$Res>
   @useResult
   $Res call(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
-      @JsonKey(readValue: _readDisplayId) String displayId,
-      @JsonKey(readValue: _readDisplayName) String displayName,
       String name,
       @JsonKey(name: 'secondary_name_1') String secondaryName1,
       @JsonKey(name: 'secondary_name_2') String secondaryName2,
@@ -737,10 +685,10 @@ abstract mixin class _$SongLyricCopyWith<$Res>
       @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)
       int dbType,
       bool isArrangement,
+      @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       ToMany<Author> authors,
       @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
-      @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> songbookRecords,
@@ -765,8 +713,6 @@ class __$SongLyricCopyWithImpl<$Res> implements _$SongLyricCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
-    Object? displayId = null,
-    Object? displayName = null,
     Object? name = null,
     Object? secondaryName1 = null,
     Object? secondaryName2 = null,
@@ -775,9 +721,9 @@ class __$SongLyricCopyWithImpl<$Res> implements _$SongLyricCopyWith<$Res> {
     Object? lang = null,
     Object? dbType = null,
     Object? isArrangement = null,
+    Object? song = null,
     Object? authors = null,
     Object? externals = null,
-    Object? song = null,
     Object? songbookRecords = null,
     Object? tags = null,
     Object? settings = null,
@@ -788,14 +734,6 @@ class __$SongLyricCopyWithImpl<$Res> implements _$SongLyricCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      displayId: null == displayId
-          ? _self.displayId
-          : displayId // ignore: cast_nullable_to_non_nullable
-              as String,
-      displayName: null == displayName
-          ? _self.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -828,6 +766,10 @@ class __$SongLyricCopyWithImpl<$Res> implements _$SongLyricCopyWith<$Res> {
           ? _self.isArrangement
           : isArrangement // ignore: cast_nullable_to_non_nullable
               as bool,
+      song: null == song
+          ? _self.song
+          : song // ignore: cast_nullable_to_non_nullable
+              as ToOne<Song>,
       authors: null == authors
           ? _self.authors
           : authors // ignore: cast_nullable_to_non_nullable
@@ -836,10 +778,6 @@ class __$SongLyricCopyWithImpl<$Res> implements _$SongLyricCopyWith<$Res> {
           ? _self.externals
           : externals // ignore: cast_nullable_to_non_nullable
               as ToMany<External>,
-      song: null == song
-          ? _self.song
-          : song // ignore: cast_nullable_to_non_nullable
-              as ToOne<Song>,
       songbookRecords: null == songbookRecords
           ? _self.songbookRecords
           : songbookRecords // ignore: cast_nullable_to_non_nullable

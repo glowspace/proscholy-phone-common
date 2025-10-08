@@ -33,7 +33,7 @@ class SongLyricTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(32),
         highlightColor: theme.colorScheme.primary.withAlpha(0x20),
         onTap: () => songbookRecord != null
-            ? _pushSearch(context, songbookRecord!.songbook.target!.tag)
+            ? _pushSearch(context, Tag.fromSongbook(songbookRecord!.songbook.target!))
             : _pushSearch(context, tag!),
         child: Row(
           mainAxisSize: MainAxisSize.min,

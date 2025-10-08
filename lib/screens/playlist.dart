@@ -13,6 +13,7 @@ import 'package:proscholy_common/components/selected_displayable_item_arguments.
 import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
+import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/models/user_text.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
@@ -183,7 +184,7 @@ class _PlaylistScaffold extends StatelessWidget {
   }
 
   void _pushSearch(BuildContext context) {
-    context.providers.read(selectedTagsProvider.notifier).push(initialTag: playlist.tag);
+    context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromPlaylist(playlist));
 
     context.push('/search');
   }

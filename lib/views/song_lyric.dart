@@ -1,10 +1,13 @@
+import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/views/external.dart';
+import 'package:proscholy_common/views/song.dart';
 
 final _bAccidentalsRE = RegExp(r'\[(B|S|.b|.s)\]');
 
+// TODO: maybe load this from the server?
 const _langCodeToNameMap = {
   "cs": "čeština",
   "sk": "slovenština",
@@ -23,11 +26,62 @@ const _langCodeToNameMap = {
   "mixed": "vícejazyčná píseň"
 };
 
+const _ezSongbookId = 58;
+const _ekSongbookId = 63;
+
+final _displayIdCache = Expando<String>('displayIdCache');
+final _displayNameCache = Expando<String>('displayNameCache');
+
+extension SongLyricTypeView on SongLyricType {
+  String get title => switch (this) {
+        SongLyricType.original => 'Originál',
+        SongLyricType.translation => 'Překlad',
+        SongLyricType.authorizedTranslation => 'Autorizovaný překlad',
+      };
+}
+
 extension SongLyricView on SongLyric {
+  String get displayId {
+    final cached = _displayIdCache[this];
+    if (cached != null) return cached;
+
+    final String id;
+
+    if (isEZ) {
+      id = songbookRecords.firstWhere((record) => record.songbook.targetId == _ezSongbookId).number;
+    } else if (isEK) {
+      id = songbookRecords.firstWhere((record) => record.songbook.targetId == _ekSongbookId).number;
+    } else {
+      id = '${this.id}';
+    }
+
+    _displayIdCache[this] = id;
+    return id;
+  }
+
+  String get displayName {
+    final cached = _displayNameCache[this];
+    if (cached != null) return cached;
+
+    final String name;
+
+    if (isEZ) {
+      name = songbookRecords.firstWhere((record) => record.songbook.targetId == _ezSongbookId).songName ?? this.name;
+    } else if (isEK) {
+      name = songbookRecords.firstWhere((record) => record.songbook.targetId == _ekSongbookId).songName ?? this.name;
+    } else {
+      name = this.name;
+    }
+
+    _displayNameCache[this] = name;
+    return name;
+  }
+
   // FIXME: should be true also if there are valid svg notes
   bool get shouldAppearToUser => hasLyrics || hasFiles || hasRecordings;
 
   bool get hasLyrics => lyrics.isNotEmpty;
+  bool get hasHymnology => hymnology.isNotEmpty;
   // temporary fix, until API provides correct value
   bool get hasChords => lyrics.contains('[');
 
@@ -38,7 +92,6 @@ extension SongLyricView on SongLyric {
 
   bool get hasTags => tags.isNotEmpty;
   bool get hasSongbooks => songbookRecords.isNotEmpty;
-  bool get hasHymnology => hymnology.isNotEmpty;
 
   bool get isFavorite =>
       playlistRecords.any((playlistRecord) => playlistRecord.playlist.targetId == favoritesPlaylistId);

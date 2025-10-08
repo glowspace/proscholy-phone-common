@@ -94,7 +94,7 @@ final class SongbookFamily extends $Family
 const pinnedSongbookIdsProvider = PinnedSongbookIdsProvider._();
 
 final class PinnedSongbookIdsProvider
-    extends $NotifierProvider<PinnedSongbookIds, Set<int>> {
+    extends $NotifierProvider<PinnedSongbookIds, List<int>> {
   const PinnedSongbookIdsProvider._()
       : super(
           from: null,
@@ -114,25 +114,25 @@ final class PinnedSongbookIdsProvider
   PinnedSongbookIds create() => PinnedSongbookIds();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Set<int> value) {
+  Override overrideWithValue(List<int> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<Set<int>>(value),
+      providerOverride: $SyncValueProvider<List<int>>(value),
     );
   }
 }
 
-String _$pinnedSongbookIdsHash() => r'b8ee2a8e41bd78a107041c0ce2e84b8464b424a4';
+String _$pinnedSongbookIdsHash() => r'3344c100969bead3a0686c91bcc1e968dea7dcf6';
 
-abstract class _$PinnedSongbookIds extends $Notifier<Set<int>> {
-  Set<int> build();
+abstract class _$PinnedSongbookIds extends $Notifier<List<int>> {
+  List<int> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<Set<int>, Set<int>>;
+    final ref = this.ref as $Ref<List<int>, List<int>>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<Set<int>, Set<int>>, Set<int>, Object?, Object?>;
+        AnyNotifier<List<int>, List<int>>, List<int>, Object?, Object?>;
     element.handleValue(ref, created);
   }
 }
@@ -176,4 +176,4 @@ final class SongbooksProvider
   }
 }
 
-String _$songbooksHash() => r'aaf429070c9f2b43ff7b2aacd3833705b186eb40';
+String _$songbooksHash() => r'3d56ddcec1257d36a3dad17aaeb6e8f5fbd7ce2c';

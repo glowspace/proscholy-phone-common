@@ -30,6 +30,24 @@ mixin _$Tag {
       _$TagCopyWithImpl<Tag>(this as Tag, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Tag &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.dbType, dbType) || other.dbType == dbType) &&
+            (identical(other.songLyricsCount, songLyricsCount) ||
+                other.songLyricsCount == songLyricsCount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, name, dbType, songLyricsCount);
+
+  @override
   String toString() {
     return 'Tag(id: $id, name: $name, dbType: $dbType, songLyricsCount: $songLyricsCount)';
   }
@@ -291,6 +309,24 @@ class _Tag extends Tag {
   @pragma('vm:prefer-inline')
   _$TagCopyWith<_Tag> get copyWith =>
       __$TagCopyWithImpl<_Tag>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Tag &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.dbType, dbType) || other.dbType == dbType) &&
+            (identical(other.songLyricsCount, songLyricsCount) ||
+                other.songLyricsCount == songLyricsCount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, name, dbType, songLyricsCount);
 
   @override
   String toString() {

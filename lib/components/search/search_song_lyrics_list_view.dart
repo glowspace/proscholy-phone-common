@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/song_lyric/song_lyrics_section_title.dart';
 import 'package:proscholy_common/components/song_lyric/song_lyric_row.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/playlists.dart';
@@ -15,6 +14,7 @@ import 'package:proscholy_common/providers/sort.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
+import 'package:proscholy_common/views/tag.dart';
 
 class SearchSongLyricsListView extends ConsumerWidget {
   const SearchSongLyricsListView({super.key});

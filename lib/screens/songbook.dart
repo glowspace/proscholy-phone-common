@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/custom/back_button.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/navigation/scaffold.dart';
 import 'package:proscholy_common/components/song_lyric/song_lyrics_list_view.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/songbook.dart';
-import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/songbook.dart';
 
 class SongbookScreen extends StatelessWidget {
   final Songbook songbook;
@@ -33,18 +33,13 @@ class SongbookScreen extends StatelessWidget {
       ),
       body: SafeArea(
         bottom: false,
-        child: Consumer(
-          builder: (_, ref, __) => SongLyricsListView(
-            songLyrics: ref.watch(songsListSongLyricsProvider(songbook)),
-            songbook: songbook,
-          ),
-        ),
+        child: SongLyricsListView(songLyrics: songbook.songLyrics, songbook: songbook),
       ),
     );
   }
 
   void _pushSearch(BuildContext context) {
-    context.providers.read(selectedTagsProvider.notifier).push(initialTag: songbook.tag);
+    context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromSongbook(songbook));
 
     context.push('/search');
   }

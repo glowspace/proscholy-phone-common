@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/model.dart';
@@ -17,5 +19,5 @@ sealed class NewsItem extends Model with _$NewsItem {
     @Property(type: PropertyType.date) DateTime? expiresAt,
   }) = _NewsItem;
 
-  factory NewsItem.fromJson(Map<String, Object?> json) => _$NewsItemFromJson(json);
+  factory NewsItem.fromJson(Map<String, dynamic> json) => _$NewsItemFromJson(json);
 }

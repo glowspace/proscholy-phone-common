@@ -5,7 +5,6 @@ import 'package:proscholy_common/providers/recent_items.dart';
 import 'package:proscholy_common/providers/svgs.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
@@ -36,16 +35,6 @@ List<SongLyric> songLyrics(Ref ref) {
     SortType.alpha => songLyrics..sort((a, b) => a.name.compareTo(b.name)),
     SortType.numeric => songLyrics..sort((a, b) => compareNatural(a.displayId, b.displayId)),
   };
-}
-
-@riverpod
-List<SongLyric> songsListSongLyrics(Ref ref, SongsList songsList) {
-  songsList.records.sort();
-
-  return [
-    for (final record in songsList.records)
-      if (record.songLyric.target != null) record.songLyric.target!
-  ];
 }
 
 @riverpod

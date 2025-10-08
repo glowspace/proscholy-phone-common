@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'generated/spotlight_item.freezed.dart';
@@ -12,5 +14,5 @@ sealed class SpotlightItem with _$SpotlightItem {
     required String description,
   }) = _SpotlightItem;
 
-  factory SpotlightItem.fromJson(Map<String, Object?> json) => _$SpotlightItemFromJson(json);
+  factory SpotlightItem.fromJson(Map<String, dynamic> json) => _$SpotlightItemFromJson(json);
 }

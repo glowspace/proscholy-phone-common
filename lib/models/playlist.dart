@@ -2,18 +2,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/playlist_record.dart';
-import 'package:proscholy_common/models/tag.dart';
 
 part 'generated/playlist.freezed.dart';
 
 const favoritesPlaylistId = 1;
 const _favoritesName = 'Písně s hvězdičkou';
 
-// offset for songbook tags, tags from API have id > 0, songbook tags have negative id starting from -1000, so offset -2000 should be enough
-const playlistIdOffset = -2000;
-
 @freezed
-sealed class Playlist extends Model with _$Playlist, RecentItem implements SongsList {
+sealed class Playlist extends Model with _$Playlist, RecentItem {
   const Playlist._();
 
   @Entity(realClass: Playlist)
@@ -29,13 +25,6 @@ sealed class Playlist extends Model with _$Playlist, RecentItem implements Songs
         name: _favoritesName,
         rank: 0,
         records: ToMany(),
-      );
-
-  Tag get tag => Tag(
-        id: id + playlistIdOffset,
-        name: name,
-        dbType: TagType.playlist.rawValue,
-        songLyricsCount: records.length,
       );
 
   bool get isFavorites => id == favoritesPlaylistId;

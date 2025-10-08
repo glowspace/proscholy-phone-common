@@ -23,8 +23,6 @@ mixin _$Songbook {
   String? get color;
   String? get colorText;
   bool get isPrivate;
-  @Deprecated('is handled independently on model')
-  bool? get isPinned;
   @Backlink()
   @JsonKey(fromJson: _songbookRecordsFromJson)
   ToMany<SongbookRecord> get records;
@@ -37,8 +35,39 @@ mixin _$Songbook {
       _$SongbookCopyWithImpl<Songbook>(this as Songbook, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Songbook &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.shortcut, shortcut) ||
+                other.shortcut == shortcut) &&
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.colorText, colorText) ||
+                other.colorText == colorText) &&
+            (identical(other.isPrivate, isPrivate) ||
+                other.isPrivate == isPrivate) &&
+            const DeepCollectionEquality().equals(other.records, records));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      id,
+      name,
+      shortcut,
+      color,
+      colorText,
+      isPrivate,
+      const DeepCollectionEquality().hash(records));
+
+  @override
   String toString() {
-    return 'Songbook(id: $id, name: $name, shortcut: $shortcut, color: $color, colorText: $colorText, isPrivate: $isPrivate, isPinned: $isPinned, records: $records)';
+    return 'Songbook(id: $id, name: $name, shortcut: $shortcut, color: $color, colorText: $colorText, isPrivate: $isPrivate, records: $records)';
   }
 }
 
@@ -54,7 +83,6 @@ abstract mixin class $SongbookCopyWith<$Res> {
       String? color,
       String? colorText,
       bool isPrivate,
-      @Deprecated('is handled independently on model') bool? isPinned,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> records});
@@ -78,7 +106,6 @@ class _$SongbookCopyWithImpl<$Res> implements $SongbookCopyWith<$Res> {
     Object? color = freezed,
     Object? colorText = freezed,
     Object? isPrivate = null,
-    Object? isPinned = freezed,
     Object? records = null,
   }) {
     return _then(_self.copyWith(
@@ -106,10 +133,6 @@ class _$SongbookCopyWithImpl<$Res> implements $SongbookCopyWith<$Res> {
           ? _self.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPinned: freezed == isPinned
-          ? _self.isPinned
-          : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
       records: null == records
           ? _self.records
           : records // ignore: cast_nullable_to_non_nullable
@@ -216,7 +239,6 @@ extension SongbookPatterns on Songbook {
             String? color,
             String? colorText,
             bool isPrivate,
-            @Deprecated('is handled independently on model') bool? isPinned,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> records)?
@@ -227,7 +249,7 @@ extension SongbookPatterns on Songbook {
     switch (_that) {
       case _Songbook() when $default != null:
         return $default(_that.id, _that.name, _that.shortcut, _that.color,
-            _that.colorText, _that.isPrivate, _that.isPinned, _that.records);
+            _that.colorText, _that.isPrivate, _that.records);
       case _:
         return orElse();
     }
@@ -255,7 +277,6 @@ extension SongbookPatterns on Songbook {
             String? color,
             String? colorText,
             bool isPrivate,
-            @Deprecated('is handled independently on model') bool? isPinned,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> records)
@@ -265,7 +286,7 @@ extension SongbookPatterns on Songbook {
     switch (_that) {
       case _Songbook():
         return $default(_that.id, _that.name, _that.shortcut, _that.color,
-            _that.colorText, _that.isPrivate, _that.isPinned, _that.records);
+            _that.colorText, _that.isPrivate, _that.records);
     }
   }
 
@@ -290,7 +311,6 @@ extension SongbookPatterns on Songbook {
             String? color,
             String? colorText,
             bool isPrivate,
-            @Deprecated('is handled independently on model') bool? isPinned,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> records)?
@@ -300,7 +320,7 @@ extension SongbookPatterns on Songbook {
     switch (_that) {
       case _Songbook() when $default != null:
         return $default(_that.id, _that.name, _that.shortcut, _that.color,
-            _that.colorText, _that.isPrivate, _that.isPinned, _that.records);
+            _that.colorText, _that.isPrivate, _that.records);
       case _:
         return null;
     }
@@ -318,7 +338,6 @@ class _Songbook extends Songbook {
       this.color,
       this.colorText,
       required this.isPrivate,
-      @Deprecated('is handled independently on model') this.isPinned,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       required this.records})
@@ -342,9 +361,6 @@ class _Songbook extends Songbook {
   @override
   final bool isPrivate;
   @override
-  @Deprecated('is handled independently on model')
-  final bool? isPinned;
-  @override
   @Backlink()
   @JsonKey(fromJson: _songbookRecordsFromJson)
   final ToMany<SongbookRecord> records;
@@ -358,8 +374,39 @@ class _Songbook extends Songbook {
       __$SongbookCopyWithImpl<_Songbook>(this, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Songbook &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.shortcut, shortcut) ||
+                other.shortcut == shortcut) &&
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.colorText, colorText) ||
+                other.colorText == colorText) &&
+            (identical(other.isPrivate, isPrivate) ||
+                other.isPrivate == isPrivate) &&
+            const DeepCollectionEquality().equals(other.records, records));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      id,
+      name,
+      shortcut,
+      color,
+      colorText,
+      isPrivate,
+      const DeepCollectionEquality().hash(records));
+
+  @override
   String toString() {
-    return 'Songbook(id: $id, name: $name, shortcut: $shortcut, color: $color, colorText: $colorText, isPrivate: $isPrivate, isPinned: $isPinned, records: $records)';
+    return 'Songbook(id: $id, name: $name, shortcut: $shortcut, color: $color, colorText: $colorText, isPrivate: $isPrivate, records: $records)';
   }
 }
 
@@ -377,7 +424,6 @@ abstract mixin class _$SongbookCopyWith<$Res>
       String? color,
       String? colorText,
       bool isPrivate,
-      @Deprecated('is handled independently on model') bool? isPinned,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> records});
@@ -401,7 +447,6 @@ class __$SongbookCopyWithImpl<$Res> implements _$SongbookCopyWith<$Res> {
     Object? color = freezed,
     Object? colorText = freezed,
     Object? isPrivate = null,
-    Object? isPinned = freezed,
     Object? records = null,
   }) {
     return _then(_Songbook(
@@ -429,10 +474,6 @@ class __$SongbookCopyWithImpl<$Res> implements _$SongbookCopyWith<$Res> {
           ? _self.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPinned: freezed == isPinned
-          ? _self.isPinned
-          : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
       records: null == records
           ? _self.records
           : records // ignore: cast_nullable_to_non_nullable

@@ -72,9 +72,9 @@ class SongLyricRow extends StatelessWidget {
 
                         return const SizedBox();
                       }),
-                      if (songLyric.secondaryName1?.isNotEmpty ?? false)
+                      if (songLyric.secondaryName1.isNotEmpty)
                         Container(
-                            margin: textMargin, child: Text(songLyric.secondaryName1!, style: textTheme.bodySmall)),
+                            margin: textMargin, child: Text(songLyric.secondaryName1, style: textTheme.bodySmall)),
                       // if (songLyric.secondaryName2?.isNotEmpty ?? false)
                       //   Container(margin: textMargin, child: Text(songLyric.secondaryName2!, style: textTheme.bodySmall)),
                     ],

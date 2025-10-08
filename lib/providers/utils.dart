@@ -63,7 +63,7 @@ Future<List<SongLyric>> storeSongLyrics(Store store, List<SongLyric> songLyrics)
       .map((songLyric) => SpotlightItem(
             identifier: 'song_lyric_${songLyric.id}',
             title: songLyric.name,
-            description: songLyric.lyrics?.replaceAll(_chordRE, '') ?? '',
+            description: songLyric.lyrics.replaceAll(_chordRE, ''),
           ))
       .toList());
 

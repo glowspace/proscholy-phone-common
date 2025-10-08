@@ -30,6 +30,23 @@ mixin _$Song {
       _$SongCopyWithImpl<Song>(this as Song, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Song &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other.songLyrics, songLyrics));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name,
+      const DeepCollectionEquality().hash(songLyrics));
+
+  @override
   String toString() {
     return 'Song(id: $id, name: $name, songLyrics: $songLyrics)';
   }
@@ -283,6 +300,23 @@ class _Song extends Song {
   @pragma('vm:prefer-inline')
   _$SongCopyWith<_Song> get copyWith =>
       __$SongCopyWithImpl<_Song>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Song &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other.songLyrics, songLyrics));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name,
+      const DeepCollectionEquality().hash(songLyrics));
 
   @override
   String toString() {

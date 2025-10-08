@@ -5,6 +5,7 @@ import 'package:proscholy_common/components/song_lyric/song_lyrics_section_title
 import 'package:proscholy_common/components/song_lyric/song_lyric_row.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 
 class TranslationsSheet extends StatelessWidget {
   final SongLyric songLyric;
@@ -50,10 +51,3 @@ class TranslationsSheet extends StatelessWidget {
   }
 }
 
-extension _SongLyricTypeView on SongLyricType {
-  String get title => switch(this) {
-    SongLyricType.original => 'Originál',
-    SongLyricType.translation => 'Překlad',
-    SongLyricType.authorizedTranslation => 'Autorizovaný překlad',
-  };
-}

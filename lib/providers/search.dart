@@ -2,6 +2,9 @@ import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:proscholy_common/constants.dart';
+import 'package:proscholy_common/providers/comparators/songbook.dart';
+import 'package:proscholy_common/providers/songbooks.dart';
+import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite/sqflite.dart';
@@ -99,7 +102,8 @@ class SearchedSongLyrics extends _$SearchedSongLyrics {
       }
 
       final songbookRecords = queryStore(ref, condition: SongbookRecord_.number.equals(searchText));
-      songbookRecords.sort((a, b) => a.songbook.target!.compareTo(b.songbook.target!));
+      final pinnedSongbookIds = ref.watch(pinnedSongbookIdsProvider);
+      songbookRecords.sort((a, b) => compareSongbooks(a.songbook.target!, b.songbook.target!, pinnedSongbookIds));
 
       for (final songbookRecord in songbookRecords) {
         if (matchedIds.contains(songbookRecord.songLyric.targetId)) continue;

@@ -17,5 +17,5 @@ sealed class Author with _$Author implements Model {
     required String name,
   }) = _Author;
 
-  factory Author.fromJson(Map<String, Object?> json) => _$AuthorFromJson(json);
+  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
 }

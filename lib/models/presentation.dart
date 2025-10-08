@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'generated/presentation.freezed.dart';
@@ -30,7 +32,7 @@ sealed class PresentationData with _$PresentationData {
     required PresentationSettings settings,
   }) = _PresentationData;
 
-  factory PresentationData.fromJson(Map<String, Object?> json) => _$PresentationDataFromJson(json);
+  factory PresentationData.fromJson(Map<String, dynamic> json) => _$PresentationDataFromJson(json);
 }
 
 @Freezed(toJson: true)
@@ -44,5 +46,5 @@ sealed class PresentationSettings with _$PresentationSettings {
     PresentationAlignment? alignment,
   }) = _PresentationSettings;
 
-  factory PresentationSettings.fromJson(Map<String, Object?> json) => _$PresentationSettingsFromJson(json);
+  factory PresentationSettings.fromJson(Map<String, dynamic> json) => _$PresentationSettingsFromJson(json);
 }

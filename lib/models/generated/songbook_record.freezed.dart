@@ -18,6 +18,7 @@ mixin _$SongbookRecord {
   @JsonKey(fromJson: int.parse)
   int get id;
   String get number;
+  String? get songName;
   @JsonKey(fromJson: _songLyricFromJson)
   ToOne<SongLyric> get songLyric;
   @JsonKey(fromJson: _songbookFromJson)
@@ -32,8 +33,29 @@ mixin _$SongbookRecord {
           this as SongbookRecord, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SongbookRecord &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.songName, songName) ||
+                other.songName == songName) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric) &&
+            (identical(other.songbook, songbook) ||
+                other.songbook == songbook));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, number, songName, songLyric, songbook);
+
+  @override
   String toString() {
-    return 'SongbookRecord(id: $id, number: $number, songLyric: $songLyric, songbook: $songbook)';
+    return 'SongbookRecord(id: $id, number: $number, songName: $songName, songLyric: $songLyric, songbook: $songbook)';
   }
 }
 
@@ -46,6 +68,7 @@ abstract mixin class $SongbookRecordCopyWith<$Res> {
   $Res call(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
       String number,
+      String? songName,
       @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric,
       @JsonKey(fromJson: _songbookFromJson) ToOne<Songbook> songbook});
 }
@@ -65,6 +88,7 @@ class _$SongbookRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? number = null,
+    Object? songName = freezed,
     Object? songLyric = null,
     Object? songbook = null,
   }) {
@@ -77,6 +101,10 @@ class _$SongbookRecordCopyWithImpl<$Res>
           ? _self.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      songName: freezed == songName
+          ? _self.songName
+          : songName // ignore: cast_nullable_to_non_nullable
+              as String?,
       songLyric: null == songLyric
           ? _self.songLyric
           : songLyric // ignore: cast_nullable_to_non_nullable
@@ -183,6 +211,7 @@ extension SongbookRecordPatterns on SongbookRecord {
     TResult Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
             String number,
+            String? songName,
             @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric,
             @JsonKey(fromJson: _songbookFromJson) ToOne<Songbook> songbook)?
         $default, {
@@ -191,8 +220,8 @@ extension SongbookRecordPatterns on SongbookRecord {
     final _that = this;
     switch (_that) {
       case _SongbookRecord() when $default != null:
-        return $default(
-            _that.id, _that.number, _that.songLyric, _that.songbook);
+        return $default(_that.id, _that.number, _that.songName, _that.songLyric,
+            _that.songbook);
       case _:
         return orElse();
     }
@@ -216,6 +245,7 @@ extension SongbookRecordPatterns on SongbookRecord {
     TResult Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
             String number,
+            String? songName,
             @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric,
             @JsonKey(fromJson: _songbookFromJson) ToOne<Songbook> songbook)
         $default,
@@ -223,8 +253,8 @@ extension SongbookRecordPatterns on SongbookRecord {
     final _that = this;
     switch (_that) {
       case _SongbookRecord():
-        return $default(
-            _that.id, _that.number, _that.songLyric, _that.songbook);
+        return $default(_that.id, _that.number, _that.songName, _that.songLyric,
+            _that.songbook);
     }
   }
 
@@ -245,6 +275,7 @@ extension SongbookRecordPatterns on SongbookRecord {
     TResult? Function(
             @Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
             String number,
+            String? songName,
             @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric,
             @JsonKey(fromJson: _songbookFromJson) ToOne<Songbook> songbook)?
         $default,
@@ -252,8 +283,8 @@ extension SongbookRecordPatterns on SongbookRecord {
     final _that = this;
     switch (_that) {
       case _SongbookRecord() when $default != null:
-        return $default(
-            _that.id, _that.number, _that.songLyric, _that.songbook);
+        return $default(_that.id, _that.number, _that.songName, _that.songLyric,
+            _that.songbook);
       case _:
         return null;
     }
@@ -267,6 +298,7 @@ class _SongbookRecord extends SongbookRecord {
   const _SongbookRecord(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) required this.id,
       required this.number,
+      this.songName,
       @JsonKey(fromJson: _songLyricFromJson) required this.songLyric,
       @JsonKey(fromJson: _songbookFromJson) required this.songbook})
       : super._();
@@ -279,6 +311,8 @@ class _SongbookRecord extends SongbookRecord {
   final int id;
   @override
   final String number;
+  @override
+  final String? songName;
   @override
   @JsonKey(fromJson: _songLyricFromJson)
   final ToOne<SongLyric> songLyric;
@@ -295,8 +329,29 @@ class _SongbookRecord extends SongbookRecord {
       __$SongbookRecordCopyWithImpl<_SongbookRecord>(this, _$identity);
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SongbookRecord &&
+            super == other &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.songName, songName) ||
+                other.songName == songName) &&
+            (identical(other.songLyric, songLyric) ||
+                other.songLyric == songLyric) &&
+            (identical(other.songbook, songbook) ||
+                other.songbook == songbook));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, id, number, songName, songLyric, songbook);
+
+  @override
   String toString() {
-    return 'SongbookRecord(id: $id, number: $number, songLyric: $songLyric, songbook: $songbook)';
+    return 'SongbookRecord(id: $id, number: $number, songName: $songName, songLyric: $songLyric, songbook: $songbook)';
   }
 }
 
@@ -311,6 +366,7 @@ abstract mixin class _$SongbookRecordCopyWith<$Res>
   $Res call(
       {@Id(assignable: true) @JsonKey(fromJson: int.parse) int id,
       String number,
+      String? songName,
       @JsonKey(fromJson: _songLyricFromJson) ToOne<SongLyric> songLyric,
       @JsonKey(fromJson: _songbookFromJson) ToOne<Songbook> songbook});
 }
@@ -330,6 +386,7 @@ class __$SongbookRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? number = null,
+    Object? songName = freezed,
     Object? songLyric = null,
     Object? songbook = null,
   }) {
@@ -342,6 +399,10 @@ class __$SongbookRecordCopyWithImpl<$Res>
           ? _self.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      songName: freezed == songName
+          ? _self.songName
+          : songName // ignore: cast_nullable_to_non_nullable
+              as String?,
       songLyric: null == songLyric
           ? _self.songLyric
           : songLyric // ignore: cast_nullable_to_non_nullable

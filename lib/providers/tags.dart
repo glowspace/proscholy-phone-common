@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
+import 'package:proscholy_common/views/tag.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/tag.dart';
@@ -34,11 +35,11 @@ List<Tag> tags(Ref ref, TagType tagType) {
     case TagType.songbook:
       final songbooks = ref.watch(songbooksProvider);
 
-      return songbooks.map((songbook) => songbook.tag).toList();
+      return songbooks.map((songbook) => Tag.fromSongbook(songbook)).toList();
     case TagType.playlist:
       final playlists = [ref.read(favoritePlaylistProvider)] + ref.watch(playlistsProvider);
 
-      return playlists.map((playlist) => playlist.tag).toList();
+      return playlists.map((playlist) => Tag.fromPlaylist(playlist)).toList();
     case TagType.language:
       final languageCounts = <String, int>{};
 

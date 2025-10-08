@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/selector_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
-import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/components/filters/filters_section.dart';
 import 'package:proscholy_common/providers/sort.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/views/tag.dart';
 
 class FiltersWidget extends ConsumerWidget {
   const FiltersWidget({super.key});
@@ -51,7 +51,7 @@ class FiltersWidget extends ConsumerWidget {
           index--;
 
           return FiltersSection(
-            title: supportedTagTypes[index].description,
+            title: supportedTagTypes[index].title,
             tags: ref.watch(tagsProvider(supportedTagTypes[index])),
           );
         },
@@ -59,3 +59,4 @@ class FiltersWidget extends ConsumerWidget {
     );
   }
 }
+

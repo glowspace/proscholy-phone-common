@@ -17,10 +17,11 @@ mixin _$PlaylistRecord {
   @Id(assignable: true)
   int get id;
   int get rank;
+  ToOne<Playlist> get playlist; // only one relation will be valid at a time
+// would make more sense to have some kind of union, but does not make sense now trying to migrate all old data...
   ToOne<BiblePassage> get biblePassage;
   ToOne<UserText> get userText;
   ToOne<SongLyric> get songLyric;
-  ToOne<Playlist> get playlist;
 
   /// Create a copy of PlaylistRecord
   /// with the given fields replaced by the non-null parameter values.
@@ -38,23 +39,23 @@ mixin _$PlaylistRecord {
             super == other &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.playlist, playlist) ||
+                other.playlist == playlist) &&
             (identical(other.biblePassage, biblePassage) ||
                 other.biblePassage == biblePassage) &&
             (identical(other.userText, userText) ||
                 other.userText == userText) &&
             (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric) &&
-            (identical(other.playlist, playlist) ||
-                other.playlist == playlist));
+                other.songLyric == songLyric));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
-      biblePassage, userText, songLyric, playlist);
+      playlist, biblePassage, userText, songLyric);
 
   @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric)';
   }
 }
 
@@ -67,10 +68,10 @@ abstract mixin class $PlaylistRecordCopyWith<$Res> {
   $Res call(
       {@Id(assignable: true) int id,
       int rank,
+      ToOne<Playlist> playlist,
       ToOne<BiblePassage> biblePassage,
       ToOne<UserText> userText,
-      ToOne<SongLyric> songLyric,
-      ToOne<Playlist> playlist});
+      ToOne<SongLyric> songLyric});
 }
 
 /// @nodoc
@@ -88,10 +89,10 @@ class _$PlaylistRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rank = null,
+    Object? playlist = null,
     Object? biblePassage = null,
     Object? userText = null,
     Object? songLyric = null,
-    Object? playlist = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -102,6 +103,10 @@ class _$PlaylistRecordCopyWithImpl<$Res>
           ? _self.rank
           : rank // ignore: cast_nullable_to_non_nullable
               as int,
+      playlist: null == playlist
+          ? _self.playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as ToOne<Playlist>,
       biblePassage: null == biblePassage
           ? _self.biblePassage
           : biblePassage // ignore: cast_nullable_to_non_nullable
@@ -114,10 +119,6 @@ class _$PlaylistRecordCopyWithImpl<$Res>
           ? _self.songLyric
           : songLyric // ignore: cast_nullable_to_non_nullable
               as ToOne<SongLyric>,
-      playlist: null == playlist
-          ? _self.playlist
-          : playlist // ignore: cast_nullable_to_non_nullable
-              as ToOne<Playlist>,
     ));
   }
 }
@@ -216,18 +217,18 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult Function(
             @Id(assignable: true) int id,
             int rank,
+            ToOne<Playlist> playlist,
             ToOne<BiblePassage> biblePassage,
             ToOne<UserText> userText,
-            ToOne<SongLyric> songLyric,
-            ToOne<Playlist> playlist)?
+            ToOne<SongLyric> songLyric)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord() when $default != null:
-        return $default(_that.id, _that.rank, _that.biblePassage,
-            _that.userText, _that.songLyric, _that.playlist);
+        return $default(_that.id, _that.rank, _that.playlist,
+            _that.biblePassage, _that.userText, _that.songLyric);
       case _:
         return orElse();
     }
@@ -251,17 +252,17 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult Function(
             @Id(assignable: true) int id,
             int rank,
+            ToOne<Playlist> playlist,
             ToOne<BiblePassage> biblePassage,
             ToOne<UserText> userText,
-            ToOne<SongLyric> songLyric,
-            ToOne<Playlist> playlist)
+            ToOne<SongLyric> songLyric)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord():
-        return $default(_that.id, _that.rank, _that.biblePassage,
-            _that.userText, _that.songLyric, _that.playlist);
+        return $default(_that.id, _that.rank, _that.playlist,
+            _that.biblePassage, _that.userText, _that.songLyric);
     }
   }
 
@@ -282,17 +283,17 @@ extension PlaylistRecordPatterns on PlaylistRecord {
     TResult? Function(
             @Id(assignable: true) int id,
             int rank,
+            ToOne<Playlist> playlist,
             ToOne<BiblePassage> biblePassage,
             ToOne<UserText> userText,
-            ToOne<SongLyric> songLyric,
-            ToOne<Playlist> playlist)?
+            ToOne<SongLyric> songLyric)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _PlaylistRecord() when $default != null:
-        return $default(_that.id, _that.rank, _that.biblePassage,
-            _that.userText, _that.songLyric, _that.playlist);
+        return $default(_that.id, _that.rank, _that.playlist,
+            _that.biblePassage, _that.userText, _that.songLyric);
       case _:
         return null;
     }
@@ -306,10 +307,10 @@ class _PlaylistRecord extends PlaylistRecord {
   const _PlaylistRecord(
       {@Id(assignable: true) required this.id,
       required this.rank,
+      required this.playlist,
       required this.biblePassage,
       required this.userText,
-      required this.songLyric,
-      required this.playlist})
+      required this.songLyric})
       : super._();
 
   @override
@@ -318,13 +319,15 @@ class _PlaylistRecord extends PlaylistRecord {
   @override
   final int rank;
   @override
+  final ToOne<Playlist> playlist;
+// only one relation will be valid at a time
+// would make more sense to have some kind of union, but does not make sense now trying to migrate all old data...
+  @override
   final ToOne<BiblePassage> biblePassage;
   @override
   final ToOne<UserText> userText;
   @override
   final ToOne<SongLyric> songLyric;
-  @override
-  final ToOne<Playlist> playlist;
 
   /// Create a copy of PlaylistRecord
   /// with the given fields replaced by the non-null parameter values.
@@ -342,23 +345,23 @@ class _PlaylistRecord extends PlaylistRecord {
             super == other &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.playlist, playlist) ||
+                other.playlist == playlist) &&
             (identical(other.biblePassage, biblePassage) ||
                 other.biblePassage == biblePassage) &&
             (identical(other.userText, userText) ||
                 other.userText == userText) &&
             (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric) &&
-            (identical(other.playlist, playlist) ||
-                other.playlist == playlist));
+                other.songLyric == songLyric));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
-      biblePassage, userText, songLyric, playlist);
+      playlist, biblePassage, userText, songLyric);
 
   @override
   String toString() {
-    return 'PlaylistRecord(id: $id, rank: $rank, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric, playlist: $playlist)';
+    return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric)';
   }
 }
 
@@ -373,10 +376,10 @@ abstract mixin class _$PlaylistRecordCopyWith<$Res>
   $Res call(
       {@Id(assignable: true) int id,
       int rank,
+      ToOne<Playlist> playlist,
       ToOne<BiblePassage> biblePassage,
       ToOne<UserText> userText,
-      ToOne<SongLyric> songLyric,
-      ToOne<Playlist> playlist});
+      ToOne<SongLyric> songLyric});
 }
 
 /// @nodoc
@@ -394,10 +397,10 @@ class __$PlaylistRecordCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rank = null,
+    Object? playlist = null,
     Object? biblePassage = null,
     Object? userText = null,
     Object? songLyric = null,
-    Object? playlist = null,
   }) {
     return _then(_PlaylistRecord(
       id: null == id
@@ -408,6 +411,10 @@ class __$PlaylistRecordCopyWithImpl<$Res>
           ? _self.rank
           : rank // ignore: cast_nullable_to_non_nullable
               as int,
+      playlist: null == playlist
+          ? _self.playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as ToOne<Playlist>,
       biblePassage: null == biblePassage
           ? _self.biblePassage
           : biblePassage // ignore: cast_nullable_to_non_nullable
@@ -420,10 +427,6 @@ class __$PlaylistRecordCopyWithImpl<$Res>
           ? _self.songLyric
           : songLyric // ignore: cast_nullable_to_non_nullable
               as ToOne<SongLyric>,
-      playlist: null == playlist
-          ? _self.playlist
-          : playlist // ignore: cast_nullable_to_non_nullable
-              as ToOne<Playlist>,
     ));
   }
 }

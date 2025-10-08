@@ -338,7 +338,7 @@ class SongLyricsParser {
   }
 
   List<Token> _parseTokens() {
-    final lyrics = songLyric.lyrics ?? '';
+    final lyrics = songLyric.lyrics;
     final List<Token> tokens = [];
 
     _ParserState state = _ParserState.lineStart;
