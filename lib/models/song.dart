@@ -22,4 +22,4 @@ sealed class Song extends Model with _$Song {
   factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
 }
 
-ToMany<SongLyric> _songLyricsFromJson(List<dynamic> jsonList) => ToMany();
+ToMany<SongLyric> _songLyricsFromJson(List<dynamic>? jsonList) => ToMany();

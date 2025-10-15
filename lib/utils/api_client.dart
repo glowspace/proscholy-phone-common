@@ -19,8 +19,47 @@ query {
   }
 }''';
 
+const _songLyricFields = '''
+id
+name
+secondary_name_1
+secondary_name_2
+lyrics
+${isEZ || isEK ? 'hymnology' : ''}
+lang
+lang_string
+type_enum
+is_arrangement
+song {
+  id
+}
+songbook_records {
+  pivot {
+    id
+    number
+    ${isEZ || isEK ? 'song_name' : ''}
+    song_lyric {
+      id
+    }
+    songbook {
+      id
+    }
+  }
+}
+authors_pivot {
+  pivot {
+    author {
+      id
+    }
+  }
+}
+tags {
+  id
+}
+''';
+
 const _updateQuery = '''
-query {
+query(\$updated_after: DateTime!) {
   authors {
     id
     name
@@ -47,8 +86,8 @@ query {
       id
       name
   }
-  song_lyrics {
-    id
+  song_lyrics(updated_after: \$updated_after) {
+    $_songLyricFields
   }
   tags_enum {
     id
@@ -58,87 +97,18 @@ query {
   }
 }''';
 
-const _songLyricsQuery = '''
+const _songLyricIdsQuery = '''
 query {
-  song_lyrics(updated_after: \$updated_after) {
+  song_lyrics {
     id
-    name
-    secondary_name_1
-    secondary_name_2
-    lyrics
-    ${isEZ || isEK ? 'hymnology' : ''}
-    lang
-    lang_string
-    type_enum
-    is_arrangement
-    song {
-      id
-    }
-    songbook_records {
-      pivot {
-        id
-        number
-        ${isEZ || isEK ? 'song_name' : ''}
-        song_lyric {
-          id
-        }
-        songbook {
-          id
-        }
-      }
-    }
-    authors_pivot {
-      pivot {
-        author {
-          id
-        }
-      }
-    }
-    tags {
-      id
-    }
   }
-}''';
+}
+''';
 
 const _songLyricQuery = '''
-query {
+query(\$id: ID!) {
   song_lyric(id: \$id) {
-    id
-    name
-    secondary_name_1
-    secondary_name_2
-    lyrics
-    ${isEZ || isEK ? 'hymnology' : ''}
-    lang
-    lang_string
-    type_enum
-    is_arrangement
-    song {
-      id
-    }
-    songbook_records {
-      pivot {
-        id
-        number
-        ${isEZ || isEK ? 'song_name' : ''}
-        song_lyric {
-          id
-        }
-        songbook {
-          id
-        }
-      }
-    }
-    authors_pivot {
-      pivot {
-        author {
-          id
-        }
-      }
-    }
-    tags {
-      id
-    }
+    $_songLyricFields
   }
 }''';
 
@@ -154,12 +124,12 @@ class ApiClient {
     return _query(QueryOptions(document: gql(_newsQuery)));
   }
 
-  Future<Map<String, dynamic>> getData() async {
-    return _query(QueryOptions(document: gql(_updateQuery)));
+  Future<Map<String, dynamic>> getData(DateTime updatedAfter) async {
+    return _query(QueryOptions(document: gql(_updateQuery), variables: {'updated_after': _dateFormat.format(updatedAfter)}));
   }
 
-  Future<Map<String, dynamic>> getSongLyrics(DateTime updatedAfter) async {
-    return _query(QueryOptions(document: gql(_songLyricsQuery), variables: {'updated_after': _dateFormat.format(updatedAfter)}));
+  Future<Map<String, dynamic>> getSongLyricIds() async {
+    return _query(QueryOptions(document: gql(_songLyricIdsQuery)));
   }
 
   Future<Map<String, dynamic>> getSongLyric(int id) async {

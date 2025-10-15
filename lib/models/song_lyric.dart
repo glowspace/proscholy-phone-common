@@ -64,7 +64,7 @@ sealed class SongLyric extends Model with _$SongLyric, ContentItem, RecentItem {
   SongLyricType get type => SongLyricType.fromRawValue(dbType);
 }
 
-ToOne<Song> _songFromJson(Map<String, dynamic> json) => ToOne(targetId: int.parse(json['id']));
+ToOne<Song> _songFromJson(Map<String, dynamic>? json) => json == null ? ToOne() : ToOne(targetId: int.parse(json['id']));
 
 ToMany<Author> _authorsFromJson(List<dynamic> jsonList) {
   final authors = [for (final json in jsonList) Author(id: int.parse(json['pivot']['author']['id']), name: '')];
@@ -72,7 +72,7 @@ ToMany<Author> _authorsFromJson(List<dynamic> jsonList) {
   return ToMany(items: authors);
 }
 
-ToMany<External> _externalsFromJson(List<dynamic> jsonList) => ToMany();
+ToMany<External> _externalsFromJson(List<dynamic>? jsonList) => ToMany();
 
 ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic> jsonList) {
   final songbookRecords = [for (final json in jsonList) SongbookRecord.fromJson(json['pivot'])];

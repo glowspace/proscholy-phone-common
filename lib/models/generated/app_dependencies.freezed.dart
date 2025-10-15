@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AppDependencies {
-// reference to simple key-value storage
+// FTS4 database that is used during song lyrics search
+  FTSSearch
+      get ftsSearch; // info about application (used for version and build number)
+  PackageInfo get packageInfo; // reference to simple key-value storage
   SharedPreferences
       get sharedPreferences; // objectbox store used as NoSQL database
-  Store get store; // FTS4 database that is used during song lyrics search
-  Database
-      get ftsDatabase; // info about application (used for version and build number)
-  PackageInfo get packageInfo;
+  Store get store;
 
   /// Create a copy of AppDependencies
   /// with the given fields replaced by the non-null parameter values.
@@ -35,22 +35,22 @@ mixin _$AppDependencies {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AppDependencies &&
+            (identical(other.ftsSearch, ftsSearch) ||
+                other.ftsSearch == ftsSearch) &&
+            (identical(other.packageInfo, packageInfo) ||
+                other.packageInfo == packageInfo) &&
             (identical(other.sharedPreferences, sharedPreferences) ||
                 other.sharedPreferences == sharedPreferences) &&
-            (identical(other.store, store) || other.store == store) &&
-            (identical(other.ftsDatabase, ftsDatabase) ||
-                other.ftsDatabase == ftsDatabase) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo));
+            (identical(other.store, store) || other.store == store));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, sharedPreferences, store, ftsDatabase, packageInfo);
+      runtimeType, ftsSearch, packageInfo, sharedPreferences, store);
 
   @override
   String toString() {
-    return 'AppDependencies(sharedPreferences: $sharedPreferences, store: $store, ftsDatabase: $ftsDatabase, packageInfo: $packageInfo)';
+    return 'AppDependencies(ftsSearch: $ftsSearch, packageInfo: $packageInfo, sharedPreferences: $sharedPreferences, store: $store)';
   }
 }
 
@@ -61,10 +61,10 @@ abstract mixin class $AppDependenciesCopyWith<$Res> {
       _$AppDependenciesCopyWithImpl;
   @useResult
   $Res call(
-      {SharedPreferences sharedPreferences,
-      Store store,
-      Database ftsDatabase,
-      PackageInfo packageInfo});
+      {FTSSearch ftsSearch,
+      PackageInfo packageInfo,
+      SharedPreferences sharedPreferences,
+      Store store});
 }
 
 /// @nodoc
@@ -80,12 +80,20 @@ class _$AppDependenciesCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? ftsSearch = null,
+    Object? packageInfo = null,
     Object? sharedPreferences = null,
     Object? store = null,
-    Object? ftsDatabase = null,
-    Object? packageInfo = null,
   }) {
     return _then(_self.copyWith(
+      ftsSearch: null == ftsSearch
+          ? _self.ftsSearch
+          : ftsSearch // ignore: cast_nullable_to_non_nullable
+              as FTSSearch,
+      packageInfo: null == packageInfo
+          ? _self.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageInfo,
       sharedPreferences: null == sharedPreferences
           ? _self.sharedPreferences
           : sharedPreferences // ignore: cast_nullable_to_non_nullable
@@ -94,14 +102,6 @@ class _$AppDependenciesCopyWithImpl<$Res>
           ? _self.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store,
-      ftsDatabase: null == ftsDatabase
-          ? _self.ftsDatabase
-          : ftsDatabase // ignore: cast_nullable_to_non_nullable
-              as Database,
-      packageInfo: null == packageInfo
-          ? _self.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo,
     ));
   }
 }
@@ -197,16 +197,16 @@ extension AppDependenciesPatterns on AppDependencies {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(SharedPreferences sharedPreferences, Store store,
-            Database ftsDatabase, PackageInfo packageInfo)?
+    TResult Function(FTSSearch ftsSearch, PackageInfo packageInfo,
+            SharedPreferences sharedPreferences, Store store)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _AppDependencies() when $default != null:
-        return $default(_that.sharedPreferences, _that.store, _that.ftsDatabase,
-            _that.packageInfo);
+        return $default(_that.ftsSearch, _that.packageInfo,
+            _that.sharedPreferences, _that.store);
       case _:
         return orElse();
     }
@@ -227,15 +227,15 @@ extension AppDependenciesPatterns on AppDependencies {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(SharedPreferences sharedPreferences, Store store,
-            Database ftsDatabase, PackageInfo packageInfo)
+    TResult Function(FTSSearch ftsSearch, PackageInfo packageInfo,
+            SharedPreferences sharedPreferences, Store store)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _AppDependencies():
-        return $default(_that.sharedPreferences, _that.store, _that.ftsDatabase,
-            _that.packageInfo);
+        return $default(_that.ftsSearch, _that.packageInfo,
+            _that.sharedPreferences, _that.store);
     }
   }
 
@@ -253,15 +253,15 @@ extension AppDependenciesPatterns on AppDependencies {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(SharedPreferences sharedPreferences, Store store,
-            Database ftsDatabase, PackageInfo packageInfo)?
+    TResult? Function(FTSSearch ftsSearch, PackageInfo packageInfo,
+            SharedPreferences sharedPreferences, Store store)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _AppDependencies() when $default != null:
-        return $default(_that.sharedPreferences, _that.store, _that.ftsDatabase,
-            _that.packageInfo);
+        return $default(_that.ftsSearch, _that.packageInfo,
+            _that.sharedPreferences, _that.store);
       case _:
         return null;
     }
@@ -272,23 +272,23 @@ extension AppDependenciesPatterns on AppDependencies {
 
 class _AppDependencies implements AppDependencies {
   const _AppDependencies(
-      {required this.sharedPreferences,
-      required this.store,
-      required this.ftsDatabase,
-      required this.packageInfo});
+      {required this.ftsSearch,
+      required this.packageInfo,
+      required this.sharedPreferences,
+      required this.store});
 
+// FTS4 database that is used during song lyrics search
+  @override
+  final FTSSearch ftsSearch;
+// info about application (used for version and build number)
+  @override
+  final PackageInfo packageInfo;
 // reference to simple key-value storage
   @override
   final SharedPreferences sharedPreferences;
 // objectbox store used as NoSQL database
   @override
   final Store store;
-// FTS4 database that is used during song lyrics search
-  @override
-  final Database ftsDatabase;
-// info about application (used for version and build number)
-  @override
-  final PackageInfo packageInfo;
 
   /// Create a copy of AppDependencies
   /// with the given fields replaced by the non-null parameter values.
@@ -303,22 +303,22 @@ class _AppDependencies implements AppDependencies {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _AppDependencies &&
+            (identical(other.ftsSearch, ftsSearch) ||
+                other.ftsSearch == ftsSearch) &&
+            (identical(other.packageInfo, packageInfo) ||
+                other.packageInfo == packageInfo) &&
             (identical(other.sharedPreferences, sharedPreferences) ||
                 other.sharedPreferences == sharedPreferences) &&
-            (identical(other.store, store) || other.store == store) &&
-            (identical(other.ftsDatabase, ftsDatabase) ||
-                other.ftsDatabase == ftsDatabase) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo));
+            (identical(other.store, store) || other.store == store));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, sharedPreferences, store, ftsDatabase, packageInfo);
+      runtimeType, ftsSearch, packageInfo, sharedPreferences, store);
 
   @override
   String toString() {
-    return 'AppDependencies(sharedPreferences: $sharedPreferences, store: $store, ftsDatabase: $ftsDatabase, packageInfo: $packageInfo)';
+    return 'AppDependencies(ftsSearch: $ftsSearch, packageInfo: $packageInfo, sharedPreferences: $sharedPreferences, store: $store)';
   }
 }
 
@@ -331,10 +331,10 @@ abstract mixin class _$AppDependenciesCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {SharedPreferences sharedPreferences,
-      Store store,
-      Database ftsDatabase,
-      PackageInfo packageInfo});
+      {FTSSearch ftsSearch,
+      PackageInfo packageInfo,
+      SharedPreferences sharedPreferences,
+      Store store});
 }
 
 /// @nodoc
@@ -350,12 +350,20 @@ class __$AppDependenciesCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? ftsSearch = null,
+    Object? packageInfo = null,
     Object? sharedPreferences = null,
     Object? store = null,
-    Object? ftsDatabase = null,
-    Object? packageInfo = null,
   }) {
     return _then(_AppDependencies(
+      ftsSearch: null == ftsSearch
+          ? _self.ftsSearch
+          : ftsSearch // ignore: cast_nullable_to_non_nullable
+              as FTSSearch,
+      packageInfo: null == packageInfo
+          ? _self.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageInfo,
       sharedPreferences: null == sharedPreferences
           ? _self.sharedPreferences
           : sharedPreferences // ignore: cast_nullable_to_non_nullable
@@ -364,14 +372,6 @@ class __$AppDependenciesCopyWithImpl<$Res>
           ? _self.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store,
-      ftsDatabase: null == ftsDatabase
-          ? _self.ftsDatabase
-          : ftsDatabase // ignore: cast_nullable_to_non_nullable
-              as Database,
-      packageInfo: null == packageInfo
-          ? _self.packageInfo
-          : packageInfo // ignore: cast_nullable_to_non_nullable
-              as PackageInfo,
     ));
   }
 }

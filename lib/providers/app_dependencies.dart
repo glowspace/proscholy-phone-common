@@ -1,27 +1,29 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:objectbox/objectbox.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:path/path.dart';
+import 'package:proscholy_common/models/app_dependencies.dart';
+import 'package:proscholy_common/models/generated/objectbox.g.dart';
+import 'package:proscholy_common/models/song_lyric.dart';
+import 'package:proscholy_common/utils/fts_search.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
-part 'generated/app_dependencies.freezed.dart';
-part 'generated/app_dependencies.g.dart';
+const String _ftsDatabaseName = 'zpevnik.db';
 
-// Value will be overriden in `main.dart` with real.
-@Riverpod(keepAlive: true)
-AppDependencies appDependencies(Ref ref) => throw UnimplementedError();
+// will be overriden in `main.dart` with real value using `overrideAppDependenciesProvider` function
+final appDependenciesProvider = Provider<AppDependencies>((_) => throw UnimplementedError());
 
-@freezed
-sealed class AppDependencies with _$AppDependencies {
-  const factory AppDependencies({
-    // reference to simple key-value storage
-    required SharedPreferences sharedPreferences,
-    // objectbox store used as NoSQL database
-    required Store store,
-    // FTS4 database that is used during song lyrics search
-    required Database ftsDatabase,
-    // info about application (used for version and build number)
-    required PackageInfo packageInfo,
-  }) = _AppDependencies;
+Future<Override> overrideAppDependenciesProvider() async {
+  final store = await openStore();
+  final database = await openDatabase(join(await getDatabasesPath(), _ftsDatabaseName));
+
+  final appDependencies = AppDependencies(
+    ftsSearch: FTSSearch(database: database, songLyricsBox: store.box<SongLyric>()),
+    packageInfo: await PackageInfo.fromPlatform(),
+    sharedPreferences: await SharedPreferences.getInstance(),
+    store: store,
+  );
+
+  return appDependenciesProvider.overrideWithValue(appDependencies);
 }

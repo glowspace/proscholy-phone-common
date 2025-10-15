@@ -130,7 +130,7 @@ class SearchedSongLyrics extends _$SearchedSongLyrics {
     final ranks = <int, double>{};
     final searchResults = <int>[];
 
-    for (final value in await ref.read(appDependenciesProvider).ftsDatabase.rawQuery(_selectQuery, [searchText])) {
+    for (final value in await ref.read(appDependenciesProvider).ftsSearch.database.rawQuery(_selectQuery, [searchText])) {
       final songLyricId = value['rowid'] as int;
 
       if (!matchedIds.contains(songLyricId)) {

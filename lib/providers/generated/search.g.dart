@@ -88,7 +88,7 @@ final class SearchedSongLyricsProvider
 }
 
 String _$searchedSongLyricsHash() =>
-    r'9e8ba50e1ca9c5933dcfb97bc895c6d9606bf7de';
+    r'c98de3fc52842ba08b150350693f14c4aeb9c8f4';
 
 abstract class _$SearchedSongLyrics
     extends $Notifier<SearchedSongLyricsResult> {

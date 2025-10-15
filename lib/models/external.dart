@@ -3,6 +3,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/model.dart';
+import 'package:proscholy_common/models/song_lyric.dart';
 
 part 'generated/external.freezed.dart';
 part 'generated/external.g.dart';
@@ -48,9 +49,12 @@ sealed class External extends Model with _$External {
     String? mediaId,
     String? url,
     @JsonKey(name: 'media_type', fromJson: MediaType.rawValueFromString) required int dbMediaType,
+    @JsonKey(fromJson: _songLyricFromJson) required ToOne<SongLyric> songLyric,
   }) = _External;
 
   factory External.fromJson(Map<String, dynamic> json) => _$ExternalFromJson(json);
 
   MediaType get mediaType => MediaType.fromRawValue(dbMediaType);
 }
+
+ToOne<SongLyric> _songLyricFromJson(Map<String, dynamic>? json) => json == null ? ToOne() : ToOne(targetId: int.parse(json['id']));

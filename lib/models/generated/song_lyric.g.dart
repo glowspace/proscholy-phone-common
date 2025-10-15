@@ -16,9 +16,9 @@ _SongLyric _$SongLyricFromJson(Map<String, dynamic> json) => _SongLyric(
       lang: json['lang'] as String,
       dbType: SongLyricType.rawValueFromString(json['type_enum'] as String?),
       isArrangement: json['is_arrangement'] as bool,
-      song: _songFromJson(json['song'] as Map<String, dynamic>),
+      song: _songFromJson(json['song'] as Map<String, dynamic>?),
       authors: _authorsFromJson(json['authors_pivot'] as List),
-      externals: _externalsFromJson(json['externals'] as List),
+      externals: _externalsFromJson(json['externals'] as List?),
       songbookRecords:
           _songbookRecordsFromJson(json['songbook_records'] as List),
       tags: _tagsFromJson(json['tags'] as List),

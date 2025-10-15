@@ -355,7 +355,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(13, 34413049226011067),
     name: 'External',
-    lastPropertyId: const obx_int.IdUid(7, 4552902403603048801),
+    lastPropertyId: const obx_int.IdUid(8, 4154007729954783016),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -387,6 +387,14 @@ final _entities = <obx_int.ModelEntity>[
         name: 'url',
         type: 9,
         flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 4154007729954783016),
+        name: 'songLyricId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(26, 2286261215004034703),
+        relationTarget: 'SongLyric',
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -644,7 +652,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
     lastEntityId: const obx_int.IdUid(22, 3313311911381561450),
-    lastIndexId: const obx_int.IdUid(25, 6759144687015843733),
+    lastIndexId: const obx_int.IdUid(26, 2286261215004034703),
     lastRelationId: const obx_int.IdUid(9, 6609909260274628973),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [
@@ -1312,7 +1320,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     ),
     External: obx_int.EntityDefinition<External>(
       model: _entities[7],
-      toOneRelations: (External object) => [],
+      toOneRelations: (External object) => [object.songLyric],
       toManyRelations: (External object) => {},
       getId: (External object) => object.id,
       setId: (External object, int id) {
@@ -1334,12 +1342,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final urlOffset = object.url == null
             ? null
             : fbb.writeString(object.url!);
-        fbb.startTable(8);
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, publicNameOffset);
         fbb.addOffset(2, mediaIdOffset);
         fbb.addInt64(3, object.dbMediaType);
         fbb.addOffset(5, urlOffset);
+        fbb.addInt64(7, object.songLyric.targetId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1367,14 +1376,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
           10,
           0,
         );
+        final songLyricParam = obx.ToOne<SongLyric>(
+          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0),
+        );
         final object = External(
           id: idParam,
           publicName: publicNameParam,
           mediaId: mediaIdParam,
           url: urlParam,
           dbMediaType: dbMediaTypeParam,
+          songLyric: songLyricParam,
         );
-
+        object.songLyric.attach(store);
         return object;
       },
     ),
@@ -1970,6 +1983,11 @@ class External_ {
   /// See [External.url].
   static final url = obx.QueryStringProperty<External>(
     _entities[7].properties[4],
+  );
+
+  /// See [External.songLyric].
+  static final songLyric = obx.QueryRelationToOne<External, SongLyric>(
+    _entities[7].properties[5],
   );
 }
 
