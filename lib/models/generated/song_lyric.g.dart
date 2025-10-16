@@ -20,7 +20,7 @@ _SongLyric _$SongLyricFromJson(Map<String, dynamic> json) => _SongLyric(
       authors: _authorsFromJson(json['authors_pivot'] as List),
       externals: _externalsFromJson(json['externals'] as List?),
       songbookRecords:
-          _songbookRecordsFromJson(json['songbook_records'] as List),
+          _songbookRecordsFromJson(json['songbook_records'] as List?),
       tags: _tagsFromJson(json['tags'] as List),
       settings: _settingsFromJson(json['settings'] as Map<String, dynamic>?),
       playlistRecords:

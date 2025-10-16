@@ -33,6 +33,7 @@ mixin _$SongLyric {
   ToOne<Song> get song;
   @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
   ToMany<Author> get authors;
+  @Backlink()
   @JsonKey(fromJson: _externalsFromJson)
   ToMany<External> get externals;
   @Backlink()
@@ -132,7 +133,9 @@ abstract mixin class $SongLyricCopyWith<$Res> {
       @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       ToMany<Author> authors,
-      @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
+      @Backlink()
+      @JsonKey(fromJson: _externalsFromJson)
+      ToMany<External> externals,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> songbookRecords,
@@ -348,7 +351,9 @@ extension SongLyricPatterns on SongLyric {
             @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
-            @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
+            @Backlink()
+            @JsonKey(fromJson: _externalsFromJson)
+            ToMany<External> externals,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -416,7 +421,9 @@ extension SongLyricPatterns on SongLyric {
             @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
-            @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
+            @Backlink()
+            @JsonKey(fromJson: _externalsFromJson)
+            ToMany<External> externals,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -480,7 +487,9 @@ extension SongLyricPatterns on SongLyric {
             @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
             @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
             ToMany<Author> authors,
-            @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
+            @Backlink()
+            @JsonKey(fromJson: _externalsFromJson)
+            ToMany<External> externals,
             @Backlink()
             @JsonKey(fromJson: _songbookRecordsFromJson)
             ToMany<SongbookRecord> songbookRecords,
@@ -536,7 +545,9 @@ class _SongLyric extends SongLyric {
       @JsonKey(fromJson: _songFromJson) required this.song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       required this.authors,
-      @JsonKey(fromJson: _externalsFromJson) required this.externals,
+      @Backlink()
+      @JsonKey(fromJson: _externalsFromJson)
+      required this.externals,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       required this.songbookRecords,
@@ -581,6 +592,7 @@ class _SongLyric extends SongLyric {
   @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
   final ToMany<Author> authors;
   @override
+  @Backlink()
   @JsonKey(fromJson: _externalsFromJson)
   final ToMany<External> externals;
   @override
@@ -688,7 +700,9 @@ abstract mixin class _$SongLyricCopyWith<$Res>
       @JsonKey(fromJson: _songFromJson) ToOne<Song> song,
       @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)
       ToMany<Author> authors,
-      @JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,
+      @Backlink()
+      @JsonKey(fromJson: _externalsFromJson)
+      ToMany<External> externals,
       @Backlink()
       @JsonKey(fromJson: _songbookRecordsFromJson)
       ToMany<SongbookRecord> songbookRecords,

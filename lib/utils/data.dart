@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:proscholy_common/models/app_dependencies.dart';
@@ -9,6 +10,7 @@ import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/song.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
+import 'package:proscholy_common/models/songbook_record.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/utils/api_client.dart';
 import 'package:proscholy_common/views/app_dependencies.dart';
@@ -32,7 +34,7 @@ Future<void> loadInitial(AppDependencies appDependencies) async {
 
   final json = jsonDecode(await rootBundle.loadString(_initialDataPath));
 
-  await _parseAndStoreData(json['data'], appDependencies.store);
+  await parseAndStoreData(json['data'], appDependencies.store);
 
   appDependencies.sharedPreferences.remove(_lastUpdateKey);
   appDependencies.sharedPreferences.setString(_currentVersionKey, appDependencies.currentVersion);
@@ -60,7 +62,7 @@ Future<List<SongLyric>> update(AppDependencies appDependencies) async {
   final client = ApiClient();
 
   final json = await client.getData(lastUpdate);
-  final updatedSongLyricIds = await _parseAndStoreData(json, appDependencies.store);
+  final updatedSongLyricIds = await parseAndStoreData(json, appDependencies.store);
 
   // fix any inconsistencies in song lyrics between local and remote db
 
@@ -95,7 +97,8 @@ Future<List<SongLyric>> update(AppDependencies appDependencies) async {
   return updatedSongLyrics.cast();
 }
 
-Future<List<int>> _parseAndStoreData(Map<String, dynamic> jsonMap, Store store) async {
+@visibleForTesting
+Future<List<int>> parseAndStoreData(Map<String, dynamic> jsonMap, Store store) async {
   final authors = [for (final json in jsonMap['authors']) Author.fromJson(json)];
   final externals = [for (final json in jsonMap['externals']) External.fromJson(json)];
   final songs = [for (final json in jsonMap['songs']) Song.fromJson(json)];
@@ -109,7 +112,11 @@ Future<List<int>> _parseAndStoreData(Map<String, dynamic> jsonMap, Store store) 
     store.box<T>().putMany(items);
   }
 
-  return await store.runInTransactionAsync(TxMode.write, (Store store, _) {
+  final songLyricIds = await store.runInTransactionAsync(TxMode.write, (Store store, _) {
+    // songbook records will be inserted along songbooks
+    store.box<SongbookRecord>().removeAll();
+
+    // removes old values to make sure there are no old data that were removed on server
     replaceAll(store, authors);
     replaceAll(store, externals);
     replaceAll(store, songs);
@@ -117,5 +124,35 @@ Future<List<int>> _parseAndStoreData(Map<String, dynamic> jsonMap, Store store) 
     replaceAll(store, tags);
 
     return store.box<SongLyric>().putMany(songLyrics);
+  }, null);
+
+  await cleanupRelations(store);
+
+  return songLyricIds;
+}
+
+@visibleForTesting
+Future<void> cleanupRelations(Store store) async {
+  void removeWhere<T>(Store store, Condition<T> condition) {
+    final box = store.box<T>();
+    final query = box.query(condition).build();
+
+    box.removeMany(query.findIds());
+
+    query.close();
+  }
+
+  await store.runInTransactionAsync(TxMode.write, (Store store, _) {
+    // remove songbook records that were associated with removed song lyrics
+    removeWhere(store, SongbookRecord_.songLyric.equals(0));
+
+    // remove playlist records that were associated with removed song lyrics
+    removeWhere(
+      store,
+      PlaylistRecord_.songLyric
+          .equals(0)
+          .and(PlaylistRecord_.biblePassage.equals(0))
+          .and(PlaylistRecord_.userText.equals(0)),
+    );
   }, null);
 }

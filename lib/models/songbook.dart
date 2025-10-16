@@ -26,4 +26,8 @@ sealed class Songbook extends Model with _$Songbook, RecentItem {
   factory Songbook.fromJson(Map<String, dynamic> json) => _$SongbookFromJson(json);
 }
 
-ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic>? jsonList) => ToMany();
+ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic> jsonList) {
+  final songbookRecords = [for (final json in jsonList) SongbookRecord.fromJson(json['pivot'])];
+
+  return ToMany(items: songbookRecords);
+}

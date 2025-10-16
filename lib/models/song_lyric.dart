@@ -51,7 +51,7 @@ sealed class SongLyric extends Model with _$SongLyric, ContentItem, RecentItem {
     required bool isArrangement,
     @JsonKey(fromJson: _songFromJson) required ToOne<Song> song,
     @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) required ToMany<Author> authors,
-    @JsonKey(fromJson: _externalsFromJson) required ToMany<External> externals,
+    @Backlink() @JsonKey(fromJson: _externalsFromJson) required ToMany<External> externals,
     @Backlink() @JsonKey(fromJson: _songbookRecordsFromJson) required ToMany<SongbookRecord> songbookRecords,
     @JsonKey(fromJson: _tagsFromJson) required ToMany<Tag> tags,
     // these last two are not loaded from API, but are only local
@@ -74,11 +74,7 @@ ToMany<Author> _authorsFromJson(List<dynamic> jsonList) {
 
 ToMany<External> _externalsFromJson(List<dynamic>? jsonList) => ToMany();
 
-ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic> jsonList) {
-  final songbookRecords = [for (final json in jsonList) SongbookRecord.fromJson(json['pivot'])];
-
-  return ToMany(items: songbookRecords);
-}
+ToMany<SongbookRecord> _songbookRecordsFromJson(List<dynamic>? jsonList) => ToMany();
 
 ToMany<Tag> _tagsFromJson(List<dynamic> jsonList) {
   final tags = [for (final json in jsonList) Tag(id: int.parse(json['id']), name: '', dbType: 0, songLyricsCount: 0)];

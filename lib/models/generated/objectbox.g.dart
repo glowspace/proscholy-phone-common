@@ -299,13 +299,13 @@ final _entities = <obx_int.ModelEntity>[
         name: 'tags',
         targetId: const obx_int.IdUid(4, 6296825599350518621),
       ),
-      obx_int.ModelRelation(
-        id: const obx_int.IdUid(9, 6609909260274628973),
-        name: 'externals',
-        targetId: const obx_int.IdUid(13, 34413049226011067),
-      ),
     ],
     backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(
+        name: 'externals',
+        srcEntity: 'External',
+        srcField: '',
+      ),
       obx_int.ModelBacklink(
         name: 'songbookRecords',
         srcEntity: 'SongbookRecord',
@@ -776,6 +776,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       8475939472281092043,
       908885689419134235,
       1345337331648128811,
+      6609909260274628973,
     ],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -1106,7 +1107,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
       toManyRelations: (SongLyric object) => {
         obx_int.RelInfo<SongLyric>.toMany(6, object.id): object.authors,
         obx_int.RelInfo<SongLyric>.toMany(7, object.id): object.tags,
-        obx_int.RelInfo<SongLyric>.toMany(9, object.id): object.externals,
+        obx_int.RelInfo<External>.toOneBacklink(
+          8,
+          object.id,
+          (External srcObject) => srcObject.songLyric,
+        ): object.externals,
         obx_int.RelInfo<SongbookRecord>.toOneBacklink(
           7,
           object.id,
@@ -1235,7 +1240,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
         obx_int.InternalToManyAccess.setRelInfo<SongLyric>(
           object.externals,
           store,
-          obx_int.RelInfo<SongLyric>.toMany(9, object.id),
+          obx_int.RelInfo<External>.toOneBacklink(
+            8,
+            object.id,
+            (External srcObject) => srcObject.songLyric,
+          ),
         );
         obx_int.InternalToManyAccess.setRelInfo<SongLyric>(
           object.songbookRecords,
@@ -1918,8 +1927,8 @@ class SongLyric_ {
   );
 
   /// see [SongLyric.externals]
-  static final externals = obx.QueryRelationToMany<SongLyric, External>(
-    _entities[5].relations[2],
+  static final externals = obx.QueryBacklinkToMany<External, SongLyric>(
+    External_.songLyric,
   );
 
   /// see [SongLyric.songbookRecords]

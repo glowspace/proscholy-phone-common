@@ -1,0 +1,132 @@
+{
+  "data": {
+    "authors": [
+      {
+        "id": "31",
+        "name": "Tomáš Coufal"
+      },
+      {
+        "id": "32",
+        "name": "Jana Hlavsová"
+      }
+    ],
+    "externals": [
+      {
+        "id": "1",
+        "public_name": "youtube (Ať srdce mé tebe vídá | Schola brněnské mládeže (SBM))",
+        "url": "https://www.youtube.com/watch?v=QCIZKQG37J4",
+        "media_id": "QCIZKQG37J4",
+        "media_type": "youtube",
+        "song_lyric": {
+          "id": "1"
+        }
+      }
+    ],
+    "songbooks": [
+      {
+        "id": "9",
+        "name": "Chvalozpěvy 3",
+        "shortcut": "3Ch",
+        "color": "#1a237e",
+        "color_text": "#ffffff",
+        "is_private": false,
+        "records": [
+          {
+            "pivot": {
+              "id": "3",
+              "number": "2",
+              "song_lyric": {
+                "id": "1"
+              },
+              "songbook": {
+                "id": "9"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "16",
+        "name": "SDM Krakov",
+        "shortcut": "SDMKr",
+        "color": "#03a9f4",
+        "color_text": "#000000",
+        "is_private": false,
+        "records": [
+          {
+            "pivot": {
+              "id": "101",
+              "number": "8",
+              "song_lyric": {
+                "id": "1"
+              },
+              "songbook": {
+                "id": "16"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "songs": [
+      {
+        "id": "2560",
+        "name": "Otwórz me oczy o Panie"
+      }
+    ],
+    "song_lyrics": [
+      {
+        "id": "1",
+        "name": "Ať srdce mé tebe vídá",
+        "secondary_name_1": null,
+        "secondary_name_2": null,
+        "lyrics": "1. /: [D]Ať srdce mé tebe vídá,\n[Dmaj7]ať srdce mé tebe zná,\nvidět tě [G]toužím, [A]\nvidět tě [D]toužím. :/\n\nR: /: Chci vidět [A]Krále na trů[Hm]nu,\n[G]zářícího ve světle slá[A]vy.\n[F#m]Vylej svou lásku a mo[Hm]c,\nkdyž zpívám: [G]Svatý, svatý, [A]svatý. :/\n\nB: /: [D]Svatý, svatý, svatý,\n[A]svatý, svatý, svatý,\n[G]svatý, svatý, [A]svatý,\nvidět tě [D]toužím. :/",
+        "lang": "cs",
+        "lang_string": "čeština",
+        "type_enum": "AUTHORIZED_TRANSLATION",
+        "is_arrangement": false,
+        "song": {
+          "id": "2560"
+        },
+        "authors_pivot": [
+          {
+            "pivot": {
+              "author": {
+                "id": "31"
+              }
+            }
+          },
+          {
+            "pivot": {
+              "author": {
+                "id": "32"
+              }
+            }
+          }
+        ],
+        "tags": [
+          {
+            "id": "16"
+          },
+          {
+            "id": "9"
+          }
+        ]
+      }
+    ],
+    "tags_enum": [
+      {
+        "id": "9",
+        "name": "závěr",
+        "type_enum": "LITURGY_PART",
+        "song_lyrics_count": 425
+      },
+      {
+        "id": "16",
+        "name": "chvály",
+        "type_enum": "SACRED_OCCASION",
+        "song_lyrics_count": 240
+      }
+    ]
+  }
+}
