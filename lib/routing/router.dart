@@ -23,7 +23,7 @@ import 'package:proscholy_common/screens/songbooks.dart';
 import 'package:proscholy_common/screens/start_presentation_screen.dart';
 import 'package:proscholy_common/screens/updated_song_lyrics.dart';
 import 'package:proscholy_common/screens/settings.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 final class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

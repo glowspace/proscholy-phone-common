@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:proscholy_common/components/song_lyric/utils/active_player_controller.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/external.dart';
-import 'package:proscholy_common/utils/extensions.dart';
 
 class YoutubePlayerWrapper extends StatefulWidget {
   final External external;

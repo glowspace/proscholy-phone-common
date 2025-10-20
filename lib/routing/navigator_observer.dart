@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:proscholy_common/models/playlist.dart';
@@ -10,7 +11,6 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/providers/recent_items.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
 
 part 'navigator_observer.g.dart';
 

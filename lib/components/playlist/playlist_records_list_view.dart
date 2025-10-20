@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/content_item.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:proscholy_common/components/playlist/playlist_record_row.dart';
@@ -19,7 +20,6 @@ import 'package:proscholy_common/providers/user_text.dart';
 import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
 
 const _noPlaylistRecordText = 'V tomto seznamu nemáte žádné písně. Klikněte na tlačítko níže pro přidání nové písně.';
 

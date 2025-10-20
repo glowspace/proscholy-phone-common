@@ -8,7 +8,7 @@ import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 
 const double _iconSize = 16;

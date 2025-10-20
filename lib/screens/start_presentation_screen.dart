@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/presentation/settings.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/presentation.dart';
 import 'package:proscholy_common/routing/safe_area_wrapper.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 const _noExternalDisplayText =
     'Nebyl detekován žádný externí displej. Bude pouze upraveno zobrazení písní na${unbreakableSpace}tomto zařízení.';

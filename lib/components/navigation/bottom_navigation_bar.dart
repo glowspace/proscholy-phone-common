@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/components/navigation/utils.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 const double _navigationBarHeight = 64;
 

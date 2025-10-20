@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/async_snapshot.dart';
 
 class CustomFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;

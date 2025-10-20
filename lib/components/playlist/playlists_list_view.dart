@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/playlist/playlist_row.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class PlaylistsListView extends StatelessWidget {
   const PlaylistsListView({super.key});

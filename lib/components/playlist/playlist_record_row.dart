@@ -9,7 +9,7 @@ import 'package:proscholy_common/providers/bible_passage.dart';
 import 'package:proscholy_common/providers/user_text.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/bible_passage.dart';
 
 class PlaylistRecordRow extends ConsumerWidget {

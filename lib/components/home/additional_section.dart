@@ -6,7 +6,8 @@ import 'package:proscholy_common/components/section.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/links.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
+import 'package:proscholy_common/utils/extensions/platform.dart';
 import 'package:proscholy_common/utils/url_launcher.dart';
 
 class AdditionalSection extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/navigation/utils.dart';
 import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/providers/menu_collapsed.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/hero_tags.dart';
 
 // checked using widget inspector tools

@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/external.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 

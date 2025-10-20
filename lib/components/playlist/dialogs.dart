@@ -4,7 +4,7 @@ import 'package:proscholy_common/components/playlist/selected_playlist.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 const _emptyPlaylistNameMessage = 'Název playlistu je prázdný';
 const _playlistWithSameNameMessage = 'Playlist s tímto názvem již existuje';

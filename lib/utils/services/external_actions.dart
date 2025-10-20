@@ -4,7 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:proscholy_common/components/playlist/dialogs.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/services/spotlight.dart';
 
 // this helper class will handle opening app from spotlight on iOS and receiving shared playlist

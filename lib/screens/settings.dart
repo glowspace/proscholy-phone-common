@@ -9,7 +9,8 @@ import 'package:proscholy_common/components/selector_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/settings.dart';
 import 'package:proscholy_common/routing/safe_area_wrapper.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/url_launcher.dart';
 
 class SettingsScreen extends ConsumerWidget {

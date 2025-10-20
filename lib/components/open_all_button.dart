@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/theme.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
 
 const double _navigateNextIconSize = 20;
 

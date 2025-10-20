@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/navigation/navigation_rail.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
 class NavigationRailWrapper extends StatelessWidget {
   final Widget Function(BuildContext context) builder;

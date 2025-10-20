@@ -7,7 +7,8 @@ import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/components/filters/filter_tag.dart';
 import 'package:proscholy_common/providers/tags.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
 class FiltersRow extends ConsumerWidget {
   const FiltersRow({super.key});

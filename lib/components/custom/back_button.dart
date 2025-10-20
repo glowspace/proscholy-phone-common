@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({super.key});

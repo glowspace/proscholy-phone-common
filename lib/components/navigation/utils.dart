@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 void onDestinationSelected(BuildContext context, int index) {
   if (index == 1) {

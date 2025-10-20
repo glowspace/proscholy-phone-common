@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/navigation/scaffold.dart';
 import 'package:proscholy_common/components/playlist/playlists_list_view.dart';
 import 'package:proscholy_common/components/playlist/dialogs.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/hero_tags.dart';
 
 class PlaylistsScreen extends StatelessWidget {

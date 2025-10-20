@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/playlist/selected_playlist.dart';
 import 'package:proscholy_common/components/selected_row_highlight.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/playlist.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class PlaylistRow extends StatelessWidget {
   final Playlist playlist;

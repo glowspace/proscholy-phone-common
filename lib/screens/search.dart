@@ -10,7 +10,8 @@ import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

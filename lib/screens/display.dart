@@ -38,7 +38,9 @@ import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/screens/playlist.dart';
 import 'package:proscholy_common/screens/search.dart';
 import 'package:proscholy_common/screens/songbook.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
+import 'package:proscholy_common/utils/extensions/platform.dart';
 import 'package:proscholy_common/views/content_item.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 

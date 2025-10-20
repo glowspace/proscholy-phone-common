@@ -5,7 +5,7 @@ import 'package:proscholy_common/components/section.dart';
 import 'package:proscholy_common/components/songbook/songbook_row.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 const _maxShowingSongbooks = 3;
 

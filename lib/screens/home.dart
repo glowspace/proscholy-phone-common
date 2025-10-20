@@ -18,7 +18,7 @@ import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/home.dart';
 import 'package:proscholy_common/components/home/edit_home_sections_sheet.dart';
 import 'package:proscholy_common/providers/svgs.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
 import 'package:proscholy_common/utils/services/external_actions.dart';
 
 const double _minColumnWidth = 400;

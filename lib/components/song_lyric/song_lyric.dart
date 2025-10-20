@@ -16,7 +16,8 @@ import 'package:proscholy_common/components/song_lyric/utils/converter.dart';
 import 'package:proscholy_common/components/song_lyric/utils/lyrics_controller.dart';
 import 'package:proscholy_common/components/song_lyric/utils/parser.dart';
 import 'package:proscholy_common/providers/svgs.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 
 class SongLyricWidget extends ConsumerStatefulWidget {

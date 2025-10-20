@@ -6,7 +6,7 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/components/filters/filters_section.dart';
 import 'package:proscholy_common/providers/sort.dart';
 import 'package:proscholy_common/providers/tags.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/tag.dart';
 
 class FiltersWidget extends ConsumerWidget {

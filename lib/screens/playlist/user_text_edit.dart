@@ -9,7 +9,7 @@ import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/user_text.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class UserTextEditScreen extends StatefulWidget {
   final UserText? userText;

@@ -33,19 +33,6 @@ is_arrangement
 song {
   id
 }
-songbook_records {
-  pivot {
-    id
-    number
-    ${isEZ || isEK ? 'song_name' : ''}
-    song_lyric {
-      id
-    }
-    songbook {
-      id
-    }
-  }
-}
 authors_pivot {
   pivot {
     author {
@@ -81,6 +68,19 @@ query(\$updated_after: DateTime!) {
     color
     color_text
     is_private
+    records {
+      pivot {
+        id
+            number
+            ${isEZ || isEK ? 'song_name' : ''}
+        song_lyric {
+          id
+        }
+        songbook {
+          id
+        }
+      }
+    }
   }
   songs {
       id

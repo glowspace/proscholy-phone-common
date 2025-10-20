@@ -22,7 +22,8 @@ import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/screens/playlists.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 import 'package:proscholy_common/utils/hero_tags.dart';
 
 class PlaylistScreen extends StatelessWidget {

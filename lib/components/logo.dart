@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/theme.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
 
 class Logo extends StatelessWidget {
   final bool showFullName;

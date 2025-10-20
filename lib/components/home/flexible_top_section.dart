@@ -3,7 +3,7 @@ import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/logo.dart';
 import 'package:proscholy_common/components/search/search_field.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class FlexibleTopSection extends StatelessWidget {
   const FlexibleTopSection({super.key});

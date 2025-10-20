@@ -4,7 +4,8 @@ import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/theme.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/brightness.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class SearchFieldTransitionWidget extends AnimatedWidget {
   final Animation<double> animation;

@@ -7,7 +7,7 @@ import 'package:proscholy_common/components/song_lyric/externals/youtube_player.
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/url_launcher.dart';
 import 'package:proscholy_common/views/external.dart';
 

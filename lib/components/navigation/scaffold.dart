@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proscholy_common/components/navigation/bottom_navigation_bar.dart';
 import 'package:proscholy_common/routing/safe_area_wrapper.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
 class CustomScaffold extends StatelessWidget {
   final Color? backgroundColor;

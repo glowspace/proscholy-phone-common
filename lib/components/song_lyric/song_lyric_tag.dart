@@ -4,7 +4,7 @@ import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/songbook_record.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/tags.dart';
-import 'package:proscholy_common/utils/extensions.dart';
+import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class SongLyricTag extends StatelessWidget {
   final SongbookRecord? songbookRecord;
