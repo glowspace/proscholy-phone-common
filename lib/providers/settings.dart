@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/settings.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/settings.g.dart';
 
@@ -89,14 +89,15 @@ class SongLyricSettings extends _$SongLyricSettings {
   void reset() => _updateState(_defaultSongLyricSettings);
 
   void _updateState(SongLyricSettingsModel songLyricSettings) {
-    final songLyricSettingsBox = ref.read(appDependenciesProvider).store.box<SongLyricSettingsModel>();
+    final store = ref.read(appDependenciesProvider).store;
+    final songLyricSettingsBox = store.box<SongLyricSettingsModel>();
 
     if (songLyricSettings == _defaultSongLyricSettings && state != _defaultSongLyricSettings) {
       songLyricSettingsBox.remove(state.id);
     } else {
       // decide id for new objects
       if (songLyricSettings.id == 0) {
-        songLyricSettings = songLyricSettings.copyWith(id: nextId(ref, SongLyricSettingsModel_.id));
+        songLyricSettings = songLyricSettings.copyWith(id: store.nextId(SongLyricSettingsModel_.id));
       }
 
       songLyricSettingsBox.put(songLyricSettings);

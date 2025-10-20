@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:proscholy_common/providers/recent_items.dart';
 import 'package:proscholy_common/providers/svgs.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/sort.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/song_lyrics.g.dart';
 
@@ -26,7 +26,7 @@ SongLyric? songLyric(Ref ref, int id) {
 @Riverpod(keepAlive: true)
 List<SongLyric> songLyrics(Ref ref) {
   final random = Random();
-  final songLyrics = queryStore(ref, orderBy: SongLyric_.name)
+  final songLyrics = ref.watch(appDependenciesProvider).store.query(orderBy: SongLyric_.name)
       .where((songLyric) => songLyric.shouldAppearToUser || ref.read(svgProvider(songLyric.id)).isNotEmpty)
       .toList();
 

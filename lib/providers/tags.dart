@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:proscholy_common/views/tag.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,7 +9,6 @@ import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/tags.g.dart';
 
@@ -56,10 +56,9 @@ List<Tag> tags(Ref ref, TagType tagType) {
           Tag(id: id--, name: language, dbType: tagType.rawValue, songLyricsCount: languageCounts[language]!)
       ];
     default:
-      final tags = queryStore(
-        ref,
-        condition: Tag_.dbType.equals(tagType.rawValue).and(Tag_.songLyricsCount.greaterThan(0)),
-      );
+      final tags = ref.watch(appDependenciesProvider).store.query(
+            condition: Tag_.dbType.equals(tagType.rawValue).and(Tag_.songLyricsCount.greaterThan(0)),
+          );
 
       return tags;
   }

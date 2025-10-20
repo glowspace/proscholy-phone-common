@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/comparators/songbook.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -13,7 +14,6 @@ import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/search.freezed.dart';
 part 'generated/search.g.dart';
@@ -101,7 +101,7 @@ class SearchedSongLyrics extends _$SearchedSongLyrics {
         if (matchedById != null) matchedIds.add(matchedById.id);
       }
 
-      final songbookRecords = queryStore(ref, condition: SongbookRecord_.number.equals(searchText));
+      final songbookRecords = ref.read(appDependenciesProvider).store.query(condition: SongbookRecord_.number.equals(searchText));
       final pinnedSongbookIds = ref.watch(pinnedSongbookIdsProvider);
       songbookRecords.sort((a, b) => compareSongbooks(a.songbook.target!, b.songbook.target!, pinnedSongbookIds));
 

@@ -1,10 +1,10 @@
 import 'package:proscholy_common/providers/comparators/songbook.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/songbooks.g.dart';
 
@@ -45,7 +45,7 @@ class PinnedSongbookIds extends _$PinnedSongbookIds {
 
 @riverpod
 List<Songbook> songbooks(Ref ref) {
-  final songbooks = queryStore(ref, condition: Songbook_.isPrivate.equals(false));
+  final songbooks = ref.watch(appDependenciesProvider).store.query(condition: Songbook_.isPrivate.equals(false));
   final pinnedSongbookIds = ref.watch(pinnedSongbookIdsProvider);
 
   songbooks.sort((a, b) => compareSongbooks(a, b, pinnedSongbookIds));

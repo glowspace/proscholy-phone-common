@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
@@ -11,7 +12,6 @@ import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/bible_passage.dart';
 import 'package:proscholy_common/providers/user_text.dart';
 import 'package:proscholy_common/providers/settings.dart';
-import 'package:proscholy_common/providers/utils.dart';
 
 part 'generated/playlists.g.dart';
 
@@ -53,19 +53,20 @@ class Playlists extends _$Playlists {
 
   @override
   List<Playlist> build() {
+    final store = ref.read(appDependenciesProvider).store;
+
     // initialize next ids needed when creating new objects
-    _nextPlaylistId = nextId(ref, Playlist_.id);
-    _nextPlaylistRecordId = nextId(ref, PlaylistRecord_.id);
-    _nextBiblePassageId = nextId(ref, BiblePassage_.id);
-    _nextUserTextId = nextId(ref, UserText_.id);
+    _nextPlaylistId = store.nextId(Playlist_.id);
+    _nextPlaylistRecordId = store.nextId(PlaylistRecord_.id);
+    _nextBiblePassageId = store.nextId(BiblePassage_.id);
+    _nextUserTextId = store.nextId(UserText_.id);
 
-    final playlists = queryStore(ref, condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
+    final stream = store.watchQuery(condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
+    final subscription = stream.listen((data) => state = data);
 
-    // TODO: remove this, it is just to fix errors during testflight
-    _playlistRecordsBox.removeMany(
-        _playlistRecordsBox.query(PlaylistRecord_.playlist.equals(0)).build().property(PlaylistRecord_.id).find());
+    ref.onDispose(subscription.cancel);
 
-    return playlists;
+    return [];
   }
 
   Playlist createPlaylist(String name) {
