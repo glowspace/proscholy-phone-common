@@ -58,6 +58,8 @@ void main() {
       expect(songLyric.externals, hasLength(1));
       expect(songLyric.songbookRecords, hasLength(2));
       expect(songLyric.tags, hasLength(2));
+
+      expect(songLyric.songbookRecords.first.songbook.target, isNotNull);
     });
 
     test('cleanup relations', () async {

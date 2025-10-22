@@ -14,7 +14,7 @@ const String _ftsDatabaseName = 'zpevnik.db';
 // will be overriden in `main.dart` with real value using `overrideAppDependenciesProvider` function
 final appDependenciesProvider = Provider<AppDependencies>((_) => throw UnimplementedError());
 
-Future<Override> overrideAppDependenciesProvider() async {
+Future<(AppDependencies, Override)> overrideAppDependenciesProvider() async {
   final store = await openStore();
   final database = await openDatabase(join(await getDatabasesPath(), _ftsDatabaseName));
 
@@ -25,5 +25,5 @@ Future<Override> overrideAppDependenciesProvider() async {
     store: store,
   );
 
-  return appDependenciesProvider.overrideWithValue(appDependencies);
+  return (appDependencies, appDependenciesProvider.overrideWithValue(appDependencies));
 }

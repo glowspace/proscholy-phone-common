@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of '../search.dart';
+part of '../search_result.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,29 +13,29 @@ part of '../search.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$SearchedSongLyricsResult {
-  List<SongLyric>? get songLyrics;
-  String? get searchedNumber;
+mixin _$SongLyricsSearchResult {
+  String get searchText;
+  List<SongLyric> get songLyrics;
   SongLyric? get matchedById;
   List<SongLyric> get matchedBySongbookNumber;
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $SearchedSongLyricsResultCopyWith<SearchedSongLyricsResult> get copyWith =>
-      _$SearchedSongLyricsResultCopyWithImpl<SearchedSongLyricsResult>(
-          this as SearchedSongLyricsResult, _$identity);
+  $SongLyricsSearchResultCopyWith<SongLyricsSearchResult> get copyWith =>
+      _$SongLyricsSearchResultCopyWithImpl<SongLyricsSearchResult>(
+          this as SongLyricsSearchResult, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is SearchedSongLyricsResult &&
+            other is SongLyricsSearchResult &&
+            (identical(other.searchText, searchText) ||
+                other.searchText == searchText) &&
             const DeepCollectionEquality()
                 .equals(other.songLyrics, songLyrics) &&
-            (identical(other.searchedNumber, searchedNumber) ||
-                other.searchedNumber == searchedNumber) &&
             (identical(other.matchedById, matchedById) ||
                 other.matchedById == matchedById) &&
             const DeepCollectionEquality().equals(
@@ -45,26 +45,26 @@ mixin _$SearchedSongLyricsResult {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      searchText,
       const DeepCollectionEquality().hash(songLyrics),
-      searchedNumber,
       matchedById,
       const DeepCollectionEquality().hash(matchedBySongbookNumber));
 
   @override
   String toString() {
-    return 'SearchedSongLyricsResult(songLyrics: $songLyrics, searchedNumber: $searchedNumber, matchedById: $matchedById, matchedBySongbookNumber: $matchedBySongbookNumber)';
+    return 'SongLyricsSearchResult(searchText: $searchText, songLyrics: $songLyrics, matchedById: $matchedById, matchedBySongbookNumber: $matchedBySongbookNumber)';
   }
 }
 
 /// @nodoc
-abstract mixin class $SearchedSongLyricsResultCopyWith<$Res> {
-  factory $SearchedSongLyricsResultCopyWith(SearchedSongLyricsResult value,
-          $Res Function(SearchedSongLyricsResult) _then) =
-      _$SearchedSongLyricsResultCopyWithImpl;
+abstract mixin class $SongLyricsSearchResultCopyWith<$Res> {
+  factory $SongLyricsSearchResultCopyWith(SongLyricsSearchResult value,
+          $Res Function(SongLyricsSearchResult) _then) =
+      _$SongLyricsSearchResultCopyWithImpl;
   @useResult
   $Res call(
-      {List<SongLyric>? songLyrics,
-      String? searchedNumber,
+      {String searchText,
+      List<SongLyric> songLyrics,
       SongLyric? matchedById,
       List<SongLyric> matchedBySongbookNumber});
 
@@ -72,32 +72,32 @@ abstract mixin class $SearchedSongLyricsResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SearchedSongLyricsResultCopyWithImpl<$Res>
-    implements $SearchedSongLyricsResultCopyWith<$Res> {
-  _$SearchedSongLyricsResultCopyWithImpl(this._self, this._then);
+class _$SongLyricsSearchResultCopyWithImpl<$Res>
+    implements $SongLyricsSearchResultCopyWith<$Res> {
+  _$SongLyricsSearchResultCopyWithImpl(this._self, this._then);
 
-  final SearchedSongLyricsResult _self;
-  final $Res Function(SearchedSongLyricsResult) _then;
+  final SongLyricsSearchResult _self;
+  final $Res Function(SongLyricsSearchResult) _then;
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? songLyrics = freezed,
-    Object? searchedNumber = freezed,
+    Object? searchText = null,
+    Object? songLyrics = null,
     Object? matchedById = freezed,
     Object? matchedBySongbookNumber = null,
   }) {
     return _then(_self.copyWith(
-      songLyrics: freezed == songLyrics
+      searchText: null == searchText
+          ? _self.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
+      songLyrics: null == songLyrics
           ? _self.songLyrics
           : songLyrics // ignore: cast_nullable_to_non_nullable
-              as List<SongLyric>?,
-      searchedNumber: freezed == searchedNumber
-          ? _self.searchedNumber
-          : searchedNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<SongLyric>,
       matchedById: freezed == matchedById
           ? _self.matchedById
           : matchedById // ignore: cast_nullable_to_non_nullable
@@ -109,7 +109,7 @@ class _$SearchedSongLyricsResultCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -124,8 +124,8 @@ class _$SearchedSongLyricsResultCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [SearchedSongLyricsResult].
-extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
+/// Adds pattern-matching-related methods to [SongLyricsSearchResult].
+extension SongLyricsSearchResultPatterns on SongLyricsSearchResult {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -140,12 +140,12 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SearchedSongLyricsResult value)? $default, {
+    TResult Function(_SongLyricsSearchResult value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult() when $default != null:
+      case _SongLyricsSearchResult() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -167,11 +167,11 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_SearchedSongLyricsResult value) $default,
+    TResult Function(_SongLyricsSearchResult value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult():
+      case _SongLyricsSearchResult():
         return $default(_that);
     }
   }
@@ -190,11 +190,11 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_SearchedSongLyricsResult value)? $default,
+    TResult? Function(_SongLyricsSearchResult value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult() when $default != null:
+      case _SongLyricsSearchResult() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -215,16 +215,16 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SongLyric>? songLyrics, String? searchedNumber,
+    TResult Function(String searchText, List<SongLyric> songLyrics,
             SongLyric? matchedById, List<SongLyric> matchedBySongbookNumber)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult() when $default != null:
-        return $default(_that.songLyrics, _that.searchedNumber,
-            _that.matchedById, _that.matchedBySongbookNumber);
+      case _SongLyricsSearchResult() when $default != null:
+        return $default(_that.searchText, _that.songLyrics, _that.matchedById,
+            _that.matchedBySongbookNumber);
       case _:
         return orElse();
     }
@@ -245,15 +245,15 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<SongLyric>? songLyrics, String? searchedNumber,
+    TResult Function(String searchText, List<SongLyric> songLyrics,
             SongLyric? matchedById, List<SongLyric> matchedBySongbookNumber)
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult():
-        return $default(_that.songLyrics, _that.searchedNumber,
-            _that.matchedById, _that.matchedBySongbookNumber);
+      case _SongLyricsSearchResult():
+        return $default(_that.searchText, _that.songLyrics, _that.matchedById,
+            _that.matchedBySongbookNumber);
     }
   }
 
@@ -271,15 +271,15 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<SongLyric>? songLyrics, String? searchedNumber,
+    TResult? Function(String searchText, List<SongLyric> songLyrics,
             SongLyric? matchedById, List<SongLyric> matchedBySongbookNumber)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _SearchedSongLyricsResult() when $default != null:
-        return $default(_that.songLyrics, _that.searchedNumber,
-            _that.matchedById, _that.matchedBySongbookNumber);
+      case _SongLyricsSearchResult() when $default != null:
+        return $default(_that.searchText, _that.songLyrics, _that.matchedById,
+            _that.matchedBySongbookNumber);
       case _:
         return null;
     }
@@ -288,27 +288,27 @@ extension SearchedSongLyricsResultPatterns on SearchedSongLyricsResult {
 
 /// @nodoc
 
-class _SearchedSongLyricsResult implements SearchedSongLyricsResult {
-  const _SearchedSongLyricsResult(
-      {final List<SongLyric>? songLyrics,
-      this.searchedNumber,
+class _SongLyricsSearchResult extends SongLyricsSearchResult {
+  const _SongLyricsSearchResult(
+      {this.searchText = '',
+      required final List<SongLyric> songLyrics,
       this.matchedById,
       final List<SongLyric> matchedBySongbookNumber = const []})
       : _songLyrics = songLyrics,
-        _matchedBySongbookNumber = matchedBySongbookNumber;
+        _matchedBySongbookNumber = matchedBySongbookNumber,
+        super._();
 
-  final List<SongLyric>? _songLyrics;
   @override
-  List<SongLyric>? get songLyrics {
-    final value = _songLyrics;
-    if (value == null) return null;
+  @JsonKey()
+  final String searchText;
+  final List<SongLyric> _songLyrics;
+  @override
+  List<SongLyric> get songLyrics {
     if (_songLyrics is EqualUnmodifiableListView) return _songLyrics;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_songLyrics);
   }
 
-  @override
-  final String? searchedNumber;
   @override
   final SongLyric? matchedById;
   final List<SongLyric> _matchedBySongbookNumber;
@@ -321,24 +321,24 @@ class _SearchedSongLyricsResult implements SearchedSongLyricsResult {
     return EqualUnmodifiableListView(_matchedBySongbookNumber);
   }
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$SearchedSongLyricsResultCopyWith<_SearchedSongLyricsResult> get copyWith =>
-      __$SearchedSongLyricsResultCopyWithImpl<_SearchedSongLyricsResult>(
+  _$SongLyricsSearchResultCopyWith<_SongLyricsSearchResult> get copyWith =>
+      __$SongLyricsSearchResultCopyWithImpl<_SongLyricsSearchResult>(
           this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SearchedSongLyricsResult &&
+            other is _SongLyricsSearchResult &&
+            (identical(other.searchText, searchText) ||
+                other.searchText == searchText) &&
             const DeepCollectionEquality()
                 .equals(other._songLyrics, _songLyrics) &&
-            (identical(other.searchedNumber, searchedNumber) ||
-                other.searchedNumber == searchedNumber) &&
             (identical(other.matchedById, matchedById) ||
                 other.matchedById == matchedById) &&
             const DeepCollectionEquality().equals(
@@ -348,28 +348,28 @@ class _SearchedSongLyricsResult implements SearchedSongLyricsResult {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      searchText,
       const DeepCollectionEquality().hash(_songLyrics),
-      searchedNumber,
       matchedById,
       const DeepCollectionEquality().hash(_matchedBySongbookNumber));
 
   @override
   String toString() {
-    return 'SearchedSongLyricsResult(songLyrics: $songLyrics, searchedNumber: $searchedNumber, matchedById: $matchedById, matchedBySongbookNumber: $matchedBySongbookNumber)';
+    return 'SongLyricsSearchResult(searchText: $searchText, songLyrics: $songLyrics, matchedById: $matchedById, matchedBySongbookNumber: $matchedBySongbookNumber)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$SearchedSongLyricsResultCopyWith<$Res>
-    implements $SearchedSongLyricsResultCopyWith<$Res> {
-  factory _$SearchedSongLyricsResultCopyWith(_SearchedSongLyricsResult value,
-          $Res Function(_SearchedSongLyricsResult) _then) =
-      __$SearchedSongLyricsResultCopyWithImpl;
+abstract mixin class _$SongLyricsSearchResultCopyWith<$Res>
+    implements $SongLyricsSearchResultCopyWith<$Res> {
+  factory _$SongLyricsSearchResultCopyWith(_SongLyricsSearchResult value,
+          $Res Function(_SongLyricsSearchResult) _then) =
+      __$SongLyricsSearchResultCopyWithImpl;
   @override
   @useResult
   $Res call(
-      {List<SongLyric>? songLyrics,
-      String? searchedNumber,
+      {String searchText,
+      List<SongLyric> songLyrics,
       SongLyric? matchedById,
       List<SongLyric> matchedBySongbookNumber});
 
@@ -378,32 +378,32 @@ abstract mixin class _$SearchedSongLyricsResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SearchedSongLyricsResultCopyWithImpl<$Res>
-    implements _$SearchedSongLyricsResultCopyWith<$Res> {
-  __$SearchedSongLyricsResultCopyWithImpl(this._self, this._then);
+class __$SongLyricsSearchResultCopyWithImpl<$Res>
+    implements _$SongLyricsSearchResultCopyWith<$Res> {
+  __$SongLyricsSearchResultCopyWithImpl(this._self, this._then);
 
-  final _SearchedSongLyricsResult _self;
-  final $Res Function(_SearchedSongLyricsResult) _then;
+  final _SongLyricsSearchResult _self;
+  final $Res Function(_SongLyricsSearchResult) _then;
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? songLyrics = freezed,
-    Object? searchedNumber = freezed,
+    Object? searchText = null,
+    Object? songLyrics = null,
     Object? matchedById = freezed,
     Object? matchedBySongbookNumber = null,
   }) {
-    return _then(_SearchedSongLyricsResult(
-      songLyrics: freezed == songLyrics
+    return _then(_SongLyricsSearchResult(
+      searchText: null == searchText
+          ? _self.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
+      songLyrics: null == songLyrics
           ? _self._songLyrics
           : songLyrics // ignore: cast_nullable_to_non_nullable
-              as List<SongLyric>?,
-      searchedNumber: freezed == searchedNumber
-          ? _self.searchedNumber
-          : searchedNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<SongLyric>,
       matchedById: freezed == matchedById
           ? _self.matchedById
           : matchedById // ignore: cast_nullable_to_non_nullable
@@ -415,7 +415,7 @@ class __$SearchedSongLyricsResultCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of SearchedSongLyricsResult
+  /// Create a copy of SongLyricsSearchResult
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

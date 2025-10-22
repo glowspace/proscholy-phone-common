@@ -128,7 +128,7 @@ final class SongLyricsProvider extends $FunctionalProvider<List<SongLyric>,
   }
 }
 
-String _$songLyricsHash() => r'b24a72d219c4ada10938de8b6135aab500e3f41f';
+String _$songLyricsHash() => r'f1006b8dc2b83de800db16cee61b11e416ffd0cd';
 
 @ProviderFor(RecentSongLyrics)
 const recentSongLyricsProvider = RecentSongLyricsProvider._();
@@ -174,6 +174,57 @@ abstract class _$RecentSongLyrics extends $Notifier<List<SongLyric>> {
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<List<SongLyric>, List<SongLyric>>,
         List<SongLyric>,
+        Object?,
+        Object?>;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(SongLyricsSearch)
+const songLyricsSearchProvider = SongLyricsSearchProvider._();
+
+final class SongLyricsSearchProvider
+    extends $NotifierProvider<SongLyricsSearch, SongLyricsSearchResult> {
+  const SongLyricsSearchProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'songLyricsSearchProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$songLyricsSearchHash();
+
+  @$internal
+  @override
+  SongLyricsSearch create() => SongLyricsSearch();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SongLyricsSearchResult value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SongLyricsSearchResult>(value),
+    );
+  }
+}
+
+String _$songLyricsSearchHash() => r'126871089e99088b6cc627ebdd8b52ca9c408831';
+
+abstract class _$SongLyricsSearch extends $Notifier<SongLyricsSearchResult> {
+  SongLyricsSearchResult build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref as $Ref<SongLyricsSearchResult, SongLyricsSearchResult>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<SongLyricsSearchResult, SongLyricsSearchResult>,
+        SongLyricsSearchResult,
         Object?,
         Object?>;
     element.handleValue(ref, created);

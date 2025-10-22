@@ -1,6 +1,6 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/navigator_observer.dart';
@@ -14,6 +14,12 @@ extension BuildContextExtension on BuildContext {
   bool get isSongbook => ModalRoute.of(this)?.settings.name == '/songbook';
 
   ProviderContainer get providers => ProviderScope.containerOf(this, listen: false);
+
+  T read<T>(ProviderListenable<T> provider) => ProviderScope.containerOf(this, listen: false).read(provider);
+
+  ProviderSubscription<T> listen<T>(ProviderListenable<T> provider, void Function(T?, T) listener) {
+    return ProviderScope.containerOf(this, listen: false).listen(provider, listener);
+  }
 
   Future<T?> push<T extends Object?>(String routeName, {Object? arguments}) async {
     // TODO: support better way to redirect

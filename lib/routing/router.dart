@@ -54,11 +54,7 @@ final class AppRouter {
           true,
           false
         ),
-      '/playlist/user_text/edit' => (
-          (_) => UserTextEditScreen(userText: settings.arguments as UserText?),
-          true,
-          false
-        ),
+      '/playlist/user_text/edit' => ((_) => UserTextEditScreen(userText: settings.arguments as UserText?), true, false),
       '/playlists' => ((_) => const PlaylistsScreen(), false, true),
       '/search' => ((_) => const SearchScreen(), true, true),
       '/settings' => ((_) => const SettingsScreen(), true, false),

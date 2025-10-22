@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/selected_displayable_item_arguments.dart';
 import 'package:proscholy_common/components/selected_row_highlight.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
-import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
@@ -18,6 +16,8 @@ class SongLyricRow extends StatelessWidget {
   final SongLyric songLyric;
   final bool isInsideTranslationSheet;
 
+  final String searchText;
+
   final DisplayScreenArguments? displayScreenArguments;
 
   const SongLyricRow({
@@ -25,6 +25,7 @@ class SongLyricRow extends StatelessWidget {
     required this.songLyric,
     this.displayScreenArguments,
     this.isInsideTranslationSheet = false,
+    this.searchText = '',
   });
 
   @override
@@ -56,22 +57,13 @@ class SongLyricRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(songLyric.displayName, style: textTheme.bodyMedium),
-                      Consumer(builder: (_, ref, __) {
-                        final searchText = ref.watch(searchTextProvider);
-
-                        if (searchText.isNotEmpty) {
-                          for (final songbookRecord in songLyric.songbookRecords) {
-                            if (searchText == songbookRecord.number) {
-                              return Container(
-                                margin: textMargin,
-                                child: Text(songbookRecord.songbook.target!.name, style: textTheme.bodySmall),
-                              );
-                            }
-                          }
-                        }
-
-                        return const SizedBox();
-                      }),
+                      if (searchText.isNotEmpty)
+                        for (final songbookRecord in songLyric.songbookRecords)
+                          if (searchText == songbookRecord.number)
+                            Container(
+                              margin: textMargin,
+                              child: Text(songbookRecord.songbook.target!.name, style: textTheme.bodySmall),
+                            ),
                       if (songLyric.secondaryName1.isNotEmpty)
                         Container(
                             margin: textMargin, child: Text(songLyric.secondaryName1, style: textTheme.bodySmall)),

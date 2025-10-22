@@ -34,7 +34,10 @@ Future<void> loadInitial(AppDependencies appDependencies) async {
 
   final json = jsonDecode(await rootBundle.loadString(_initialDataPath));
 
-  await parseAndStoreData(json['data'], appDependencies.store);
+  final songLyricIds = await parseAndStoreData(json['data'], appDependencies.store);
+  final songLyrics = await appDependencies.store.box<SongLyric>().getManyAsync(songLyricIds);
+
+  appDependencies.ftsSearch.insertInitial(songLyrics.cast());
 
   appDependencies.sharedPreferences.remove(_lastUpdateKey);
   appDependencies.sharedPreferences.setString(_currentVersionKey, appDependencies.currentVersion);
@@ -93,6 +96,8 @@ Future<List<SongLyric>> update(AppDependencies appDependencies) async {
   // fetch updated song lyrics with populated relations
 
   final updatedSongLyrics = await songLyricsBox.getManyAsync(updatedSongLyricIds);
+
+  appDependencies.ftsSearch.update(songLyrics.cast());
 
   return updatedSongLyrics.cast();
 }

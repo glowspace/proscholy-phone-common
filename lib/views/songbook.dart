@@ -3,6 +3,9 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
 
 extension SongbookView on Songbook {
+  bool get isEZ => id == 58;
+  bool get isEK => id == 63;
+
   List<SongLyric> get songLyrics {
     records.sort((a, b) => compareNatural(a.number, b.number));
 

@@ -108,7 +108,7 @@ final class SongLyricSettingsProvider
   }
 }
 
-String _$songLyricSettingsHash() => r'0ad88059920a88656e392a95d62829c72dc878b8';
+String _$songLyricSettingsHash() => r'1c43b137bfe4e62b143528a571d6437aca14b35f';
 
 final class SongLyricSettingsFamily extends $Family
     with

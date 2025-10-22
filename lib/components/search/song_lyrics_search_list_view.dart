@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/song_lyric/song_lyrics_section_title.dart';
 import 'package:proscholy_common/components/song_lyric/song_lyric_row.dart';
 import 'package:proscholy_common/constants.dart';
+import 'package:proscholy_common/models/search_result.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
 import 'package:proscholy_common/providers/sort.dart';
@@ -16,19 +16,20 @@ import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:proscholy_common/views/tag.dart';
 
-class SearchSongLyricsListView extends ConsumerWidget {
-  const SearchSongLyricsListView({super.key});
+class SongLyricsSearchListView extends ConsumerWidget {
+  final SongLyricsSearchResult searchResult;
+
+  const SongLyricsSearchListView({super.key, required this.searchResult});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchedSongLyricsResult = ref.watch(searchedSongLyricsProvider);
+    final searchText = searchResult.searchText;
 
     final songbookTags = ref.watch(selectedTagsByTypeProvider(TagType.songbook));
 
+    // TODO: make sure where filter will be implemented it correctly sorts the song lyrics
     final List<SongLyric> allSongLyrics;
-    if (songbookTags.length == 1 &&
-        ref.watch(searchTextProvider).isEmpty &&
-        ref.watch(sortProvider) == SortType.numeric) {
+    if (songbookTags.length == 1 && searchText.isEmpty && ref.watch(sortProvider) == SortType.numeric) {
       final songbook = ref.watch(songbooksProvider).firstWhere((songbook) => songbook.name == songbookTags.first.name);
       songbook.records.sort();
 
@@ -37,18 +38,18 @@ class SearchSongLyricsListView extends ConsumerWidget {
       allSongLyrics = ref.watch(songLyricsProvider);
     }
 
-    final songLyrics = filterSongLyrics(searchedSongLyricsResult.songLyrics ?? allSongLyrics, ref);
-    final matchedById = searchedSongLyricsResult.matchedById == null
+    final songLyrics = filterSongLyrics(searchResult.songLyrics, ref);
+    final matchedById = searchResult.matchedById == null
         ? null
-        : filterSongLyrics([searchedSongLyricsResult.matchedById!], ref).firstOrNull;
-    final matchedBySongbookNumber = filterSongLyrics(searchedSongLyricsResult.matchedBySongbookNumber, ref);
+        : filterSongLyrics([searchResult.matchedById!], ref).firstOrNull;
+    final matchedBySongbookNumber = filterSongLyrics(searchResult.matchedBySongbookNumber, ref);
 
     final recentSongLyrics = ref.watch(recentSongLyricsProvider);
 
     // if any song lyric is matched by id or songbook number show title for remaining results section
     final hasMatchedResults = matchedById != null || (matchedBySongbookNumber.isNotEmpty);
     final showRecentSongLyrics =
-        ref.read(searchTextProvider).isEmpty && ref.read(selectedTagsProvider).isEmpty && recentSongLyrics.isNotEmpty;
+        searchText.isEmpty && ref.read(selectedTagsProvider).isEmpty && recentSongLyrics.isNotEmpty;
 
     int itemCount = songLyrics.length;
 
@@ -74,7 +75,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
           return false;
         },
         child: ListView.builder(
-          key: Key('${ref.read(searchTextProvider)}_${ref.read(selectedTagsProvider).length}'),
+          key: Key('${searchText}_${ref.read(selectedTagsProvider).length}'),
           padding: const EdgeInsets.only(top: kDefaultPadding / 3),
           primary: false,
           // TODO: right now this opens keyboard again after pop, see: https://github.com/flutter/flutter/issues/124778
@@ -95,6 +96,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
               if (index < recentSongLyrics.length) {
                 return SongLyricRow(
                   songLyric: recentSongLyrics[index],
+                  searchText: searchText,
                   displayScreenArguments: DisplayScreenArguments(
                     items: recentSongLyrics,
                     initialIndex: index,
@@ -108,7 +110,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
             }
 
             if (matchedById != null) {
-              if (index == 0) return SongLyricRow(songLyric: matchedById);
+              if (index == 0) return SongLyricRow(songLyric: matchedById, searchText: searchText);
 
               index -= 1;
             }
@@ -118,7 +120,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: kDefaultPadding),
                   child:
-                      SongLyricsSectionTitle(title: 'Číslo ${searchedSongLyricsResult.searchedNumber} ve zpěvnících'),
+                      SongLyricsSectionTitle(title: 'Číslo $searchText ve zpěvnících'),
                 );
               }
 
@@ -127,6 +129,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
               if (index < matchedBySongbookNumber.length) {
                 return SongLyricRow(
                   songLyric: matchedBySongbookNumber[index],
+                  searchText: searchText,
                   displayScreenArguments: DisplayScreenArguments(
                     items: matchedBySongbookNumber,
                     initialIndex: index,
@@ -161,6 +164,7 @@ class SearchSongLyricsListView extends ConsumerWidget {
 
             return SongLyricRow(
               songLyric: songLyrics[index],
+              searchText: searchText,
               displayScreenArguments: DisplayScreenArguments(
                 items: songLyrics,
                 initialIndex: index,

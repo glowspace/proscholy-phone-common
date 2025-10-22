@@ -176,4 +176,4 @@ final class SongbooksProvider
   }
 }
 
-String _$songbooksHash() => r'3d56ddcec1257d36a3dad17aaeb6e8f5fbd7ce2c';
+String _$songbooksHash() => r'f89198f330e9c4f481b4eea9531201cf2bac43bd';

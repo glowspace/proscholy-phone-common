@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:objectbox/objectbox.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
-import 'package:proscholy_common/models/song_lyrics_search_result.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlite_bm25/sqlite_bm25.dart';
 
@@ -56,16 +55,20 @@ class FTSSearch {
     await batch.commit();
   }
 
-  Future<SongLyricsSearchResult> search(String searchText) async {
+  Future<List<SongLyric>?> search(String searchText, {Set<int> ignore = const {}}) async {
     searchText = searchText.trim();
 
-    if (searchText.isEmpty) return const SongLyricsSearchResult();
+    if (searchText.isEmpty) return null;
+
+    searchText = '${searchText.replaceAll(" ", "* ")}*';
 
     final ranks = <int, double>{};
     final searchResults = <int>[];
 
     for (final value in await database.rawQuery(_selectQuery, [searchText])) {
       final songLyricId = value['rowid'] as int;
+
+      if (ignore.contains(songLyricId)) continue;
 
       searchResults.add(songLyricId);
       ranks[songLyricId] = bm25(value['info'] as Uint8List, weights: _searchResultsWeights);
@@ -75,8 +78,6 @@ class FTSSearch {
 
     final songLyrics = await songLyricsBox.getManyAsync(searchResults);
 
-    return SongLyricsSearchResult(
-      songLyrics: songLyrics.cast(),
-    );
+    return songLyrics.cast();
   }
 }

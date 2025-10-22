@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/filters/filters.dart';
 import 'package:proscholy_common/components/filters/filters_row.dart';
 import 'package:proscholy_common/components/navigation/scaffold.dart';
 import 'package:proscholy_common/components/search/search_field.dart';
-import 'package:proscholy_common/components/search/search_song_lyrics_list_view.dart';
+import 'package:proscholy_common/components/search/song_lyrics_search_list_view.dart';
 import 'package:proscholy_common/components/selected_displayable_item_arguments.dart';
 import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/providers/search.dart';
+import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
@@ -33,7 +34,7 @@ class SearchScreen extends StatelessWidget {
             if (mediaQuery.padding.top == 0) const SizedBox(height: kDefaultPadding),
             SearchField(
               key: const Key('searchfield'),
-              onChanged: context.providers.read(searchTextProvider.notifier).change,
+              onChanged: context.read(songLyricsSearchProvider.notifier).searchTextChanged,
               onSubmitted: (_) => _maybePushMatchedSonglyric(context),
             ),
             const Padding(
@@ -53,11 +54,21 @@ class SearchScreen extends StatelessWidget {
         textDirection: TextDirection.rtl,
         maxChildWidth: 520.0,
         childWidthFactor: 0.4,
-        detail: CustomScaffold(appBar: appBar, body: const SearchSongLyricsListView()),
+        detail: CustomScaffold(
+          appBar: appBar,
+          body: Consumer(
+            builder: (_, ref, __) => SongLyricsSearchListView(searchResult: ref.watch(songLyricsSearchProvider)),
+          ),
+        ),
         child: const Scaffold(body: FiltersWidget()),
       );
     } else {
-      child = CustomScaffold(appBar: appBar, body: const SearchSongLyricsListView());
+      child = CustomScaffold(
+        appBar: appBar,
+          body: Consumer(
+            builder: (_, ref, __) => SongLyricsSearchListView(searchResult: ref.watch(songLyricsSearchProvider)),
+          ),
+      );
     }
 
     return PopScope(
@@ -69,7 +80,7 @@ class SearchScreen extends StatelessWidget {
   }
 
   void _maybePushMatchedSonglyric(BuildContext context) {
-    final matchedById = context.providers.read(searchedSongLyricsProvider).matchedById;
+    final matchedById = context.read(songLyricsSearchProvider).matchedById;
 
     if (matchedById == null) return;
 

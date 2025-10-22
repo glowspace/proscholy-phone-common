@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/providers/search.dart';
 import 'package:proscholy_common/theme.dart';
 import 'package:proscholy_common/utils/extensions/brightness.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
@@ -94,12 +93,8 @@ class _SearchFieldState extends State<SearchField> {
   void initState() {
     super.initState();
 
-    _controller = TextEditingController(text: widget.isHome ? null : context.providers.read(searchTextProvider));
+    _controller = TextEditingController();
     _focusNode = FocusNode();
-
-    if (!widget.isHome) {
-      searchTextSubscription = context.providers.listen(searchTextProvider, (_, text) => _controller.text = text);
-    }
 
     // autofocus on search screen
     WidgetsBinding.instance.addPostFrameCallback((_) => _requestFocusAfterTransition());
