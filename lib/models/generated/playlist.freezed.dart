@@ -30,22 +30,6 @@ mixin _$Playlist {
       _$PlaylistCopyWithImpl<Playlist>(this as Playlist, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Playlist &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.rank, rank) || other.rank == rank) &&
-            const DeepCollectionEquality().equals(other.records, records));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name, rank,
-      const DeepCollectionEquality().hash(records));
-
-  @override
   String toString() {
     return 'Playlist(id: $id, name: $name, rank: $rank, records: $records)';
   }
@@ -299,22 +283,6 @@ class _Playlist extends Playlist {
   @pragma('vm:prefer-inline')
   _$PlaylistCopyWith<_Playlist> get copyWith =>
       __$PlaylistCopyWithImpl<_Playlist>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Playlist &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.rank, rank) || other.rank == rank) &&
-            const DeepCollectionEquality().equals(other.records, records));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name, rank,
-      const DeepCollectionEquality().hash(records));
 
   @override
   String toString() {

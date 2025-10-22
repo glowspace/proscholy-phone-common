@@ -56,59 +56,6 @@ mixin _$SongLyric {
       _$SongLyricCopyWithImpl<SongLyric>(this as SongLyric, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SongLyric &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.secondaryName1, secondaryName1) ||
-                other.secondaryName1 == secondaryName1) &&
-            (identical(other.secondaryName2, secondaryName2) ||
-                other.secondaryName2 == secondaryName2) &&
-            (identical(other.lyrics, lyrics) || other.lyrics == lyrics) &&
-            (identical(other.hymnology, hymnology) ||
-                other.hymnology == hymnology) &&
-            (identical(other.lang, lang) || other.lang == lang) &&
-            (identical(other.dbType, dbType) || other.dbType == dbType) &&
-            (identical(other.isArrangement, isArrangement) ||
-                other.isArrangement == isArrangement) &&
-            (identical(other.song, song) || other.song == song) &&
-            const DeepCollectionEquality().equals(other.authors, authors) &&
-            const DeepCollectionEquality().equals(other.externals, externals) &&
-            const DeepCollectionEquality()
-                .equals(other.songbookRecords, songbookRecords) &&
-            const DeepCollectionEquality().equals(other.tags, tags) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
-            const DeepCollectionEquality()
-                .equals(other.playlistRecords, playlistRecords));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      id,
-      name,
-      secondaryName1,
-      secondaryName2,
-      lyrics,
-      hymnology,
-      lang,
-      dbType,
-      isArrangement,
-      song,
-      const DeepCollectionEquality().hash(authors),
-      const DeepCollectionEquality().hash(externals),
-      const DeepCollectionEquality().hash(songbookRecords),
-      const DeepCollectionEquality().hash(tags),
-      settings,
-      const DeepCollectionEquality().hash(playlistRecords));
-
-  @override
   String toString() {
     return 'SongLyric(id: $id, name: $name, secondaryName1: $secondaryName1, secondaryName2: $secondaryName2, lyrics: $lyrics, hymnology: $hymnology, lang: $lang, dbType: $dbType, isArrangement: $isArrangement, song: $song, authors: $authors, externals: $externals, songbookRecords: $songbookRecords, tags: $tags, settings: $settings, playlistRecords: $playlistRecords)';
   }
@@ -618,59 +565,6 @@ class _SongLyric extends SongLyric {
   @pragma('vm:prefer-inline')
   _$SongLyricCopyWith<_SongLyric> get copyWith =>
       __$SongLyricCopyWithImpl<_SongLyric>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _SongLyric &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.secondaryName1, secondaryName1) ||
-                other.secondaryName1 == secondaryName1) &&
-            (identical(other.secondaryName2, secondaryName2) ||
-                other.secondaryName2 == secondaryName2) &&
-            (identical(other.lyrics, lyrics) || other.lyrics == lyrics) &&
-            (identical(other.hymnology, hymnology) ||
-                other.hymnology == hymnology) &&
-            (identical(other.lang, lang) || other.lang == lang) &&
-            (identical(other.dbType, dbType) || other.dbType == dbType) &&
-            (identical(other.isArrangement, isArrangement) ||
-                other.isArrangement == isArrangement) &&
-            (identical(other.song, song) || other.song == song) &&
-            const DeepCollectionEquality().equals(other.authors, authors) &&
-            const DeepCollectionEquality().equals(other.externals, externals) &&
-            const DeepCollectionEquality()
-                .equals(other.songbookRecords, songbookRecords) &&
-            const DeepCollectionEquality().equals(other.tags, tags) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
-            const DeepCollectionEquality()
-                .equals(other.playlistRecords, playlistRecords));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      id,
-      name,
-      secondaryName1,
-      secondaryName2,
-      lyrics,
-      hymnology,
-      lang,
-      dbType,
-      isArrangement,
-      song,
-      const DeepCollectionEquality().hash(authors),
-      const DeepCollectionEquality().hash(externals),
-      const DeepCollectionEquality().hash(songbookRecords),
-      const DeepCollectionEquality().hash(tags),
-      settings,
-      const DeepCollectionEquality().hash(playlistRecords));
 
   @override
   String toString() {

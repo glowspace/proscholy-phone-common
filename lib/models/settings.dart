@@ -21,7 +21,7 @@ const defaultGlobalSettings = GlobalSettings(
   autoScrollSpeedIndex: 6,
 );
 
-@Freezed(toJson: true)
+@Freezed(equal: true, toJson: true)
 sealed class GlobalSettings with _$GlobalSettings {
   @JsonSerializable(fieldRename: FieldRename.none)
   const factory GlobalSettings({
@@ -37,7 +37,7 @@ sealed class GlobalSettings with _$GlobalSettings {
   factory GlobalSettings.fromJson(Map<String, dynamic> json) => _$GlobalSettingsFromJson(json);
 }
 
-@freezed
+@Freezed(equal: true)
 sealed class SongLyricSettingsModel extends Model with _$SongLyricSettingsModel {
   const SongLyricSettingsModel._();
 

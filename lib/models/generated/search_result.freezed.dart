@@ -28,29 +28,6 @@ mixin _$SongLyricsSearchResult {
           this as SongLyricsSearchResult, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SongLyricsSearchResult &&
-            (identical(other.searchText, searchText) ||
-                other.searchText == searchText) &&
-            const DeepCollectionEquality()
-                .equals(other.songLyrics, songLyrics) &&
-            (identical(other.matchedById, matchedById) ||
-                other.matchedById == matchedById) &&
-            const DeepCollectionEquality().equals(
-                other.matchedBySongbookNumber, matchedBySongbookNumber));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      searchText,
-      const DeepCollectionEquality().hash(songLyrics),
-      matchedById,
-      const DeepCollectionEquality().hash(matchedBySongbookNumber));
-
-  @override
   String toString() {
     return 'SongLyricsSearchResult(searchText: $searchText, songLyrics: $songLyrics, matchedById: $matchedById, matchedBySongbookNumber: $matchedBySongbookNumber)';
   }
@@ -329,29 +306,6 @@ class _SongLyricsSearchResult extends SongLyricsSearchResult {
   _$SongLyricsSearchResultCopyWith<_SongLyricsSearchResult> get copyWith =>
       __$SongLyricsSearchResultCopyWithImpl<_SongLyricsSearchResult>(
           this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _SongLyricsSearchResult &&
-            (identical(other.searchText, searchText) ||
-                other.searchText == searchText) &&
-            const DeepCollectionEquality()
-                .equals(other._songLyrics, _songLyrics) &&
-            (identical(other.matchedById, matchedById) ||
-                other.matchedById == matchedById) &&
-            const DeepCollectionEquality().equals(
-                other._matchedBySongbookNumber, _matchedBySongbookNumber));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      searchText,
-      const DeepCollectionEquality().hash(_songLyrics),
-      matchedById,
-      const DeepCollectionEquality().hash(_matchedBySongbookNumber));
 
   @override
   String toString() {

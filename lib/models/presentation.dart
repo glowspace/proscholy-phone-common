@@ -21,7 +21,7 @@ const defaultPresentationSettings = PresentationSettings(
 
 enum PresentationAlignment { top, center, bottom }
 
-@Freezed(toJson: true)
+@Freezed(equal: true, toJson: true)
 sealed class PresentationData with _$PresentationData {
   @JsonSerializable(fieldRename: FieldRename.none)
   const factory PresentationData({
@@ -35,7 +35,7 @@ sealed class PresentationData with _$PresentationData {
   factory PresentationData.fromJson(Map<String, dynamic> json) => _$PresentationDataFromJson(json);
 }
 
-@Freezed(toJson: true)
+@Freezed(equal: true, toJson: true)
 sealed class PresentationSettings with _$PresentationSettings {
   @JsonSerializable(fieldRename: FieldRename.none)
   const factory PresentationSettings({

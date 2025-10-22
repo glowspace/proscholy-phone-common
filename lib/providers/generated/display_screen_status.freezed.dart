@@ -26,20 +26,6 @@ mixin _$DisplayScreenStatusModel {
           this as DisplayScreenStatusModel, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is DisplayScreenStatusModel &&
-            (identical(other.fullScreen, fullScreen) ||
-                other.fullScreen == fullScreen) &&
-            (identical(other.showingExternals, showingExternals) ||
-                other.showingExternals == showingExternals));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, fullScreen, showingExternals);
-
-  @override
   String toString() {
     return 'DisplayScreenStatusModel(fullScreen: $fullScreen, showingExternals: $showingExternals)';
   }
@@ -255,20 +241,6 @@ class _DisplayScreenStatusModel implements DisplayScreenStatusModel {
   _$DisplayScreenStatusModelCopyWith<_DisplayScreenStatusModel> get copyWith =>
       __$DisplayScreenStatusModelCopyWithImpl<_DisplayScreenStatusModel>(
           this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _DisplayScreenStatusModel &&
-            (identical(other.fullScreen, fullScreen) ||
-                other.fullScreen == fullScreen) &&
-            (identical(other.showingExternals, showingExternals) ||
-                other.showingExternals == showingExternals));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, fullScreen, showingExternals);
 
   @override
   String toString() {

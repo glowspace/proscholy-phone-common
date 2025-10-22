@@ -27,20 +27,6 @@ mixin _$Author {
       _$AuthorCopyWithImpl<Author>(this as Author, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Author &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name);
-
-  @override
   String toString() {
     return 'Author(id: $id, name: $name)';
   }
@@ -268,20 +254,6 @@ class _Author extends Author {
   @pragma('vm:prefer-inline')
   _$AuthorCopyWith<_Author> get copyWith =>
       __$AuthorCopyWithImpl<_Author>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Author &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, name);
 
   @override
   String toString() {

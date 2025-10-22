@@ -32,28 +32,6 @@ mixin _$PlaylistRecord {
           this as PlaylistRecord, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is PlaylistRecord &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.rank, rank) || other.rank == rank) &&
-            (identical(other.playlist, playlist) ||
-                other.playlist == playlist) &&
-            (identical(other.biblePassage, biblePassage) ||
-                other.biblePassage == biblePassage) &&
-            (identical(other.userText, userText) ||
-                other.userText == userText) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
-      playlist, biblePassage, userText, songLyric);
-
-  @override
   String toString() {
     return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric)';
   }
@@ -336,28 +314,6 @@ class _PlaylistRecord extends PlaylistRecord {
   @pragma('vm:prefer-inline')
   _$PlaylistRecordCopyWith<_PlaylistRecord> get copyWith =>
       __$PlaylistRecordCopyWithImpl<_PlaylistRecord>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _PlaylistRecord &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.rank, rank) || other.rank == rank) &&
-            (identical(other.playlist, playlist) ||
-                other.playlist == playlist) &&
-            (identical(other.biblePassage, biblePassage) ||
-                other.biblePassage == biblePassage) &&
-            (identical(other.userText, userText) ||
-                other.userText == userText) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, rank,
-      playlist, biblePassage, userText, songLyric);
 
   @override
   String toString() {

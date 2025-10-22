@@ -33,27 +33,6 @@ mixin _$SongbookRecord {
           this as SongbookRecord, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SongbookRecord &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.number, number) || other.number == number) &&
-            (identical(other.songName, songName) ||
-                other.songName == songName) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric) &&
-            (identical(other.songbook, songbook) ||
-                other.songbook == songbook));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, super.hashCode, id, number, songName, songLyric, songbook);
-
-  @override
   String toString() {
     return 'SongbookRecord(id: $id, number: $number, songName: $songName, songLyric: $songLyric, songbook: $songbook)';
   }
@@ -327,27 +306,6 @@ class _SongbookRecord extends SongbookRecord {
   @pragma('vm:prefer-inline')
   _$SongbookRecordCopyWith<_SongbookRecord> get copyWith =>
       __$SongbookRecordCopyWithImpl<_SongbookRecord>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _SongbookRecord &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.number, number) || other.number == number) &&
-            (identical(other.songName, songName) ||
-                other.songName == songName) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric) &&
-            (identical(other.songbook, songbook) ||
-                other.songbook == songbook));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, super.hashCode, id, number, songName, songLyric, songbook);
 
   @override
   String toString() {

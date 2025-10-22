@@ -4,6 +4,7 @@ targets:
       freezed|freezed:
         enabled: true
         options:
+          equal: false
           to_json: false
           build_extensions:
             '^lib/models/{{}}.dart': 'lib/models/generated/{{}}.freezed.dart'

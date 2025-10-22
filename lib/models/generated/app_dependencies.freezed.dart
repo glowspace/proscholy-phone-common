@@ -31,24 +31,6 @@ mixin _$AppDependencies {
           this as AppDependencies, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AppDependencies &&
-            (identical(other.ftsSearch, ftsSearch) ||
-                other.ftsSearch == ftsSearch) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo) &&
-            (identical(other.sharedPreferences, sharedPreferences) ||
-                other.sharedPreferences == sharedPreferences) &&
-            (identical(other.store, store) || other.store == store));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, ftsSearch, packageInfo, sharedPreferences, store);
-
-  @override
   String toString() {
     return 'AppDependencies(ftsSearch: $ftsSearch, packageInfo: $packageInfo, sharedPreferences: $sharedPreferences, store: $store)';
   }
@@ -297,24 +279,6 @@ class _AppDependencies implements AppDependencies {
   @pragma('vm:prefer-inline')
   _$AppDependenciesCopyWith<_AppDependencies> get copyWith =>
       __$AppDependenciesCopyWithImpl<_AppDependencies>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _AppDependencies &&
-            (identical(other.ftsSearch, ftsSearch) ||
-                other.ftsSearch == ftsSearch) &&
-            (identical(other.packageInfo, packageInfo) ||
-                other.packageInfo == packageInfo) &&
-            (identical(other.sharedPreferences, sharedPreferences) ||
-                other.sharedPreferences == sharedPreferences) &&
-            (identical(other.store, store) || other.store == store));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, ftsSearch, packageInfo, sharedPreferences, store);
 
   @override
   String toString() {

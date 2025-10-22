@@ -33,28 +33,6 @@ mixin _$External {
       _$ExternalCopyWithImpl<External>(this as External, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is External &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.publicName, publicName) ||
-                other.publicName == publicName) &&
-            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.dbMediaType, dbMediaType) ||
-                other.dbMediaType == dbMediaType) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, publicName,
-      mediaId, url, dbMediaType, songLyric);
-
-  @override
   String toString() {
     return 'External(id: $id, publicName: $publicName, mediaId: $mediaId, url: $url, dbMediaType: $dbMediaType, songLyric: $songLyric)';
   }
@@ -343,28 +321,6 @@ class _External extends External {
   @pragma('vm:prefer-inline')
   _$ExternalCopyWith<_External> get copyWith =>
       __$ExternalCopyWithImpl<_External>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _External &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.publicName, publicName) ||
-                other.publicName == publicName) &&
-            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.dbMediaType, dbMediaType) ||
-                other.dbMediaType == dbMediaType) &&
-            (identical(other.songLyric, songLyric) ||
-                other.songLyric == songLyric));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, id, publicName,
-      mediaId, url, dbMediaType, songLyric);
 
   @override
   String toString() {

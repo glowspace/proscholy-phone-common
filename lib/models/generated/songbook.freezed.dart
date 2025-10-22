@@ -35,37 +35,6 @@ mixin _$Songbook {
       _$SongbookCopyWithImpl<Songbook>(this as Songbook, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Songbook &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.shortcut, shortcut) ||
-                other.shortcut == shortcut) &&
-            (identical(other.color, color) || other.color == color) &&
-            (identical(other.colorText, colorText) ||
-                other.colorText == colorText) &&
-            (identical(other.isPrivate, isPrivate) ||
-                other.isPrivate == isPrivate) &&
-            const DeepCollectionEquality().equals(other.records, records));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      id,
-      name,
-      shortcut,
-      color,
-      colorText,
-      isPrivate,
-      const DeepCollectionEquality().hash(records));
-
-  @override
   String toString() {
     return 'Songbook(id: $id, name: $name, shortcut: $shortcut, color: $color, colorText: $colorText, isPrivate: $isPrivate, records: $records)';
   }
@@ -372,37 +341,6 @@ class _Songbook extends Songbook {
   @pragma('vm:prefer-inline')
   _$SongbookCopyWith<_Songbook> get copyWith =>
       __$SongbookCopyWithImpl<_Songbook>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Songbook &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.shortcut, shortcut) ||
-                other.shortcut == shortcut) &&
-            (identical(other.color, color) || other.color == color) &&
-            (identical(other.colorText, colorText) ||
-                other.colorText == colorText) &&
-            (identical(other.isPrivate, isPrivate) ||
-                other.isPrivate == isPrivate) &&
-            const DeepCollectionEquality().equals(other.records, records));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      id,
-      name,
-      shortcut,
-      color,
-      colorText,
-      isPrivate,
-      const DeepCollectionEquality().hash(records));
 
   @override
   String toString() {

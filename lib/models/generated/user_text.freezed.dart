@@ -27,21 +27,6 @@ mixin _$UserText {
       _$UserTextCopyWithImpl<UserText>(this as UserText, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is UserText &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.content, content) || other.content == content));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, super.hashCode, id, name, content);
-
-  @override
   String toString() {
     return 'UserText(id: $id, name: $name, content: $content)';
   }
@@ -270,21 +255,6 @@ class _UserText extends UserText {
   @pragma('vm:prefer-inline')
   _$UserTextCopyWith<_UserText> get copyWith =>
       __$UserTextCopyWithImpl<_UserText>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _UserText &&
-            super == other &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.content, content) || other.content == content));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, super.hashCode, id, name, content);
 
   @override
   String toString() {
