@@ -1,108 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
+import 'package:proscholy_common/components/selected_displayable_item_arguments.dart';
 import 'package:proscholy_common/constants.dart';
+import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/theme.dart';
 import 'package:proscholy_common/utils/extensions/brightness.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 
-class SearchFieldTransitionWidget extends AnimatedWidget {
-  final Animation<double> animation;
+class HomeSearchField extends StatelessWidget {
+  const HomeSearchField({super.key});
 
-  const SearchFieldTransitionWidget({
-    super.key,
-    required this.animation,
-  }) : super(listenable: animation);
+  static InputDecoration inputDecoration(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InputDecoration(
+      hintText: 'Název, číslo nebo část textu',
+      hintStyle: theme.textTheme.titleMedium?.copyWith(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: theme.brightness.isLight ? lightIconColor : darkIconColor,
+      ),
+      filled: true,
+      fillColor: theme.colorScheme.surface,
+      isDense: true,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(kDefaultRadius),
+      ),
+      prefixIcon: Container(
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        child: Icon(Icons.search, color: theme.iconTheme.color),
+      ),
+      prefixIconConstraints: const BoxConstraints(),
+      suffixIconConstraints: const BoxConstraints(),
+      contentPadding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    final fillColor = ColorTween(
-      begin: theme.colorScheme.surface,
-      end: theme.brightness.isLight ? theme.scaffoldBackgroundColor : theme.colorScheme.surface,
-    ).evaluate(animation);
-
-    return Padding(
-      padding: EdgeInsets.only(left: animation.value * kDefaultPadding),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Název, číslo nebo část textu',
-                  hintStyle: theme.textTheme.titleMedium?.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: theme.brightness.isLight ? lightIconColor : darkIconColor,
-                  ),
-                  filled: true,
-                  fillColor: fillColor,
-                  isDense: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(kDefaultRadius),
-                  ),
-                  prefixIcon: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    child: const Icon(Icons.search),
-                  ),
-                  prefixIconConstraints: const BoxConstraints(),
-                  contentPadding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                ),
-              ),
-            ),
-            SizeTransition(
-              sizeFactor: animation,
-              axis: Axis.horizontal,
-              child: Opacity(
-                opacity: animation.value,
-                child: Container(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Text('Zrušit', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary)),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return TextField(
+      decoration: inputDecoration(context),
+      // disable pasting to search field on home screen, as it should only open search screen
+      enableInteractiveSelection: false,
+      readOnly: true,
+      onTap: () => context.push('/search'),
     );
   }
 }
 
 class SearchField extends StatefulWidget {
-  final Function(String)? onChanged;
-  final Function(String)? onSubmitted;
-  final bool isHome;
+  final bool showCancelButton;
 
-  const SearchField({super.key, this.onChanged, this.onSubmitted, this.isHome = false});
+  const SearchField({super.key, required this.showCancelButton});
 
   @override
   State<SearchField> createState() => _SearchFieldState();
 }
 
 class _SearchFieldState extends State<SearchField> {
-  late final TextEditingController _controller;
-  late final FocusNode _focusNode;
+  late final TextEditingController _controller = TextEditingController(
+    text: context.read(songLyricsSearchProvider).searchText,
+  );
 
-  late final ProviderSubscription<String> searchTextSubscription;
+  late bool _showingClearButton = _controller.text.isNotEmpty;
+
+  late final ProviderSubscription<String> _searchTextSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = TextEditingController();
-    _focusNode = FocusNode();
-
-    // autofocus on search screen
-    WidgetsBinding.instance.addPostFrameCallback((_) => _requestFocusAfterTransition());
+    _searchTextSubscription = context.listen(
+      songLyricsSearchProvider.select((result) => result.searchText),
+      (_, searchText) {
+        if (searchText != _controller.text) {
+          _controller.text = searchText;
+          _showingClearButton = searchText.isNotEmpty;
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
-    if (!widget.isHome) searchTextSubscription.close();
+    _searchTextSubscription.close();
 
     super.dispose();
   }
@@ -111,103 +95,71 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    Widget? suffixIcon;
-    if (!widget.isHome) {
-      suffixIcon = HighlightableWidget(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        onTap: _clear,
-        icon: const Icon(Icons.clear),
-      );
-    }
-
-    return Container(
-      padding: !context.isHome
-          ? EdgeInsets.only(left: kDefaultPadding, right: context.isSearching ? 0 : kDefaultPadding)
+    final inputDecoration = HomeSearchField.inputDecoration(context).copyWith(
+      fillColor: theme.brightness.isLight ? theme.scaffoldBackgroundColor : theme.colorScheme.surface,
+      suffixIcon: _showingClearButton
+          ? HighlightableWidget(
+              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              onTap: _clear,
+              icon: const Icon(Icons.clear),
+            )
           : null,
-      child: Material(
-        type: MaterialType.transparency,
-        child: Row(
-          children: [
-            Expanded(
-              child: ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _controller,
-                builder: (_, value, __) => TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Název, číslo nebo část textu',
-                    hintStyle: theme.textTheme.titleMedium?.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: theme.brightness.isLight ? lightIconColor : darkIconColor,
-                    ),
-                    filled: true,
-                    fillColor: theme.brightness.isLight && !context.isHome
-                        ? theme.scaffoldBackgroundColor
-                        : theme.colorScheme.surface,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(kDefaultRadius),
-                    ),
-                    prefixIcon: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                      child: Icon(Icons.search, color: theme.iconTheme.color),
-                    ),
-                    prefixIconConstraints: const BoxConstraints(),
-                    suffixIcon: value.text.isEmpty ? null : suffixIcon,
-                    suffixIconConstraints: const BoxConstraints(),
-                    contentPadding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                  ),
-                  // disable pasting to search field on home screen, as it should only open search screen
-                  enableInteractiveSelection: !context.isHome,
-                  onTap: context.isHome ? _showSearchScreen : null,
-                  onChanged: widget.onChanged,
-                  onSubmitted: widget.onSubmitted,
-                  controller: _controller,
-                  focusNode: _focusNode,
-                ),
-              ),
+    );
+
+    return Padding(
+      padding: widget.showCancelButton
+          ? const EdgeInsets.only(left: kDefaultPadding) // cancel button has its padding on right
+          : const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              autofocus: true,
+              controller: _controller,
+              decoration: inputDecoration,
+              onChanged: _searchTextChanged,
+              onSubmitted: (_) => _maybePushMatchedSonglyric(),
             ),
-            if (context.isSearching)
-              HighlightableWidget(
-                onTap: () => context.maybePop(),
-                padding: const EdgeInsets.all(kDefaultPadding),
-                textStyle: theme.textTheme.bodyMedium,
-                foregroundColor: theme.colorScheme.primary,
-                child: const Text('Zrušit'),
-              ),
-          ],
-        ),
+          ),
+          if (widget.showCancelButton)
+            HighlightableWidget(
+              onTap: () => context.maybePop(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              textStyle: theme.textTheme.bodyMedium,
+              foregroundColor: theme.colorScheme.primary,
+              child: const Text('Zrušit'),
+            ),
+        ],
       ),
     );
   }
 
-  void _showSearchScreen() {
-    // prevent keyboard from showing up
-    _focusNode.unfocus();
-
-    context.push('/search');
-  }
-
   void _clear() {
     _controller.clear();
-    widget.onChanged?.call('');
+
+    _searchTextChanged('');
   }
 
-  // requests focus after route transition ends, needed becuse of the hero transition of searchfield
-  void _requestFocusAfterTransition() {
-    if (!context.isSearching) return;
+  void _searchTextChanged(String searchText) {
+    if (_showingClearButton != searchText.isNotEmpty) setState(() => _showingClearButton = searchText.isNotEmpty);
 
-    final animation = ModalRoute.of(context)?.animation;
+    context.read(songLyricsSearchProvider.notifier).searchTextChanged(searchText);
+  }
 
-    void handler(AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        // TODO: why is it needed with delay?
-        Future.delayed(const Duration(milliseconds: 10), () => _focusNode.requestFocus());
+  void _maybePushMatchedSonglyric() {
+    final matchedById = context.read(songLyricsSearchProvider).matchedById;
 
-        animation?.removeStatusListener(handler);
-      }
+    if (matchedById == null) return;
+
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    final selectedDisplayableItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context);
+
+    if (arguments is SearchScreenArguments && arguments.shouldReturnSongLyric) {
+      Navigator.of(context).pop(matchedById);
+    } else if (selectedDisplayableItemArgumentsNotifier != null) {
+      selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments.songLyric(matchedById);
+    } else {
+      context.push('/display', arguments: DisplayScreenArguments.songLyric(matchedById, showSearchScreen: true));
     }
-
-    animation?.addStatusListener(handler);
   }
 }

@@ -32,7 +32,7 @@ class FlexibleTopSection extends StatelessWidget {
                 ),
               ],
             ),
-            child: const SearchField(key: Key('search_field'), isHome: true),
+            child: const HomeSearchField(key: Key('home_search_field')),
           ),
         ),
         Align(
