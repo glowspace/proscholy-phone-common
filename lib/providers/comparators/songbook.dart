@@ -13,7 +13,7 @@ int compareSongbooks(Songbook a, Songbook b, [List<int> pinnedSongbookIds = cons
   } else if (pinnedIndexA != -1) {
     return -1;
   } else if (pinnedIndexB != -1) {
-    return -1;
+    return 1;
   }
 
   final prioritizedIndexA = _prioritizedSongbooks[a.shortcut];
@@ -24,7 +24,7 @@ int compareSongbooks(Songbook a, Songbook b, [List<int> pinnedSongbookIds = cons
   } else if (prioritizedIndexA != null) {
     return -1;
   } else if (prioritizedIndexB != null) {
-    return -1;
+    return 1;
   }
 
   return a.name.compareTo(b.name);
