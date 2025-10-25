@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/tag.dart';
-import 'package:proscholy_common/providers/tags.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 const double _removablefilterRadius = 7;
@@ -36,7 +36,7 @@ class FilterTag extends StatelessWidget {
           borderRadius: BorderRadius.circular(isRemovable ? _removablefilterRadius : _filterRadius),
           color: isRemovable
               ? Colors.transparent
-              : (ref.watch(selectedTagsByTypeProvider(tag.type).select((selectedTags) => selectedTags.contains(tag)))
+              : (ref.watch(selectedTagsProvider.select((selectedTags) => selectedTags.contains(tag)))
                   ? theme.colorScheme.secondaryContainer
                   : Colors.transparent),
           child: child,
@@ -45,7 +45,7 @@ class FilterTag extends StatelessWidget {
           highlightBackground: true,
           highlightColor: theme.colorScheme.primary.withAlpha(0x20),
           borderRadius: BorderRadius.circular(isRemovable ? _removablefilterRadius : _filterRadius),
-          onTap: () => context.providers.read(selectedTagsProvider.notifier).toggleSelection(tag),
+          onTap: () => context.providers.read(selectedTagsProvider.notifier).toggle(tag),
           padding: isRemovable
               ? const EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding / 3)
               : const EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),

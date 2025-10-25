@@ -15,15 +15,15 @@ const displayScreenStatusProvider = DisplayScreenStatusProvider._();
 final class DisplayScreenStatusProvider
     extends $NotifierProvider<DisplayScreenStatus, DisplayScreenStatusModel> {
   const DisplayScreenStatusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'displayScreenStatusProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'displayScreenStatusProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$displayScreenStatusHash();
@@ -53,11 +53,14 @@ abstract class _$DisplayScreenStatus
     final created = build();
     final ref =
         this.ref as $Ref<DisplayScreenStatusModel, DisplayScreenStatusModel>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<DisplayScreenStatusModel, DisplayScreenStatusModel>,
-        DisplayScreenStatusModel,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DisplayScreenStatusModel, DisplayScreenStatusModel>,
+              DisplayScreenStatusModel,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

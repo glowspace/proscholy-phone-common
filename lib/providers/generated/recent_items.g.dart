@@ -15,15 +15,15 @@ const recentItemsProvider = RecentItemsProvider._();
 final class RecentItemsProvider
     extends $NotifierProvider<RecentItems, List<RecentItem>> {
   const RecentItemsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'recentItemsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'recentItemsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$recentItemsHash();
@@ -50,11 +50,14 @@ abstract class _$RecentItems extends $Notifier<List<RecentItem>> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<List<RecentItem>, List<RecentItem>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<RecentItem>, List<RecentItem>>,
-        List<RecentItem>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<RecentItem>, List<RecentItem>>,
+              List<RecentItem>,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

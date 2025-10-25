@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:proscholy_common/utils/extensions/ref.dart';
 import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,14 +20,9 @@ part 'generated/playlists.g.dart';
 Playlist? playlist(Ref ref, int id) {
   if (id == 0) return null;
 
-  final box = ref.read(appDependenciesProvider).store.box<Playlist>();
+  ref.watchEntity(Playlist_.id.equals(id));
 
-  final stream = box.query(Playlist_.id.equals(id)).watch();
-  final subscription = stream.listen((_) => ref.invalidateSelf());
-
-  ref.onDispose(subscription.cancel);
-
-  return box.get(id);
+  return ref.read(appDependenciesProvider).store.box<Playlist>().get(id);
 }
 
 @Riverpod(keepAlive: true)
@@ -38,7 +34,7 @@ Playlist favoritePlaylist(Ref ref) {
   return box.get(favoritesPlaylistId)!;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class Playlists extends _$Playlists {
   Box<Playlist> get _playlistsBox => ref.read(appDependenciesProvider).store.box<Playlist>();
   Box<PlaylistRecord> get _playlistRecordsBox => ref.read(appDependenciesProvider).store.box<PlaylistRecord>();

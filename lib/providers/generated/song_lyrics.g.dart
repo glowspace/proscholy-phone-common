@@ -15,15 +15,16 @@ const songLyricProvider = SongLyricFamily._();
 final class SongLyricProvider
     extends $FunctionalProvider<SongLyric?, SongLyric?, SongLyric?>
     with $Provider<SongLyric?> {
-  const SongLyricProvider._(
-      {required SongLyricFamily super.from, required int super.argument})
-      : super(
-          retry: null,
-          name: r'songLyricProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  const SongLyricProvider._({
+    required SongLyricFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'songLyricProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$songLyricHash();
@@ -43,10 +44,7 @@ final class SongLyricProvider
   @override
   SongLyric? create(Ref ref) {
     final argument = this.argument as int;
-    return songLyric(
-      ref,
-      argument,
-    );
+    return songLyric(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -73,62 +71,20 @@ String _$songLyricHash() => r'cc851ffdfc3ce3c5239ce1f07bea15b9359e4f27';
 final class SongLyricFamily extends $Family
     with $FunctionalFamilyOverride<SongLyric?, int> {
   const SongLyricFamily._()
-      : super(
-          retry: null,
-          name: r'songLyricProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'songLyricProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  SongLyricProvider call(
-    int id,
-  ) =>
+  SongLyricProvider call(int id) =>
       SongLyricProvider._(argument: id, from: this);
 
   @override
   String toString() => r'songLyricProvider';
 }
-
-@ProviderFor(songLyrics)
-const songLyricsProvider = SongLyricsProvider._();
-
-final class SongLyricsProvider extends $FunctionalProvider<List<SongLyric>,
-    List<SongLyric>, List<SongLyric>> with $Provider<List<SongLyric>> {
-  const SongLyricsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'songLyricsProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$songLyricsHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<SongLyric>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<SongLyric> create(Ref ref) {
-    return songLyrics(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<SongLyric> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<SongLyric>>(value),
-    );
-  }
-}
-
-String _$songLyricsHash() => r'f1006b8dc2b83de800db16cee61b11e416ffd0cd';
 
 @ProviderFor(RecentSongLyrics)
 const recentSongLyricsProvider = RecentSongLyricsProvider._();
@@ -136,15 +92,15 @@ const recentSongLyricsProvider = RecentSongLyricsProvider._();
 final class RecentSongLyricsProvider
     extends $NotifierProvider<RecentSongLyrics, List<SongLyric>> {
   const RecentSongLyricsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'recentSongLyricsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'recentSongLyricsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$recentSongLyricsHash();
@@ -171,62 +127,14 @@ abstract class _$RecentSongLyrics extends $Notifier<List<SongLyric>> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<List<SongLyric>, List<SongLyric>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<SongLyric>, List<SongLyric>>,
-        List<SongLyric>,
-        Object?,
-        Object?>;
-    element.handleValue(ref, created);
-  }
-}
-
-@ProviderFor(SongLyricsSearch)
-const songLyricsSearchProvider = SongLyricsSearchProvider._();
-
-final class SongLyricsSearchProvider
-    extends $NotifierProvider<SongLyricsSearch, SongLyricsSearchResult> {
-  const SongLyricsSearchProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'songLyricsSearchProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$songLyricsSearchHash();
-
-  @$internal
-  @override
-  SongLyricsSearch create() => SongLyricsSearch();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SongLyricsSearchResult value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<SongLyricsSearchResult>(value),
-    );
-  }
-}
-
-String _$songLyricsSearchHash() => r'126871089e99088b6cc627ebdd8b52ca9c408831';
-
-abstract class _$SongLyricsSearch extends $Notifier<SongLyricsSearchResult> {
-  SongLyricsSearchResult build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final created = build();
-    final ref =
-        this.ref as $Ref<SongLyricsSearchResult, SongLyricsSearchResult>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<SongLyricsSearchResult, SongLyricsSearchResult>,
-        SongLyricsSearchResult,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<SongLyric>, List<SongLyric>>,
+              List<SongLyric>,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

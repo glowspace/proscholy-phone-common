@@ -6,7 +6,7 @@ import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/components/filters/filter_tag.dart';
-import 'package:proscholy_common/providers/tags.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
@@ -32,13 +32,15 @@ class FiltersRow extends ConsumerWidget {
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                ...selectedTags.map((tag) => FilterTag(tag: tag, isRemovable: true)),
-                if (!MediaQuery.of(context).isTablet ||
-                    0.6 * MediaQuery.sizeOf(context).width < kDefaultSplitViewDetailMinWidth ||
-                    !context.isSearching)
-                  AddFilterTag(onTap: () => _showFilters(context)),
-              ]),
+              child: Row(
+                children: [
+                  ...selectedTags.map((tag) => FilterTag(tag: tag, isRemovable: true)),
+                  if (!MediaQuery.of(context).isTablet ||
+                      0.6 * MediaQuery.sizeOf(context).width < kDefaultSplitViewDetailMinWidth ||
+                      !context.isSearching)
+                    AddFilterTag(onTap: () => _showFilters(context)),
+                ],
+              ),
             ),
           ),
         ],
@@ -47,11 +49,16 @@ class FiltersRow extends ConsumerWidget {
   }
 
   void _showFilters(BuildContext context) {
+    final parentContext = context;
+
     showModalBottomSheet(
       context: context,
       builder: (context) => SizedBox(
         height: 2 / 3 * MediaQuery.sizeOf(context).height,
-        child: const FiltersWidget(),
+        child: UncontrolledProviderScope(
+          container: ProviderScope.containerOf(parentContext),
+          child: const FiltersWidget(),
+        ),
       ),
       routeSettings: const RouteSettings(name: '/filters'),
     );

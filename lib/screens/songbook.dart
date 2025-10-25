@@ -6,7 +6,6 @@ import 'package:proscholy_common/components/song_lyric/song_lyrics_list_view.dar
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/models/tag.dart';
-import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/songbook.dart';
 
@@ -25,7 +24,7 @@ class SongbookScreen extends StatelessWidget {
         title: Text(songbook.name),
         actions: [
           HighlightableWidget(
-            onTap: () => _pushSearch(context),
+            onTap: () => context.push('/search', arguments: Tag.fromSongbook(songbook)),
             padding: const EdgeInsets.symmetric(horizontal: 1.5 * kDefaultPadding),
             icon: const Icon(Icons.filter_alt),
           ),
@@ -36,11 +35,5 @@ class SongbookScreen extends StatelessWidget {
         child: SongLyricsListView(songLyrics: songbook.songLyrics, songbook: songbook),
       ),
     );
-  }
-
-  void _pushSearch(BuildContext context) {
-    context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromSongbook(songbook));
-
-    context.push('/search');
   }
 }

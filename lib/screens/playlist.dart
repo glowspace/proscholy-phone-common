@@ -185,9 +185,9 @@ class _PlaylistScaffold extends StatelessWidget {
   }
 
   void _pushSearch(BuildContext context) {
-    context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromPlaylist(playlist));
+    // context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromPlaylist(playlist));
 
-    context.push('/search');
+    context.push('/search', arguments: Tag.fromPlaylist(playlist));
   }
 
   void _addText(BuildContext context) async {

@@ -3,7 +3,6 @@ import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/songbook_record.dart';
 import 'package:proscholy_common/models/tag.dart';
-import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 
 class SongLyricTag extends StatelessWidget {
@@ -60,7 +59,6 @@ class SongLyricTag extends StatelessWidget {
   }
 
   void _pushSearch(BuildContext context, Tag tag) {
-    context.providers.read(selectedTagsProvider.notifier).push(initialTag: tag);
-    context.popAndPush('/search');
+    context.popAndPush('/search', arguments: tag);
   }
 }

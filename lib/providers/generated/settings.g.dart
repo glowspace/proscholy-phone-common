@@ -15,15 +15,15 @@ const settingsProvider = SettingsProvider._();
 final class SettingsProvider
     extends $NotifierProvider<Settings, GlobalSettings> {
   const SettingsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'settingsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'settingsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$settingsHash();
@@ -50,11 +50,14 @@ abstract class _$Settings extends $Notifier<GlobalSettings> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<GlobalSettings, GlobalSettings>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<GlobalSettings, GlobalSettings>,
-        GlobalSettings,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<GlobalSettings, GlobalSettings>,
+              GlobalSettings,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }
@@ -64,16 +67,16 @@ const songLyricSettingsProvider = SongLyricSettingsFamily._();
 
 final class SongLyricSettingsProvider
     extends $NotifierProvider<SongLyricSettings, SongLyricSettingsModel> {
-  const SongLyricSettingsProvider._(
-      {required SongLyricSettingsFamily super.from,
-      required int super.argument})
-      : super(
-          retry: null,
-          name: r'songLyricSettingsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  const SongLyricSettingsProvider._({
+    required SongLyricSettingsFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'songLyricSettingsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$songLyricSettingsHash();
@@ -112,20 +115,23 @@ String _$songLyricSettingsHash() => r'1c43b137bfe4e62b143528a571d6437aca14b35f';
 
 final class SongLyricSettingsFamily extends $Family
     with
-        $ClassFamilyOverride<SongLyricSettings, SongLyricSettingsModel,
-            SongLyricSettingsModel, SongLyricSettingsModel, int> {
+        $ClassFamilyOverride<
+          SongLyricSettings,
+          SongLyricSettingsModel,
+          SongLyricSettingsModel,
+          SongLyricSettingsModel,
+          int
+        > {
   const SongLyricSettingsFamily._()
-      : super(
-          retry: null,
-          name: r'songLyricSettingsProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'songLyricSettingsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  SongLyricSettingsProvider call(
-    int songLyricId,
-  ) =>
+  SongLyricSettingsProvider call(int songLyricId) =>
       SongLyricSettingsProvider._(argument: songLyricId, from: this);
 
   @override
@@ -136,22 +142,21 @@ abstract class _$SongLyricSettings extends $Notifier<SongLyricSettingsModel> {
   late final _$args = ref.$arg as int;
   int get songLyricId => _$args;
 
-  SongLyricSettingsModel build(
-    int songLyricId,
-  );
+  SongLyricSettingsModel build(int songLyricId);
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(
-      _$args,
-    );
+    final created = build(_$args);
     final ref =
         this.ref as $Ref<SongLyricSettingsModel, SongLyricSettingsModel>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<SongLyricSettingsModel, SongLyricSettingsModel>,
-        SongLyricSettingsModel,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SongLyricSettingsModel, SongLyricSettingsModel>,
+              SongLyricSettingsModel,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

@@ -1,5 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
+formatter:
+  trailing_commas: preserve
+
 analyzer:
   exclude:
     # ignore warnings in files from json_serializable, riverpod_generator

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 
 extension StoreExtension on Store {
@@ -24,6 +26,12 @@ extension StoreExtension on Store {
     return _queryBuilder(condition, orderBy, orderFlags).watch(triggerImmediately: true).map((query) => query.find());
   }
 
+  StreamSubscription<Query<T>> watchEntity<T>(Condition<T> condition, void Function(Query<T>) onData) {
+    final stream = _queryBuilder(condition, null, 0).watch();
+
+    return stream.listen(onData);
+  }
+
   int nextId<T>(QueryProperty<T, int> idProperty) {
     final box = this.box<T>();
     final query = box.query().build();
@@ -43,3 +51,4 @@ extension StoreExtension on Store {
     return queryBuilder;
   }
 }
+

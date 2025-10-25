@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/highlightable_widget.dart';
 import 'package:proscholy_common/components/selected_displayable_item_arguments.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/theme.dart';
 import 'package:proscholy_common/utils/extensions/brightness.dart';

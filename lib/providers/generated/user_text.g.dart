@@ -15,15 +15,16 @@ const userTextProvider = UserTextFamily._();
 final class UserTextProvider
     extends $FunctionalProvider<UserText?, UserText?, UserText?>
     with $Provider<UserText?> {
-  const UserTextProvider._(
-      {required UserTextFamily super.from, required int super.argument})
-      : super(
-          retry: null,
-          name: r'userTextProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  const UserTextProvider._({
+    required UserTextFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'userTextProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$userTextHash();
@@ -43,10 +44,7 @@ final class UserTextProvider
   @override
   UserText? create(Ref ref) {
     final argument = this.argument as int;
-    return userText(
-      ref,
-      argument,
-    );
+    return userText(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -68,23 +66,20 @@ final class UserTextProvider
   }
 }
 
-String _$userTextHash() => r'5641375e3ca6b0b85045f658dd90c048957f222b';
+String _$userTextHash() => r'5ffc6ea4277b59da4c3caa849e8785a9973d27fc';
 
 final class UserTextFamily extends $Family
     with $FunctionalFamilyOverride<UserText?, int> {
   const UserTextFamily._()
-      : super(
-          retry: null,
-          name: r'userTextProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'userTextProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  UserTextProvider call(
-    int id,
-  ) =>
-      UserTextProvider._(argument: id, from: this);
+  UserTextProvider call(int id) => UserTextProvider._(argument: id, from: this);
 
   @override
   String toString() => r'userTextProvider';

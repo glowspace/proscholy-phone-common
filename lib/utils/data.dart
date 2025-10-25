@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
 import 'package:proscholy_common/models/app_dependencies.dart';
 import 'package:proscholy_common/models/author.dart';
 import 'package:proscholy_common/models/external.dart';
@@ -26,6 +28,11 @@ const Duration _updatePeriod = Duration(hours: 1);
 final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
 Future<void> loadInitial(AppDependencies appDependencies) async {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    log(record.message, time: record.time, name: record.loggerName, level: record.level.value);
+  });
+
   final lastVersion = appDependencies.sharedPreferences.getString(_currentVersionKey);
 
   if (lastVersion == appDependencies.currentVersion) return;
@@ -75,8 +82,9 @@ Future<List<SongLyric>> update(AppDependencies appDependencies) async {
 
   query.close();
 
-  final remoteSongLyricIds =
-      await client.getSongLyricIds().then((data) => data['song_lyrics'].map((json) => int.parse(json['id'])).toSet());
+  final remoteSongLyricIds = await client.getSongLyricIds().then(
+    (data) => data['song_lyrics'].map((json) => int.parse(json['id'])).toSet(),
+  );
 
   songLyricsBox.removeMany(localSongLyricIds.difference(remoteSongLyricIds).toList());
 

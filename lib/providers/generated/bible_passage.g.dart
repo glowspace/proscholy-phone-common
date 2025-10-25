@@ -15,15 +15,16 @@ const biblePassageProvider = BiblePassageFamily._();
 final class BiblePassageProvider
     extends $FunctionalProvider<BiblePassage?, BiblePassage?, BiblePassage?>
     with $Provider<BiblePassage?> {
-  const BiblePassageProvider._(
-      {required BiblePassageFamily super.from, required int super.argument})
-      : super(
-          retry: null,
-          name: r'biblePassageProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  const BiblePassageProvider._({
+    required BiblePassageFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'biblePassageProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$biblePassageHash();
@@ -43,10 +44,7 @@ final class BiblePassageProvider
   @override
   BiblePassage? create(Ref ref) {
     final argument = this.argument as int;
-    return biblePassage(
-      ref,
-      argument,
-    );
+    return biblePassage(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -68,22 +66,20 @@ final class BiblePassageProvider
   }
 }
 
-String _$biblePassageHash() => r'a33cd1cf815a7e1c12c0d4f4fdf299eef34751e5';
+String _$biblePassageHash() => r'12fc1cd76324571719b2a5a9a3643207e537c36f';
 
 final class BiblePassageFamily extends $Family
     with $FunctionalFamilyOverride<BiblePassage?, int> {
   const BiblePassageFamily._()
-      : super(
-          retry: null,
-          name: r'biblePassageProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'biblePassageProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  BiblePassageProvider call(
-    int id,
-  ) =>
+  BiblePassageProvider call(int id) =>
       BiblePassageProvider._(argument: id, from: this);
 
   @override

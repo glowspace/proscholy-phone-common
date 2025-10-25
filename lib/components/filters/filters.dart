@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/components/selector_widget.dart';
 import 'package:proscholy_common/constants.dart';
-import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/components/filters/filters_section.dart';
-import 'package:proscholy_common/providers/sort.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/tag.dart';
@@ -36,13 +35,14 @@ class FiltersWidget extends ConsumerWidget {
                   ),
                 ),
                 SelectorWidget(
+                  isEnabled: context.read(songLyricsSearchProvider).searchText.isEmpty,
+                  selected: ref.watch(sortProvider),
+                  onSelected: (sortType) => ref.read(sortProvider.notifier).change(sortType),
                   segments: const [
                     ButtonSegment(value: SortType.random, label: Icon(Icons.shuffle)),
                     ButtonSegment(value: SortType.alpha, label: Icon(Icons.sort_by_alpha)),
                     ButtonSegment(value: SortType.numeric, label: Icon(Icons.pin_outlined)),
                   ],
-                  selected: ref.watch(sortProvider),
-                  onSelected: (sortType) => ref.read(sortProvider.notifier).change(sortType),
                 )
               ],
             );

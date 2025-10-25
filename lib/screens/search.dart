@@ -8,7 +8,7 @@ import 'package:proscholy_common/components/search/song_lyrics_search_list_view.
 import 'package:proscholy_common/components/split_view.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
-import 'package:proscholy_common/providers/tags.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/extensions/media_query_data.dart';
 
@@ -51,7 +51,10 @@ class SearchScreen extends StatelessWidget {
         detail: CustomScaffold(
           appBar: appBar,
           body: Consumer(
-            builder: (_, ref, __) => SongLyricsSearchListView(searchResult: ref.watch(songLyricsSearchProvider)),
+            builder: (_, ref, _) => SongLyricsSearchListView(
+              searchResult: ref.watch(songLyricsSearchFilteredProvider),
+              recentSongLyrics: ref.watch(recentSongLyricsProvider),
+            ),
           ),
         ),
         child: const Scaffold(body: FiltersWidget()),
@@ -60,16 +63,14 @@ class SearchScreen extends StatelessWidget {
       child = CustomScaffold(
         appBar: appBar,
         body: Consumer(
-          builder: (_, ref, __) => SongLyricsSearchListView(searchResult: ref.watch(songLyricsSearchProvider)),
+          builder: (_, ref, _) => SongLyricsSearchListView(
+            searchResult: ref.watch(songLyricsSearchFilteredProvider),
+            recentSongLyrics: ref.watch(recentSongLyricsProvider),
+          ),
         ),
       );
     }
 
-    return PopScope(
-      onPopInvokedWithResult: (_, __) {
-        if (context.isSearching) context.providers.read(selectedTagsProvider.notifier).pop();
-      },
-      child: child,
-    );
+    return child;
   }
 }

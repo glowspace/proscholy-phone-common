@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
+import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/models/user_text.dart';
 import 'package:proscholy_common/models/external.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/routing/navigation_rail_wrapper.dart';
 import 'package:proscholy_common/screens/about.dart';
@@ -33,68 +36,87 @@ final class AppRouter {
       '/' => ((_) => const HomeScreen(), false, true),
       '/about' => ((_) => const AboutScreen(), false, false),
       '/display' => (
-          (_) {
-            final arguments = settings.arguments as DisplayScreenArguments;
+        (_) {
+          final arguments = settings.arguments as DisplayScreenArguments;
 
-            return DisplayScreen(
-              items: arguments.items,
-              initialIndex: arguments.initialIndex,
-              showSearchScreen: arguments.showSearchScreen,
-              playlist: arguments.playlist,
-              songbook: arguments.songbook,
-            );
-          },
-          false,
-          true
-        ),
+          return DisplayScreen(
+            items: arguments.items,
+            initialIndex: arguments.initialIndex,
+            showSearchScreen: arguments.showSearchScreen,
+            playlist: arguments.playlist,
+            songbook: arguments.songbook,
+          );
+        },
+        false,
+        true,
+      ),
       '/display/present' => ((_) => const StartPresentationScreen(), true, false),
       '/playlist' => ((_) => PlaylistScreen(playlist: settings.arguments as Playlist), false, true),
       '/playlist/bible_verse/select_verse' => (
-          (_) => SelectBiblePassageScreen(biblePassage: settings.arguments as BiblePassage?),
-          true,
-          false
-        ),
+        (_) => SelectBiblePassageScreen(biblePassage: settings.arguments as BiblePassage?),
+        true,
+        false,
+      ),
       '/playlist/user_text/edit' => ((_) => UserTextEditScreen(userText: settings.arguments as UserText?), true, false),
       '/playlists' => ((_) => const PlaylistsScreen(), false, true),
-      '/search' => ((_) => const SearchScreen(), true, true),
+      '/search' => (
+        (_) {
+          final tag = settings.arguments as Tag?;
+
+          if (tag != null) {
+            return ProviderScope(
+              overrides: [
+                selectedTagsProvider.overrideWith(() => SelectedTags(initialSelectedTags: [tag])),
+                songLyricsSearchProvider.overrideWith(() => SongLyricsSearch()),
+                songLyricsSearchFilteredProvider.overrideWith(() => SongLyricsSearchFiltered()),
+              ],
+              child: const SearchScreen(),
+            );
+          }
+
+          return const SearchScreen();
+        },
+        true,
+        true,
+      ),
       '/settings' => ((_) => const SettingsScreen(), true, false),
       '/songbook' => ((_) => SongbookScreen(songbook: settings.arguments as Songbook), false, true),
       '/songbooks' => ((_) => const SongbooksScreen(), false, true),
       '/song_lyric' => (
-          (BuildContext context) {
-            if (uri.queryParameters.containsKey('id')) {
-              final id = int.parse(uri.queryParameters['id']!);
-              final songLyric = context.providers.read(songLyricProvider(id));
-
-              if (songLyric != null) return DisplayScreen(items: [songLyric]);
-            }
-
-            // should not get here
-            throw UnimplementedError();
-          },
-          false,
-          true
-        ),
-      '/song_lyric/jpg' => ((_) => JpgScreen(jpg: settings.arguments as External), true, false),
-      '/song_lyric/pdf' => ((_) => PdfScreen(pdf: settings.arguments as External), true, false),
-      '/updated_song_lyrics' => (
-          (_) => UpdatedSongLyricsScreen(songLyrics: settings.arguments as List<SongLyric>),
-          false,
-          true
-        ),
-      String path when path.startsWith('/pisen/') => (
-          (BuildContext context) {
-            final id = int.parse(uri.pathSegments[1]);
+        (BuildContext context) {
+          if (uri.queryParameters.containsKey('id')) {
+            final id = int.parse(uri.queryParameters['id']!);
             final songLyric = context.providers.read(songLyricProvider(id));
 
             if (songLyric != null) return DisplayScreen(items: [songLyric]);
+          }
 
-            // should not get here
-            throw UnimplementedError();
-          },
-          false,
-          true
-        ),
+          // should not get here
+          throw UnimplementedError();
+        },
+        false,
+        true,
+      ),
+      '/song_lyric/jpg' => ((_) => JpgScreen(jpg: settings.arguments as External), true, false),
+      '/song_lyric/pdf' => ((_) => PdfScreen(pdf: settings.arguments as External), true, false),
+      '/updated_song_lyrics' => (
+        (_) => UpdatedSongLyricsScreen(songLyrics: settings.arguments as List<SongLyric>),
+        false,
+        true,
+      ),
+      String path when path.startsWith('/pisen/') => (
+        (BuildContext context) {
+          final id = int.parse(uri.pathSegments[1]);
+          final songLyric = context.providers.read(songLyricProvider(id));
+
+          if (songLyric != null) return DisplayScreen(items: [songLyric]);
+
+          // should not get here
+          throw UnimplementedError();
+        },
+        false,
+        true,
+      ),
       _ => ((_) => const HomeScreen(), false, true),
     };
 

@@ -15,15 +15,15 @@ const homeSectionSettingsProvider = HomeSectionSettingsProvider._();
 final class HomeSectionSettingsProvider
     extends $NotifierProvider<HomeSectionSettings, List<HomeSection>> {
   const HomeSectionSettingsProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'homeSectionSettingsProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'homeSectionSettingsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$homeSectionSettingsHash();
@@ -51,11 +51,14 @@ abstract class _$HomeSectionSettings extends $Notifier<List<HomeSection>> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<List<HomeSection>, List<HomeSection>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<HomeSection>, List<HomeSection>>,
-        List<HomeSection>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<HomeSection>, List<HomeSection>>,
+              List<HomeSection>,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

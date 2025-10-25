@@ -1,3 +1,4 @@
+import 'package:proscholy_common/utils/extensions/ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
@@ -9,12 +10,7 @@ part 'generated/bible_passage.g.dart';
 BiblePassage? biblePassage(Ref ref, int id) {
   if (id == 0) return null;
 
-  final box = ref.read(appDependenciesProvider).store.box<BiblePassage>();
+  ref.watchEntity(BiblePassage_.id.equals(id));
 
-  final stream = box.query(BiblePassage_.id.equals(id)).watch();
-  final subscription = stream.listen((_) => ref.invalidateSelf());
-
-  ref.onDispose(subscription.cancel);
-
-  return box.get(id);
+  return ref.read(appDependenciesProvider).store.box<BiblePassage>().get(id);
 }

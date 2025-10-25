@@ -23,6 +23,6 @@ sealed class SongLyricsSearchResult with _$SongLyricsSearchResult {
         (other is SongLyricsSearchResult &&
             runtimeType == other.runtimeType &&
             searchText == other.searchText &&
-            songLyrics.length == other.songLyrics.length);
+            songLyrics == other.songLyrics);
   }
 }

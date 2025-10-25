@@ -14,8 +14,6 @@ import 'package:proscholy_common/models/tag.dart';
 part 'generated/song_lyric.freezed.dart';
 part 'generated/song_lyric.g.dart';
 
-enum SortType { random, alpha, numeric }
-
 enum SongLyricType {
   original,
   translation,

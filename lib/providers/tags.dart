@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
-import 'package:proscholy_common/views/tag.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 import 'package:proscholy_common/models/tag.dart';
@@ -16,14 +16,7 @@ part 'generated/tags.g.dart';
 Tag? tag(Ref ref, int id) {
   if (id == 0) return null;
 
-  final box = ref.read(appDependenciesProvider).store.box<Tag>();
-
-  final stream = box.query(Tag_.id.equals(id)).watch();
-  final subscription = stream.listen((_) => ref.invalidateSelf());
-
-  ref.onDispose(subscription.cancel);
-
-  return box.get(id);
+  return ref.read(appDependenciesProvider).store.box<Tag>().get(id);
 }
 
 // provides tags for given `tagType`
@@ -43,20 +36,18 @@ List<Tag> tags(Ref ref, TagType tagType) {
     case TagType.language:
       final languageCounts = <String, int>{};
 
-      for (final songLyric in ref.read(songLyricsProvider)) {
+      for (final songLyric in ref.watch(songLyricsProvider)) {
         languageCounts[songLyric.langDescription] = (languageCounts[songLyric.langDescription] ?? 0) + 1;
       }
 
       final languages = languageCounts.keys.sorted((a, b) => languageCounts[b]!.compareTo(languageCounts[a]!));
 
-      int id = -1;
-
-      return [
-        for (final language in languages)
-          Tag(id: id--, name: language, dbType: tagType.rawValue, songLyricsCount: languageCounts[language]!)
-      ];
+      return [for (final (i, language) in languages.indexed) Tag.fromLanguage(i, language, languageCounts[language]!)];
     default:
-      final tags = ref.watch(appDependenciesProvider).store.query(
+      final tags = ref
+          .watch(appDependenciesProvider)
+          .store
+          .query(
             condition: Tag_.dbType.equals(tagType.rawValue).and(Tag_.songLyricsCount.greaterThan(0)),
           );
 
@@ -64,64 +55,3 @@ List<Tag> tags(Ref ref, TagType tagType) {
   }
 }
 
-// provides set of selected tags
-// because there might be multiple search screens in stack that use this provider, it is keeping info about selected tags for different screens
-@Riverpod(keepAlive: true)
-class SelectedTags extends _$SelectedTags {
-  final List<Set<Tag>> selectedTagsStack = [];
-
-  @override
-  Set<Tag> build() {
-    return {for (final tagType in supportedTagTypes) ...ref.watch(selectedTagsByTypeProvider(tagType))};
-  }
-
-  // prepares state for new search screen with optional `initialTag` by storing current state and invalidating all providers
-  // is called when starting search from `PlaylistScreen`, `SongbookScreen` or `SongLyricTag`
-  void push({Tag? initialTag, List<Tag> initialTags = const []}) {
-    if (state.isNotEmpty) selectedTagsStack.add(state);
-
-    for (final tagType in supportedTagTypes) {
-      ref.invalidate(selectedTagsByTypeProvider(tagType));
-    }
-
-    if (initialTag != null) toggleSelection(initialTag);
-    for (final tag in initialTags) {
-      toggleSelection(tag);
-    }
-  }
-
-  // restores state of previous search screen
-  // is called in `onWillPop` function in `SearchScreen`
-  void pop() {
-    for (final tagType in supportedTagTypes) {
-      ref.invalidate(selectedTagsByTypeProvider(tagType));
-    }
-
-    if (selectedTagsStack.isNotEmpty) {
-      for (final tag in selectedTagsStack.removeLast()) {
-        toggleSelection(tag);
-      }
-    }
-  }
-
-  void toggleSelection(Tag tagToToggle) {
-    ref.read(selectedTagsByTypeProvider(tagToToggle.type).notifier)._toggleSelection(tagToToggle);
-  }
-}
-
-@Riverpod(keepAlive: true)
-class SelectedTagsByType extends _$SelectedTagsByType {
-  @override
-  Set<Tag> build(TagType tagType) => {};
-
-  void _toggleSelection(Tag tagToToggle) {
-    if (state.contains(tagToToggle)) {
-      state = {
-        for (final tag in state)
-          if (tag != tagToToggle) tag
-      };
-    } else {
-      state = {tagToToggle, ...state};
-    }
-  }
-}

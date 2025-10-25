@@ -33,7 +33,7 @@ extension BuildContextExtension on BuildContext {
           .cast<Tag>()
           .toList();
 
-      providers.read(selectedTagsProvider.notifier).push(initialTags: selectedTags);
+      // providers.read(selectedTagsProvider.notifier).push(initialTags: selectedTags);
 
       routeName = '/search';
     }
