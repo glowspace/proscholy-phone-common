@@ -1,13 +1,16 @@
-import 'package:objectbox/objectbox.dart';
-import 'package:proscholy_common/providers/user_text.dart';
-import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/providers/song_lyrics.dart';
-import 'package:proscholy_common/providers/songbooks.dart';
+import 'dart:async';
+
+import 'package:proscholy_common/models/bible_passage.dart';
+import 'package:proscholy_common/models/generated/objectbox.g.dart';
+import 'package:proscholy_common/models/playlist.dart';
+import 'package:proscholy_common/models/song_lyric.dart';
+import 'package:proscholy_common/models/songbook.dart';
+import 'package:proscholy_common/models/user_text.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/recent_item.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/providers/bible_passage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'generated/recent_items.g.dart';
@@ -19,6 +22,8 @@ const String _recentItemsKey = 'recent_items';
 
 @riverpod
 class RecentItems extends _$RecentItems {
+  final _subscriptions = <RecentItem, StreamSubscription>{};
+
   @override
   List<RecentItem> build() {
     final appDependencies = ref.read(appDependenciesProvider);
@@ -30,13 +35,15 @@ class RecentItems extends _$RecentItems {
   }
 
   void add(RecentItem item) {
+    if (!_subscriptions.containsKey(item)) _watchForItemChanges(item);
+
     final items = [
       item,
       for (final recentItem in state)
         if (recentItem != item) recentItem,
     ];
 
-    if (items.length > _maxRecentItems) items.removeLast();
+    if (items.length > _maxRecentItems) _subscriptions.remove(items.removeLast())?.cancel();
 
     ref
         .read(appDependenciesProvider)
@@ -50,29 +57,56 @@ class RecentItems extends _$RecentItems {
     final items = <RecentItem>[];
 
     for (final string in sharedPreferences.getStringList(_recentItemsKey) ?? <String>[]) {
-      final itemProvider = _RecentItemSerialization.deserialize(string);
-      // watching for changes of the recent item, e.g. when playlist is renamed
-      final item = ref.watch(itemProvider);
+      final item = _RecentItemSerialization.deserialize(string, store);
 
-      if (item != null) items.add(item);
+      if (item != null) {
+        _watchForItemChanges(item);
+
+        items.add(item);
+      }
     }
 
     return items;
   }
+
+  // watching for changes of the recent item, e.g. when playlist is renamed
+  void _watchForItemChanges(RecentItem item) {
+    final store = ref.read(appDependenciesProvider).store;
+
+    final subscription = switch (item) {
+      BiblePassage biblePassage => store.watchEntity(BiblePassage_.id.equals(biblePassage.id), _updateItem),
+      UserText userText => store.watchEntity(UserText_.id.equals(userText.id), _updateItem),
+      Playlist playlist => store.watchEntity(Playlist_.id.equals(playlist.id), _updateItem),
+      _ => null,
+    };
+
+    if (subscription != null) _subscriptions[item] = subscription;
+  }
+
+  void _updateItem(Query<RecentItem> itemQuery) {
+    final item = itemQuery.findFirst();
+
+    if (item == null) return;
+
+    state = [
+      for (final recentItem in state)
+        if (item.runtimeType == recentItem.runtimeType && item.id == recentItem.id) item else recentItem,
+    ];
+  }
 }
 
 extension _RecentItemSerialization on RecentItem {
-  static ProviderListenable<RecentItem?> deserialize(String string) {
+  static RecentItem? deserialize(String string, Store store) {
     final parts = string.split(';');
     final type = int.parse(parts[0]);
     final id = int.parse(parts[1]);
 
     return switch (type) {
-      0 => biblePassageProvider(id),
-      1 => userTextProvider(id),
-      2 => playlistProvider(id),
-      3 => songbookProvider(id),
-      4 => songLyricProvider(id),
+      0 => store.box<BiblePassage>().get(id),
+      1 => store.box<UserText>().get(id),
+      2 => store.box<Playlist>().get(id),
+      3 => store.box<Songbook>().get(id),
+      4 => store.box<SongLyric>().get(id),
       final value => throw UnimplementedError('$value is not valid recent item type'),
     };
   }

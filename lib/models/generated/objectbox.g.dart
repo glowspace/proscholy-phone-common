@@ -1521,19 +1521,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final biblePassageParam = obx.ToOne<BiblePassage>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
-        final userTextParam = obx.ToOne<UserText>(
-          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
-        );
         final songLyricParam = obx.ToOne<SongLyric>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+        );
+        final userTextParam = obx.ToOne<UserText>(
+          targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
         );
         final object = PlaylistRecord(
           id: idParam,
           rank: rankParam,
           playlist: playlistParam,
           biblePassage: biblePassageParam,
-          userText: userTextParam,
           songLyric: songLyricParam,
+          userText: userTextParam,
         );
         object.songLyric.attach(store);
         object.playlist.attach(store);

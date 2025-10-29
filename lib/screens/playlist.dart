@@ -19,7 +19,6 @@ import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/providers/menu_collapsed.dart';
 import 'package:proscholy_common/providers/playlists.dart';
-import 'package:proscholy_common/providers/tags.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 import 'package:proscholy_common/screens/playlists.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
@@ -57,7 +56,7 @@ class _PlaylistScreenTabletState extends ConsumerState<_PlaylistScreenTablet> {
       showingOnlyDetail: ref.watch(menuCollapsedProvider),
       detail: ValueListenableBuilder(
         valueListenable: _selectedPlaylistNotifier,
-        builder: (_, playlist, __) => _PlaylistScaffold(key: Key('${playlist.id}'), playlist: playlist),
+        builder: (_, playlist, _) => _PlaylistScaffold(key: Key('${playlist.id}'), playlist: widget.playlist),
       ),
       child: SelectedPlaylist(
         playlistNotifier: _selectedPlaylistNotifier,
@@ -113,7 +112,7 @@ class _PlaylistScaffold extends StatelessWidget {
             children: [
               SpeedDialChild(
                 label: 'vlastní text',
-                onTap: () => _addText(context),
+                onTap: () => _addUserText(context),
                 child: const Icon(Icons.edit_note),
               ),
               SpeedDialChild(
@@ -139,18 +138,20 @@ class _PlaylistScaffold extends StatelessWidget {
           automaticallyImplyLeading: false,
           leading: context.isPlaylist ? const CustomBackButton() : null,
           titleSpacing: context.isPlaylist ? null : 2 * kDefaultPadding,
-          title: Text(playlist.name),
+          title: Consumer(
+            builder: (_, ref, _) => Text(ref.watch(playlistProvider(playlist).select((playlist) => playlist.name))),
+          ),
           actions: [
             HighlightableWidget(
               // enable filter only if there are some song lyrics in playlist
               isEnabled: playlist.records.where((record) => record.songLyric.targetId != 0).isNotEmpty,
-              onTap: () => _pushSearch(context),
+              onTap: () => context.push('/search', arguments: Tag.fromPlaylist(playlist)),
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               icon: const Icon(Icons.filter_alt),
             ),
             ValueListenableBuilder(
               valueListenable: sortedAlphabeticallyNotifier,
-              builder: (_, sortedAlphabetically, __) => HighlightableWidget(
+              builder: (_, sortedAlphabetically, _) => HighlightableWidget(
                 isEnabled: playlist.records.isNotEmpty,
                 onTap: () => sortedAlphabeticallyNotifier.value = !sortedAlphabeticallyNotifier.value,
                 padding: EdgeInsets.only(
@@ -184,20 +185,15 @@ class _PlaylistScaffold extends StatelessWidget {
     );
   }
 
-  void _pushSearch(BuildContext context) {
-    // context.providers.read(selectedTagsProvider.notifier).push(initialTag: Tag.fromPlaylist(playlist));
-
-    context.push('/search', arguments: Tag.fromPlaylist(playlist));
-  }
-
-  void _addText(BuildContext context) async {
+  void _addUserText(BuildContext context) async {
     final userText = await context.push('/playlist/user_text/edit') as UserText?;
 
     if (context.mounted && userText != null) {
-      context.providers.read(playlistsProvider.notifier).addToPlaylist(
-            playlist,
-            userText: userText,
-            afterRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
+      context
+          .read(playlistProvider(playlist).notifier)
+          .addUserText(
+            userText,
+            atRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
           );
     }
   }
@@ -206,10 +202,11 @@ class _PlaylistScaffold extends StatelessWidget {
     final biblePassage = (await context.push('/playlist/bible_verse/select_verse')) as BiblePassage?;
 
     if (context.mounted && biblePassage != null) {
-      context.providers.read(playlistsProvider.notifier).addToPlaylist(
-            playlist,
-            biblePassage: biblePassage,
-            afterRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
+      context
+          .read(playlistProvider(playlist).notifier)
+          .addBiblePassage(
+            biblePassage,
+            atRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
           );
     }
   }
@@ -218,10 +215,11 @@ class _PlaylistScaffold extends StatelessWidget {
     final songLyric = (await context.push('/search', arguments: SearchScreenArguments.returnSongLyric())) as SongLyric?;
 
     if (context.mounted && songLyric != null) {
-      context.providers.read(playlistsProvider.notifier).addToPlaylist(
-            playlist,
-            songLyric: songLyric,
-            afterRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
+      context
+          .read(playlistProvider(playlist).notifier)
+          .addSongLyric(
+            songLyric,
+            atRank: SelectedDisplayableItemArguments.of(context, listen: false)?.value.initialIndex,
           );
     }
   }

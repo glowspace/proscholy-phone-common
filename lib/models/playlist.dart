@@ -20,12 +20,22 @@ sealed class Playlist extends Model with _$Playlist, RecentItem {
     @Backlink() required ToMany<PlaylistRecord> records,
   }) = _Playlist;
 
+  factory Playlist.empty(String name) => Playlist(id: 0, name: name, rank: 0, records: ToMany());
+
   factory Playlist.favorites() => Playlist(
-        id: favoritesPlaylistId,
-        name: _favoritesName,
-        rank: 0,
-        records: ToMany(),
-      );
+    id: favoritesPlaylistId,
+    name: _favoritesName,
+    rank: 0,
+    records: ToMany(),
+  );
 
   bool get isFavorites => id == favoritesPlaylistId;
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || (other is Playlist && id == other.id && name == other.name);
+  }
 }

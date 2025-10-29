@@ -61,26 +61,26 @@ abstract class _$Sort extends $Notifier<SortType> {
   }
 }
 
-@ProviderFor(_songLyrics)
-const _songLyricsProvider = _SongLyricsProvider._();
+@ProviderFor(songLyricsSorted)
+const songLyricsSortedProvider = SongLyricsSortedProvider._();
 
-final class _SongLyricsProvider
+final class SongLyricsSortedProvider
     extends
         $FunctionalProvider<List<SongLyric>, List<SongLyric>, List<SongLyric>>
     with $Provider<List<SongLyric>> {
-  const _SongLyricsProvider._()
+  const SongLyricsSortedProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'_songLyricsProvider',
-        isAutoDispose: false,
+        name: r'songLyricsSortedProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$_songLyricsHash();
+  String debugGetCreateSourceHash() => _$songLyricsSortedHash();
 
   @$internal
   @override
@@ -89,7 +89,7 @@ final class _SongLyricsProvider
 
   @override
   List<SongLyric> create(Ref ref) {
-    return _songLyrics(ref);
+    return songLyricsSorted(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -101,49 +101,7 @@ final class _SongLyricsProvider
   }
 }
 
-String _$_songLyricsHash() => r'3ef08658346f95813927ac249db9c5bdf438dbc0';
-
-@ProviderFor(songLyrics)
-const songLyricsProvider = SongLyricsProvider._();
-
-final class SongLyricsProvider
-    extends
-        $FunctionalProvider<List<SongLyric>, List<SongLyric>, List<SongLyric>>
-    with $Provider<List<SongLyric>> {
-  const SongLyricsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'songLyricsProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$songLyricsHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<SongLyric>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<SongLyric> create(Ref ref) {
-    return songLyrics(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<SongLyric> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<SongLyric>>(value),
-    );
-  }
-}
-
-String _$songLyricsHash() => r'5d809c061b59705c0ab92d7b7c3cf5c7f1e37267';
+String _$songLyricsSortedHash() => r'f38b3857eeea873f6a078b043eb882e96f6f3ed4';
 
 @ProviderFor(SongLyricsSearch)
 const songLyricsSearchProvider = SongLyricsSearchProvider._();
@@ -177,7 +135,7 @@ final class SongLyricsSearchProvider
   }
 }
 
-String _$songLyricsSearchHash() => r'58ad9a1b40ca975a68bdc8408fb5c9c8b9d9301b';
+String _$songLyricsSearchHash() => r'5bb4dd1952503f656c1c9ce22fd0aa09ecb733db';
 
 abstract class _$SongLyricsSearch extends $Notifier<SongLyricsSearchResult> {
   SongLyricsSearchResult build();
@@ -286,7 +244,7 @@ final class SongLyricsSearchFilteredProvider
 }
 
 String _$songLyricsSearchFilteredHash() =>
-    r'9e2c1cec4fc69bf684971eebb723a16f90b2d6b3';
+    r'c43402a043e48e6781093bb6c91c6241f2e471d1';
 
 abstract class _$SongLyricsSearchFiltered
     extends $Notifier<SongLyricsSearchResult> {

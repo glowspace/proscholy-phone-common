@@ -363,7 +363,7 @@ class _SelectBiblePassageScreenState extends State<_SelectBiblePassageScreen> {
     final BiblePassage biblePassage;
 
     if (widget.biblePassage == null) {
-      biblePassage = context.providers.read(playlistsProvider.notifier).createBiblePassage(
+      biblePassage = BiblePassage(
             book: widget.book.number - 1,
             chapter: widget.chapter,
             startVerse: _startVerse,

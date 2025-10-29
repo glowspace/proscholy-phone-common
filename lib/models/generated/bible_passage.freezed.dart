@@ -198,10 +198,10 @@ return $default(_that.id,_that.book,_that.chapter,_that.startVerse,_that.endVers
 
 @Entity(realClass: BiblePassage)
 class _BiblePassage extends BiblePassage {
-  const _BiblePassage({@Id(assignable: true) required this.id, required this.book, required this.chapter, required this.startVerse, this.endVerse, required this.text}): super._();
+  const _BiblePassage({@Id(assignable: true) this.id = 0, required this.book, required this.chapter, required this.startVerse, this.endVerse, required this.text}): super._();
   
 
-@override@Id(assignable: true) final  int id;
+@override@JsonKey()@Id(assignable: true) final  int id;
 @override final  int book;
 @override final  int chapter;
 @override final  int startVerse;

@@ -41,7 +41,7 @@ final class RecentItemsProvider
   }
 }
 
-String _$recentItemsHash() => r'938a0c49fb84534d4970888dcce8ff544c149100';
+String _$recentItemsHash() => r'de101feeaf1b13cda2b7dd445d37cbf33d57e3a7';
 
 abstract class _$RecentItems extends $Notifier<List<RecentItem>> {
   List<RecentItem> build();

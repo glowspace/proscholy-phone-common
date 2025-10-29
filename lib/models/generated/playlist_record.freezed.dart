@@ -16,7 +16,7 @@ mixin _$PlaylistRecord {
 
 @Id(assignable: true) int get id; int get rank; ToOne<Playlist> get playlist;// only one relation will be valid at a time
 // would make more sense to have some kind of union, but does not make sense now trying to migrate all old data...
- ToOne<BiblePassage> get biblePassage; ToOne<UserText> get userText; ToOne<SongLyric> get songLyric;
+ ToOne<BiblePassage> get biblePassage; ToOne<SongLyric> get songLyric; ToOne<UserText> get userText;
 /// Create a copy of PlaylistRecord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,7 +29,7 @@ $PlaylistRecordCopyWith<PlaylistRecord> get copyWith => _$PlaylistRecordCopyWith
 
 @override
 String toString() {
-  return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric)';
+  return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, songLyric: $songLyric, userText: $userText)';
 }
 
 
@@ -40,7 +40,7 @@ abstract mixin class $PlaylistRecordCopyWith<$Res>  {
   factory $PlaylistRecordCopyWith(PlaylistRecord value, $Res Function(PlaylistRecord) _then) = _$PlaylistRecordCopyWithImpl;
 @useResult
 $Res call({
-@Id(assignable: true) int id, int rank, ToOne<Playlist> playlist, ToOne<BiblePassage> biblePassage, ToOne<UserText> userText, ToOne<SongLyric> songLyric
+@Id(assignable: true) int id, int rank, ToOne<Playlist> playlist, ToOne<BiblePassage> biblePassage, ToOne<SongLyric> songLyric, ToOne<UserText> userText
 });
 
 
@@ -57,15 +57,15 @@ class _$PlaylistRecordCopyWithImpl<$Res>
 
 /// Create a copy of PlaylistRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? rank = null,Object? playlist = null,Object? biblePassage = null,Object? userText = null,Object? songLyric = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? rank = null,Object? playlist = null,Object? biblePassage = null,Object? songLyric = null,Object? userText = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,rank: null == rank ? _self.rank : rank // ignore: cast_nullable_to_non_nullable
 as int,playlist: null == playlist ? _self.playlist : playlist // ignore: cast_nullable_to_non_nullable
 as ToOne<Playlist>,biblePassage: null == biblePassage ? _self.biblePassage : biblePassage // ignore: cast_nullable_to_non_nullable
-as ToOne<BiblePassage>,userText: null == userText ? _self.userText : userText // ignore: cast_nullable_to_non_nullable
-as ToOne<UserText>,songLyric: null == songLyric ? _self.songLyric : songLyric // ignore: cast_nullable_to_non_nullable
-as ToOne<SongLyric>,
+as ToOne<BiblePassage>,songLyric: null == songLyric ? _self.songLyric : songLyric // ignore: cast_nullable_to_non_nullable
+as ToOne<SongLyric>,userText: null == userText ? _self.userText : userText // ignore: cast_nullable_to_non_nullable
+as ToOne<UserText>,
   ));
 }
 
@@ -147,10 +147,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<UserText> userText,  ToOne<SongLyric> songLyric)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<SongLyric> songLyric,  ToOne<UserText> userText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PlaylistRecord() when $default != null:
-return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.userText,_that.songLyric);case _:
+return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.songLyric,_that.userText);case _:
   return orElse();
 
 }
@@ -168,10 +168,10 @@ return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.user
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<UserText> userText,  ToOne<SongLyric> songLyric)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<SongLyric> songLyric,  ToOne<UserText> userText)  $default,) {final _that = this;
 switch (_that) {
 case _PlaylistRecord():
-return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.userText,_that.songLyric);}
+return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.songLyric,_that.userText);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -185,10 +185,10 @@ return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.user
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<UserText> userText,  ToOne<SongLyric> songLyric)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(assignable: true)  int id,  int rank,  ToOne<Playlist> playlist,  ToOne<BiblePassage> biblePassage,  ToOne<SongLyric> songLyric,  ToOne<UserText> userText)?  $default,) {final _that = this;
 switch (_that) {
 case _PlaylistRecord() when $default != null:
-return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.userText,_that.songLyric);case _:
+return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.songLyric,_that.userText);case _:
   return null;
 
 }
@@ -200,7 +200,7 @@ return $default(_that.id,_that.rank,_that.playlist,_that.biblePassage,_that.user
 
 @Entity(realClass: PlaylistRecord)
 class _PlaylistRecord extends PlaylistRecord {
-  const _PlaylistRecord({@Id(assignable: true) required this.id, required this.rank, required this.playlist, required this.biblePassage, required this.userText, required this.songLyric}): super._();
+  const _PlaylistRecord({@Id(assignable: true) required this.id, required this.rank, required this.playlist, required this.biblePassage, required this.songLyric, required this.userText}): super._();
   
 
 @override@Id(assignable: true) final  int id;
@@ -209,8 +209,8 @@ class _PlaylistRecord extends PlaylistRecord {
 // only one relation will be valid at a time
 // would make more sense to have some kind of union, but does not make sense now trying to migrate all old data...
 @override final  ToOne<BiblePassage> biblePassage;
-@override final  ToOne<UserText> userText;
 @override final  ToOne<SongLyric> songLyric;
+@override final  ToOne<UserText> userText;
 
 /// Create a copy of PlaylistRecord
 /// with the given fields replaced by the non-null parameter values.
@@ -224,7 +224,7 @@ _$PlaylistRecordCopyWith<_PlaylistRecord> get copyWith => __$PlaylistRecordCopyW
 
 @override
 String toString() {
-  return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, userText: $userText, songLyric: $songLyric)';
+  return 'PlaylistRecord(id: $id, rank: $rank, playlist: $playlist, biblePassage: $biblePassage, songLyric: $songLyric, userText: $userText)';
 }
 
 
@@ -235,7 +235,7 @@ abstract mixin class _$PlaylistRecordCopyWith<$Res> implements $PlaylistRecordCo
   factory _$PlaylistRecordCopyWith(_PlaylistRecord value, $Res Function(_PlaylistRecord) _then) = __$PlaylistRecordCopyWithImpl;
 @override @useResult
 $Res call({
-@Id(assignable: true) int id, int rank, ToOne<Playlist> playlist, ToOne<BiblePassage> biblePassage, ToOne<UserText> userText, ToOne<SongLyric> songLyric
+@Id(assignable: true) int id, int rank, ToOne<Playlist> playlist, ToOne<BiblePassage> biblePassage, ToOne<SongLyric> songLyric, ToOne<UserText> userText
 });
 
 
@@ -252,15 +252,15 @@ class __$PlaylistRecordCopyWithImpl<$Res>
 
 /// Create a copy of PlaylistRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? rank = null,Object? playlist = null,Object? biblePassage = null,Object? userText = null,Object? songLyric = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? rank = null,Object? playlist = null,Object? biblePassage = null,Object? songLyric = null,Object? userText = null,}) {
   return _then(_PlaylistRecord(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,rank: null == rank ? _self.rank : rank // ignore: cast_nullable_to_non_nullable
 as int,playlist: null == playlist ? _self.playlist : playlist // ignore: cast_nullable_to_non_nullable
 as ToOne<Playlist>,biblePassage: null == biblePassage ? _self.biblePassage : biblePassage // ignore: cast_nullable_to_non_nullable
-as ToOne<BiblePassage>,userText: null == userText ? _self.userText : userText // ignore: cast_nullable_to_non_nullable
-as ToOne<UserText>,songLyric: null == songLyric ? _self.songLyric : songLyric // ignore: cast_nullable_to_non_nullable
-as ToOne<SongLyric>,
+as ToOne<BiblePassage>,songLyric: null == songLyric ? _self.songLyric : songLyric // ignore: cast_nullable_to_non_nullable
+as ToOne<SongLyric>,userText: null == userText ? _self.userText : userText // ignore: cast_nullable_to_non_nullable
+as ToOne<UserText>,
   ));
 }
 

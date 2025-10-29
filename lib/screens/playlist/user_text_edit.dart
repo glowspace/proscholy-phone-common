@@ -92,9 +92,7 @@ class _UserTextEditScreenState extends State<UserTextEditScreen> {
     final UserText userText;
 
     if (widget.userText == null) {
-      userText = context.providers
-          .read(playlistsProvider.notifier)
-          .createUserText(name: name, content: _serializeDocumentToMarkdown(_controller.document) ?? '');
+      userText = UserText(name: name, content: _serializeDocumentToMarkdown(_controller.document) ?? '');
     } else {
       userText =
           widget.userText!.copyWith(name: name, content: _serializeDocumentToMarkdown(_controller.document) ?? '');

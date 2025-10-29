@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:proscholy_common/models/playlist.dart';
+import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/views/content_item.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -12,12 +14,10 @@ import 'package:proscholy_common/components/selected_displayable_item_arguments.
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
-import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/playlist_record.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/bible_passage.dart';
 import 'package:proscholy_common/providers/user_text.dart';
-import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/routing/arguments.dart';
 
@@ -27,7 +27,11 @@ class PlaylistRecordsListView extends ConsumerStatefulWidget {
   final Playlist playlist;
   final ValueNotifier<bool> sortedAlphabeticallyNotifier;
 
-  const PlaylistRecordsListView({super.key, required this.playlist, required this.sortedAlphabeticallyNotifier});
+  const PlaylistRecordsListView({
+    super.key,
+    required this.playlist,
+    required this.sortedAlphabeticallyNotifier,
+  });
 
   @override
   ConsumerState<PlaylistRecordsListView> createState() => _PlaylistRecordsListViewState();
@@ -37,8 +41,9 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
   late StreamSubscription<Query<PlaylistRecord>> _playlistChangesSubscription;
 
   // it is not possible to sort relations yet, so sort it here when displaying
-  late List<PlaylistRecord> _recordsOrdered =
-      _filterInvalidRecords(widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank)));
+  late List<PlaylistRecord> _recordsOrdered = _filterInvalidRecords(
+    widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank)),
+  );
 
   @override
   void initState() {
@@ -52,38 +57,42 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
         .query(PlaylistRecord_.playlist.equals(widget.playlist.id))
         .watch()
         .listen((_) {
-      setState(() =>
-          _recordsOrdered = _filterInvalidRecords(widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank))));
+          setState(
+            () => _recordsOrdered = _filterInvalidRecords(
+              widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank)),
+            ),
+          );
 
-      final context = this.context;
-      if (!context.mounted) return;
+          final context = this.context;
+          if (!context.mounted) return;
 
-      final selectedDisplayableItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context, listen: false);
+          final selectedDisplayableItemArgumentsNotifier = SelectedDisplayableItemArguments.of(context, listen: false);
 
-      if (selectedDisplayableItemArgumentsNotifier != null) {
-        final contentItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
+          if (selectedDisplayableItemArgumentsNotifier != null) {
+            final contentItems = _recordsOrdered.map(_unwrapPlaylistRecord).toList();
 
-        for (int i = 0; i < contentItems.length; i++) {
-          if (contentItems[i] ==
-              selectedDisplayableItemArgumentsNotifier
-                  .value.items[selectedDisplayableItemArgumentsNotifier.value.initialIndex]) {
+            for (int i = 0; i < contentItems.length; i++) {
+              if (contentItems[i] ==
+                  selectedDisplayableItemArgumentsNotifier.value.items[selectedDisplayableItemArgumentsNotifier
+                      .value
+                      .initialIndex]) {
+                selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments(
+                  items: contentItems,
+                  initialIndex: i,
+                  playlist: widget.playlist,
+                );
+
+                return;
+              }
+            }
+
             selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments(
               items: contentItems,
-              initialIndex: i,
+              initialIndex: 0,
               playlist: widget.playlist,
             );
-
-            return;
           }
-        }
-
-        selectedDisplayableItemArgumentsNotifier.value = DisplayScreenArguments(
-          items: contentItems,
-          initialIndex: 0,
-          playlist: widget.playlist,
-        );
-      }
-    });
+        });
 
     widget.sortedAlphabeticallyNotifier.addListener(_sortedAlphabeticallyChanged);
   }
@@ -178,14 +187,14 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
 
     widget.playlist.records.setAll(0, _recordsOrdered.mapIndexed((index, record) => record.copyWith(rank: index)));
 
-    // `widget.playlist.records.applyToDb` saves sometimes incorrectly new ranks, so save it using `putMany`
+    // `playlist.records.applyToDb` saves sometimes incorrectly new ranks, so save it using `putMany`
     context.providers.read(appDependenciesProvider).store.box<PlaylistRecord>().putMany(widget.playlist.records);
 
     widget.sortedAlphabeticallyNotifier.value = false;
   }
 
   void _removePlaylistRecord(int index) {
-    context.providers.read(playlistsProvider.notifier).removeFromPlaylist(widget.playlist, _recordsOrdered[index]);
+    context.read(playlistProvider(widget.playlist).notifier).removeRecord(_recordsOrdered[index]);
 
     final removed = _recordsOrdered.removeAt(index);
 
@@ -214,8 +223,11 @@ class _PlaylistRecordsListViewState extends ConsumerState<PlaylistRecordsListVie
 
   void _sortedAlphabeticallyChanged() {
     if (widget.sortedAlphabeticallyNotifier.value) {
-      setState(() => _recordsOrdered = widget.playlist.records
-          .sorted((a, b) => _unwrapPlaylistRecord(a).name.compareTo(_unwrapPlaylistRecord(b).name)));
+      setState(
+        () => _recordsOrdered = widget.playlist.records.sorted(
+          (a, b) => _unwrapPlaylistRecord(a).name.compareTo(_unwrapPlaylistRecord(b).name),
+        ),
+      );
     } else {
       setState(() => _recordsOrdered = widget.playlist.records.sorted((a, b) => a.rank.compareTo(b.rank)));
     }

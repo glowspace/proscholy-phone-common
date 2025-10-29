@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proscholy_common/components/playlist/dialogs.dart';
+import 'package:proscholy_common/components/playlist/dialog_extensions.dart';
 import 'package:proscholy_common/utils/extensions/build_context.dart';
 import 'package:proscholy_common/utils/services/spotlight.dart';
 
@@ -39,9 +39,9 @@ class ExternalActionsService {
     if (context == null) return;
 
     try {
-      showAcceptReceivedPlaylistDialog(context, jsonDecode(playlistData));
+      PlaylistDialogsExtension.acceptPlaylistWithDialog(context, jsonDecode(playlistData));
     } on FormatException {
-      showAlertDialog(
+      final _ = showAlertDialog(
         context: context,
         title: 'Chyba při importu playlistu.',
         message: 'Importovaný playlist se nepodařilo načíst, zkontrolujte prosím, že je soubor ve správném formátu.',

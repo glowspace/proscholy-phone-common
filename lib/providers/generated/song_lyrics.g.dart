@@ -86,6 +86,48 @@ final class SongLyricFamily extends $Family
   String toString() => r'songLyricProvider';
 }
 
+@ProviderFor(songLyrics)
+const songLyricsProvider = SongLyricsProvider._();
+
+final class SongLyricsProvider
+    extends
+        $FunctionalProvider<List<SongLyric>, List<SongLyric>, List<SongLyric>>
+    with $Provider<List<SongLyric>> {
+  const SongLyricsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'songLyricsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$songLyricsHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<SongLyric>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<SongLyric> create(Ref ref) {
+    return songLyrics(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<SongLyric> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<SongLyric>>(value),
+    );
+  }
+}
+
+String _$songLyricsHash() => r'181ad5d263650ed4568154dffb7ab893227e1567';
+
 @ProviderFor(RecentSongLyrics)
 const recentSongLyricsProvider = RecentSongLyricsProvider._();
 

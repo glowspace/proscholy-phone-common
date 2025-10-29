@@ -13,7 +13,7 @@ class PlaylistsListView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(children: [
         PlaylistRow(playlist: context.providers.read(favoritePlaylistProvider)),
-        Consumer(builder: (_, ref, __) {
+        Consumer(builder: (_, ref, _) {
           final playlists = ref.watch(playlistsProvider);
 
           return ReorderableListView.builder(

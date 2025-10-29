@@ -4,8 +4,10 @@ import 'package:collection/collection.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:proscholy_common/constants.dart';
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
+import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/search_result.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
+import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/comparators/songbook.dart';
 import 'package:proscholy_common/providers/playlists.dart';
@@ -45,19 +47,10 @@ class Sort extends _$Sort {
   void change(SortType sortType) => state = sortType;
 }
 
-// helper provider, so the song lyrics don't have to be always loaded from database when sorting changes
-@Riverpod(keepAlive: true)
-List<SongLyric> _songLyrics(Ref ref) {
-  final songLyrics = ref.read(appDependenciesProvider).store.box<SongLyric>().getAll();
-  // .where((songLyric) => songLyric.shouldAppearToUser || ref.read(svgProvider(songLyric.id)).isNotEmpty)
-
-  return songLyrics;
-}
-
-@Riverpod(keepAlive: true)
-List<SongLyric> songLyrics(Ref ref) {
+@riverpod
+List<SongLyric> songLyricsSorted(Ref ref) {
   final random = Random();
-  final songLyrics = ref.watch(_songLyricsProvider);
+  final songLyrics = ref.watch(songLyricsProvider);
 
   return switch (ref.watch(sortProvider)) {
     SortType.random => songLyrics.sorted((_, _) => random.nextInt(3) - 1),
@@ -70,12 +63,12 @@ List<SongLyric> songLyrics(Ref ref) {
 class SongLyricsSearch extends _$SongLyricsSearch {
   @override
   SongLyricsSearchResult build() {
-    return SongLyricsSearchResult(songLyrics: ref.watch(songLyricsProvider));
+    return SongLyricsSearchResult(songLyrics: ref.watch(songLyricsSortedProvider));
   }
 
   Future<void> searchTextChanged(String value) async {
     if (value.trim().isEmpty) {
-      state = SongLyricsSearchResult(songLyrics: ref.watch(songLyricsProvider));
+      state = SongLyricsSearchResult(songLyrics: ref.watch(songLyricsSortedProvider));
 
       return;
     }
@@ -90,7 +83,8 @@ class SongLyricsSearch extends _$SongLyricsSearch {
     final songLyrics = await ref.read(appDependenciesProvider).ftsSearch.search(value, ignore: matchedSongLyricIds);
 
     // update state only if the result is still relevant
-    if (value == state.searchText) state = state.copyWith(songLyrics: songLyrics ?? ref.watch(songLyricsProvider));
+    if (value == state.searchText)
+      state = state.copyWith(songLyrics: songLyrics ?? ref.watch(songLyricsSortedProvider));
   }
 
   int? _updateMatchedById() {
@@ -195,13 +189,21 @@ class SongLyricsSearchFiltered extends _$SongLyricsSearchFiltered {
       final tag = selectedTags.first;
 
       if (tag.type == TagType.songbook) {
-        final songbook = ref.read(songbookProvider(songbookIdOffset - tag.id))!;
+        final songbook = ref.read(appDependenciesProvider).store.box<Songbook>().get(songbookIdOffset - tag.id);
 
-        return unfilteredResult.copyWith(songLyrics: songbook.songLyrics);
+        if (songbook != null) {
+          return unfilteredResult.copyWith(songLyrics: songbook.songLyrics);
+        } else {
+          Sentry.captureMessage('could not find songbook for tag: $tag');
+        }
       } else if (tag.type == TagType.playlist) {
-        final playlist = ref.read(playlistProvider(playlistIdOffset - tag.id))!;
+        final playlist = ref.read(appDependenciesProvider).store.box<Playlist>().get(playlistIdOffset - tag.id);
 
-        return unfilteredResult.copyWith(songLyrics: playlist.songLyrics);
+        if (playlist != null) {
+          return unfilteredResult.copyWith(songLyrics: playlist.songLyrics);
+        } else {
+          Sentry.captureMessage('could not find playlist for tag: $tag');
+        }
       }
     }
 

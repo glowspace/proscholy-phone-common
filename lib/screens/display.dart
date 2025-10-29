@@ -28,9 +28,9 @@ import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
+import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
 import 'package:proscholy_common/providers/menu_collapsed.dart';
-import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/presentation.dart';
 import 'package:proscholy_common/providers/recent_items.dart';
 import 'package:proscholy_common/providers/settings.dart';
@@ -145,15 +145,20 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
                   index = index % _items.length;
                   final item = _items[index];
 
-                  if (ref.watch(presentationProvider
-                      .select((presentation) => presentation.isPresenting && presentation.isPresentingLocally))) {
-                    if (ref.watch(presentationProvider
-                        .select((presentation) => presentation.presentationData.name == item.name))) {
+                  if (ref.watch(
+                    presentationProvider.select(
+                      (presentation) => presentation.isPresenting && presentation.isPresentingLocally,
+                    ),
+                  )) {
+                    if (ref.watch(
+                      presentationProvider.select((presentation) => presentation.presentationData.name == item.name),
+                    )) {
                       return Consumer(
-                        builder: (_, ref, __) => Presentation(
+                        builder: (_, ref, _) => Presentation(
                           onExternalDisplay: false,
-                          presentationData:
-                              ref.watch(presentationProvider.select((presentation) => presentation.presentationData)),
+                          presentationData: ref.watch(
+                            presentationProvider.select((presentation) => presentation.presentationData),
+                          ),
                         ),
                       );
                     } else {
@@ -163,17 +168,17 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 
                   return switch (item) {
                     (BiblePassage biblePassage) => BiblePassageWidget(
-                        biblePassage: biblePassage,
-                        autoScrollController: _autoScrollController(index),
-                      ),
+                      biblePassage: biblePassage,
+                      autoScrollController: _autoScrollController(index),
+                    ),
                     (UserText userText) => UserTextWidget(
-                        userText: userText,
-                        autoScrollController: _autoScrollController(index),
-                      ),
+                      userText: userText,
+                      autoScrollController: _autoScrollController(index),
+                    ),
                     (SongLyric songLyric) => SongLyricWidget(
-                        songLyric: songLyric,
-                        autoScrollController: _autoScrollController(index),
-                      ),
+                      songLyric: songLyric,
+                      autoScrollController: _autoScrollController(index),
+                    ),
                     _ => throw UnimplementedError(),
                   };
                 },
@@ -241,67 +246,71 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 
     return switch (_currentItem) {
       (BiblePassage biblePassage) => AppBar(
-          leading: const CustomBackButton(),
-          title: Text(biblePassage.name),
-          actions: [
-            HighlightableWidget(
-              onTap: () => _editBiblePassage(biblePassage),
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              icon: const Icon(Icons.edit),
-            ),
-            HighlightableWidget(
-              onTap: () => presentationNotifier.isPresenting
-                  ? presentationNotifier.stop()
-                  : context.push('/display/present').then((_) => presentationNotifier.change(biblePassage)),
-              padding: const EdgeInsets.only(left: kDefaultPadding, right: 1.5 * kDefaultPadding),
-              icon: Icon(ref.watch(presentationProvider.select((presentation) => presentation.isPresenting))
+        leading: const CustomBackButton(),
+        title: Text(biblePassage.name),
+        actions: [
+          HighlightableWidget(
+            onTap: () => _editBiblePassage(biblePassage),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            icon: const Icon(Icons.edit),
+          ),
+          HighlightableWidget(
+            onTap: () => presentationNotifier.isPresenting
+                ? presentationNotifier.stop()
+                : context.push('/display/present').then((_) => presentationNotifier.change(biblePassage)),
+            padding: const EdgeInsets.only(left: kDefaultPadding, right: 1.5 * kDefaultPadding),
+            icon: Icon(
+              ref.watch(presentationProvider.select((presentation) => presentation.isPresenting))
                   ? Icons.cancel_presentation
-                  : Icons.cast),
+                  : Icons.cast,
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
       (UserText userText) => AppBar(
-          leading: const CustomBackButton(),
-          title: Text(userText.name),
-          actions: [
-            HighlightableWidget(
-              onTap: () => _editUserText(userText),
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              icon: const Icon(Icons.edit),
-            ),
-            HighlightableWidget(
-              onTap: () => presentationNotifier.isPresenting
-                  ? presentationNotifier.stop()
-                  : context.push('/display/present').then((_) => presentationNotifier.change(userText)),
-              padding: const EdgeInsets.only(left: kDefaultPadding, right: 1.5 * kDefaultPadding),
-              icon: Icon(ref.watch(presentationProvider.select((presentation) => presentation.isPresenting))
+        leading: const CustomBackButton(),
+        title: Text(userText.name),
+        actions: [
+          HighlightableWidget(
+            onTap: () => _editUserText(userText),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            icon: const Icon(Icons.edit),
+          ),
+          HighlightableWidget(
+            onTap: () => presentationNotifier.isPresenting
+                ? presentationNotifier.stop()
+                : context.push('/display/present').then((_) => presentationNotifier.change(userText)),
+            padding: const EdgeInsets.only(left: kDefaultPadding, right: 1.5 * kDefaultPadding),
+            icon: Icon(
+              ref.watch(presentationProvider.select((presentation) => presentation.isPresenting))
                   ? Icons.cancel_presentation
-                  : Icons.cast),
+                  : Icons.cast,
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
       (SongLyric songLyric) => AppBar(
-          title: Text(songLyric.displayId),
-          leading: const CustomBackButton(),
-          actions: [
-            StatefulBuilder(
-              builder: (context, setState) => HighlightableWidget(
-                onTap: () => setState(() => ref.read(playlistsProvider.notifier).toggleFavorite(songLyric)),
-                padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                icon: Icon(songLyric.isFavorite ? Icons.star : Icons.star_outline),
-              ),
-            ),
-            HighlightableWidget(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => PlaylistsSheet(selectedSongLyric: songLyric),
-              ),
+        title: Text(songLyric.displayId),
+        leading: const CustomBackButton(),
+        actions: [
+          StatefulBuilder(
+            builder: (context, setState) => HighlightableWidget(
+              // onTap: () => setState(() => ref.read(playlistsProvider.notifier).toggleFavorite(songLyric)),
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              icon: const Icon(Icons.playlist_add),
+              icon: Icon(songLyric.isFavorite ? Icons.star : Icons.star_outline),
             ),
-            SongLyricMenuButton(songLyric: songLyric),
-          ],
-        ),
+          ),
+          HighlightableWidget(
+            onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (context) => PlaylistsSheet(selectedSongLyric: songLyric),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            icon: const Icon(Icons.playlist_add),
+          ),
+          SongLyricMenuButton(songLyric: songLyric),
+        ],
+      ),
       _ => throw UnimplementedError(),
     };
   }
@@ -314,42 +323,44 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
     Widget? bottomSheet;
 
     if (presentation.isPresenting) {
-      bottomSheet = Row(children: [
-        HighlightableWidget(
-          isEnabled: presentation.hasSongLyricsParser,
-          onTap: presentation.prevVerse,
-          // use arrow_back_ios_new, because arrow_back_ios is not centered
-          icon: Icon(Theme.of(context).platform.isIos ? Icons.arrow_back_ios_new : Icons.arrow_back),
-        ),
-        HighlightableWidget(
-          onTap: presentation.togglePause,
-          icon: Icon(presentation.isPaused ? Icons.play_arrow : Icons.pause),
-        ),
-        HighlightableWidget(
-          isEnabled: presentation.hasSongLyricsParser,
-          onTap: presentation.nextVerse,
-          icon: Icon(Icons.adaptive.arrow_forward),
-        ),
-        const Spacer(),
-        HighlightableWidget(
-          isEnabled: presentation.hasSongLyricsParser,
-          onTap: presentation.toggleVisibility,
-          icon: Icon(presentation.isVisible ? Icons.visibility_off : Icons.visibility),
-        ),
-        HighlightableWidget(
-          onTap: () => showModalBottomSheet(
-            context: context,
-            builder: (context) => PresentationSettingsWidget(
-              onExternalDisplay: !ref.read(presentationProvider).isPresentingLocally,
-            ),
+      bottomSheet = Row(
+        children: [
+          HighlightableWidget(
+            isEnabled: presentation.hasSongLyricsParser,
+            onTap: presentation.prevVerse,
+            // use arrow_back_ios_new, because arrow_back_ios is not centered
+            icon: Icon(Theme.of(context).platform.isIos ? Icons.arrow_back_ios_new : Icons.arrow_back),
           ),
-          icon: const Icon(Icons.tune),
-        ),
-        HighlightableWidget(
-          onTap: () => presentation.stop(),
-          icon: const Icon(Icons.close),
-        ),
-      ]);
+          HighlightableWidget(
+            onTap: presentation.togglePause,
+            icon: Icon(presentation.isPaused ? Icons.play_arrow : Icons.pause),
+          ),
+          HighlightableWidget(
+            isEnabled: presentation.hasSongLyricsParser,
+            onTap: presentation.nextVerse,
+            icon: Icon(Icons.adaptive.arrow_forward),
+          ),
+          const Spacer(),
+          HighlightableWidget(
+            isEnabled: presentation.hasSongLyricsParser,
+            onTap: presentation.toggleVisibility,
+            icon: Icon(presentation.isVisible ? Icons.visibility_off : Icons.visibility),
+          ),
+          HighlightableWidget(
+            onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (context) => PresentationSettingsWidget(
+                onExternalDisplay: !ref.read(presentationProvider).isPresentingLocally,
+              ),
+            ),
+            icon: const Icon(Icons.tune),
+          ),
+          HighlightableWidget(
+            onTap: () => presentation.stop(),
+            icon: const Icon(Icons.close),
+          ),
+        ],
+      );
     } else if (activePlayer != null) {
       bottomSheet = GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -363,7 +374,8 @@ class _DisplayScaffoldState extends ConsumerState<_DisplayScaffold> {
 
     if (bottomSheet != null) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.5 * kDefaultPadding, vertical: kDefaultPadding) +
+        padding:
+            const EdgeInsets.symmetric(horizontal: 1.5 * kDefaultPadding, vertical: kDefaultPadding) +
             EdgeInsets.only(bottom: fullScreen ? MediaQuery.paddingOf(context).bottom : 0),
         child: bottomSheet,
       );

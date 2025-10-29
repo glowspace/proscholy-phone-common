@@ -1,29 +1,16 @@
 import 'package:collection/collection.dart';
-import 'package:proscholy_common/utils/extensions/ref.dart';
-import 'package:proscholy_common/utils/extensions/store.dart';
-import 'package:proscholy_common/views/song_lyric.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/bible_passage.dart';
-import 'package:proscholy_common/models/user_text.dart';
-import 'package:proscholy_common/models/generated/objectbox.g.dart';
-import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/playlist_record.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
+import 'package:proscholy_common/models/user_text.dart';
+import 'package:proscholy_common/utils/extensions/ref.dart';
+import 'package:proscholy_common/utils/extensions/store.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:proscholy_common/models/generated/objectbox.g.dart';
+import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
-import 'package:proscholy_common/providers/bible_passage.dart';
-import 'package:proscholy_common/providers/user_text.dart';
-import 'package:proscholy_common/providers/settings.dart';
 
 part 'generated/playlists.g.dart';
-
-@riverpod
-Playlist? playlist(Ref ref, int id) {
-  if (id == 0) return null;
-
-  ref.watchEntity(Playlist_.id.equals(id));
-
-  return ref.read(appDependenciesProvider).store.box<Playlist>().get(id);
-}
 
 @Riverpod(keepAlive: true)
 Playlist favoritePlaylist(Ref ref) {
@@ -35,311 +22,213 @@ Playlist favoritePlaylist(Ref ref) {
 }
 
 @riverpod
-class Playlists extends _$Playlists {
-  Box<Playlist> get _playlistsBox => ref.read(appDependenciesProvider).store.box<Playlist>();
-  Box<PlaylistRecord> get _playlistRecordsBox => ref.read(appDependenciesProvider).store.box<PlaylistRecord>();
-  Box<BiblePassage> get _biblePassageBox => ref.read(appDependenciesProvider).store.box<BiblePassage>();
-  Box<UserText> get _userTextBox => ref.read(appDependenciesProvider).store.box<UserText>();
-
-  late int _nextPlaylistId;
-  late int _nextPlaylistRecordId;
-
-  late int _nextBiblePassageId;
-  late int _nextUserTextId;
+class PlaylistNotifier extends _$PlaylistNotifier {
+  Store get _store => ref.read(appDependenciesProvider).store;
 
   @override
-  List<Playlist> build() {
-    final store = ref.read(appDependenciesProvider).store;
-
-    // initialize next ids needed when creating new objects
-    _nextPlaylistId = store.nextId(Playlist_.id);
-    _nextPlaylistRecordId = store.nextId(PlaylistRecord_.id);
-    _nextBiblePassageId = store.nextId(BiblePassage_.id);
-    _nextUserTextId = store.nextId(UserText_.id);
-
-    final stream = store.watchQuery(condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
-    final subscription = stream.listen((data) => state = data);
-
-    ref.onDispose(subscription.cancel);
-
-    return [];
-  }
-
-  Playlist createPlaylist(String name) {
-    final newPlaylist = Playlist(
-      id: _nextPlaylistId++,
-      name: name,
-      rank: 0,
-      records: ToMany(),
+  Playlist build(Playlist playlist) {
+    ref.watchEntity(
+      Playlist_.id.equals(playlist.id),
+      onChanged: (query) {
+        if (query.findFirst() case final changedPlaylist?) state = changedPlaylist;
+      },
     );
 
-    // increase rank of all existing playlists and save them
-    state = [newPlaylist, for (final playlist in state) playlist.copyWith(rank: playlist.rank + 1)];
-
-    _playlistsBox.putMany(state);
-
-    return newPlaylist;
+    return playlist;
   }
 
-  Playlist duplicatePlaylist(Playlist playlist, String name) {
-    // copy the records with new playlist id
-    final playlistRecords = <PlaylistRecord>[];
+  Playlist duplicate(String name) {
+    int nextRecordId = _store.box<PlaylistRecord>().nextId(PlaylistRecord_.id);
 
-    // for bible verses and custom texts make also duplicates, so that changes in duplicated playlist don't alter records in previous
-    for (final playlistRecord in playlist.records) {
-      final biblePassage = ref.read(biblePassageProvider(playlistRecord.biblePassage.targetId));
-      final userText = ref.read(userTextProvider(playlistRecord.userText.targetId));
-
-      if (biblePassage != null) {
-        final duplicatedBiblePassage = biblePassage.copyWith(id: _nextBiblePassageId++);
-
-        _biblePassageBox.put(duplicatedBiblePassage);
-
-        playlistRecords.add(
-            playlistRecord.copyWith(id: _nextPlaylistRecordId++, biblePassage: ToOne(target: duplicatedBiblePassage)));
-      } else if (userText != null) {
-        final duplicatedUserText = userText.copyWith(id: _nextUserTextId++);
-
-        _userTextBox.put(duplicatedUserText);
-
-        playlistRecords
-            .add(playlistRecord.copyWith(id: _nextPlaylistRecordId++, userText: ToOne(target: duplicatedUserText)));
-      } else {
-        playlistRecords.add(playlistRecord.copyWith(id: _nextPlaylistRecordId++));
-      }
-    }
-
-    final newPlaylist = playlist.copyWith(
-      id: _nextPlaylistId++,
-      name: name,
-      rank: 0,
-      records: ToMany(items: playlistRecords),
-    );
-
-    // increase rank of all existing playlists and save them
-    state = [newPlaylist, for (final playlist in state) playlist.copyWith(rank: playlist.rank + 1)];
-
-    _playlistsBox.putMany(state);
-
-    return newPlaylist;
-  }
-
-  Playlist acceptPlaylist(Map<String, dynamic> playlistData, String name) {
-    final playlistRecords = <PlaylistRecord>[];
-
-    for (final playlistRecordData in playlistData['records']) {
-      final playlistRecord = PlaylistRecord(
-        id: _nextPlaylistRecordId++,
-        rank: playlistRecordData['rank'],
-        songLyric: ToOne(targetId: playlistRecordData['song_lyric']?['id']),
-        userText: ToOne(
-          target: playlistRecordData.containsKey('user_text')
-              ? createUserText(
-                  name: playlistRecordData['user_text']['name'],
-                  content: playlistRecordData['user_text']['content'],
-                )
-              : null,
+    final records = [
+      for (final record in playlist.records)
+        record.copyWith(
+          id: nextRecordId++,
+          biblePassage: record.biblePassage.targetId == 0
+              ? ToOne()
+              : ToOne(target: _storeBiblePassage(record.biblePassage.target!)),
+          userText: record.userText.targetId == 0 ? ToOne() : ToOne(target: _storeUserText(record.userText.target!)),
         ),
-        biblePassage: ToOne(
-          target: playlistRecordData.containsKey('bible_verse')
-              ? createBiblePassage(
-                  book: playlistRecordData['bible_verse']['book'],
-                  chapter: playlistRecordData['bible_verse']['chapter'],
-                  startVerse: playlistRecordData['bible_verse']['start_verse'],
-                  endVerse: playlistRecordData['bible_verse']['end_verse'],
-                  text: playlistRecordData['bible_verse']['text'],
-                )
-              : null,
-        ),
-        playlist: ToOne(targetId: _nextPlaylistId),
-      );
-
-      if (playlistRecordData['song_lyric']?.containsKey('accidentals') ?? false) {
-        final settingsNotifier = ref.read(songLyricSettingsProvider(playlistRecordData['song_lyric']['id']).notifier);
-        if (playlistRecordData['song_lyric']['accidentals'] != null) {
-          settingsNotifier.changeAccidentals(playlistRecordData['song_lyric']['accidentals']);
-        }
-        settingsNotifier.changeTransposition(playlistRecordData['song_lyric']['transposition']);
-      }
-
-      playlistRecords.add(playlistRecord);
-    }
-
-    final newPlaylist = Playlist(
-      id: _nextPlaylistId++,
-      name: name,
-      rank: 0,
-      records: ToMany(items: playlistRecords),
-    );
-
-    // increase rank of all existing playlists and save them
-    state = [newPlaylist, for (final playlist in state) playlist.copyWith(rank: playlist.rank + 1)];
-
-    _playlistsBox.putMany(state);
-    _playlistRecordsBox.putMany(playlistRecords);
-
-    return newPlaylist;
-  }
-
-  // TODO: move this to some better place, it is here just to correspond to `acceptPlaylist` function above
-  Map<String, dynamic> playlistToMap(Playlist playlist) {
-    final records = <Map<String, dynamic>>[];
-
-    for (final playlistRecord in playlist.records) {
-      final biblePassage = ref.read(biblePassageProvider(playlistRecord.biblePassage.targetId));
-      final userText = ref.read(userTextProvider(playlistRecord.userText.targetId));
-      final songLyricSettings = ref.read(songLyricSettingsProvider(playlistRecord.songLyric.targetId));
-
-      final record = {
-        'rank': playlistRecord.rank,
-        if (playlistRecord.songLyric.targetId != 0)
-          'song_lyric': {
-            'id': playlistRecord.songLyric.targetId,
-            if (songLyricSettings.id != 0) ...{
-              'accidentals': songLyricSettings.accidentals,
-              'transposition': songLyricSettings.transposition,
-            },
-          },
-        if (biblePassage != null)
-          'bible_verse': {
-            'book': biblePassage.book,
-            'chapter': biblePassage.chapter,
-            'start_verse': biblePassage.startVerse,
-            'end_verse': biblePassage.endVerse,
-            'text': biblePassage.text,
-          },
-        if (userText != null)
-          'user_text': {
-            'name': userText.name,
-            'content': userText.content,
-          },
-      };
-
-      records.add(record);
-    }
-
-    return {
-      'name': playlist.name,
-      'records': records,
-    };
-  }
-
-  Playlist renamePlaylist(Playlist playlistToRename, String name) {
-    final renamedPlaylist = playlistToRename.copyWith(name: name);
-
-    state = [
-      for (final playlist in state)
-        if (playlist == playlistToRename) renamedPlaylist else playlist
     ];
 
-    _playlistsBox.put(renamedPlaylist);
+    final duplicatedPlaylist = ref.read(playlistsProvider.notifier).addPlaylist(
+      playlist.copyWith(
+        name: name,
+        rank: 0,
+        records: ToMany(items: records),
+      ),
+    );
+
+    return duplicatedPlaylist;
+  }
+
+  Playlist rename(String name) {
+    final renamedPlaylist = state.copyWith(name: name);
+
+    _store.box<Playlist>().put(renamedPlaylist);
 
     return renamedPlaylist;
   }
 
-  void removePlaylist(Playlist playlistToRemove) {
-    state = [
-      for (final playlist in state)
-        if (playlist.id != playlistToRemove.id) playlist
-    ];
+  // will add bible passage to records, when the bible passage is not yet stored in db (id == 0) it will also store it
+  bool addBiblePassage(BiblePassage biblePassage, {int? atRank}) {
+    return _store.runInTransaction(TxMode.write, () {
+      if (biblePassage.id != 0 && state.records.any((record) => record.biblePassage.targetId == biblePassage.id)) {
+        return false;
+      }
 
-    // remove records first, as they might not be loaded and if we remove playlist first, it won't be possible to load them anymore
-    _playlistRecordsBox.removeMany(playlistToRemove.records.map((playlistRecord) => playlistRecord.id).toList());
-    _playlistsBox.remove(playlistToRemove.id);
+      final record = PlaylistRecord.biblePassage(
+        id: _store.box<PlaylistRecord>().nextId(PlaylistRecord_.id),
+        rank: atRank ?? state.records.length,
+        playlist: state,
+        biblePassage: _storeBiblePassage(biblePassage),
+      );
 
-    // delete this with delay, so it does not lead to exceptions when poping from playlist screen
-    Future.delayed(const Duration(seconds: 1), () {
-      _userTextBox.removeMany(playlistToRemove.records
-          .map((playlistRecord) => playlistRecord.userText.targetId)
-          .where((id) => id != 0)
-          .toList());
-      _biblePassageBox.removeMany(playlistToRemove.records
-          .map((playlistRecord) => playlistRecord.biblePassage.targetId)
-          .where((id) => id != 0)
-          .toList());
+      _addRecord(record, atRank);
+
+      return true;
     });
   }
 
-  void addToPlaylist(
-    Playlist playlist, {
-    SongLyric? songLyric,
-    UserText? userText,
-    BiblePassage? biblePassage,
-    int? afterRank,
-  }) {
-    // prevent duplicates
-    if (playlist.records.any((playlistRecord) =>
-        playlistRecord.songLyric.targetId == songLyric?.id ||
-        playlistRecord.userText.targetId == userText?.id ||
-        playlistRecord.biblePassage.targetId == biblePassage?.id)) {
-      return;
-    }
+  bool addSongLyric(SongLyric songLyric, {int? atRank}) {
+    if (state.records.any((record) => record.songLyric.targetId == songLyric.id)) return false;
 
-    // first find next rank
-    final queryBuilder = _playlistRecordsBox.query(PlaylistRecord_.playlist.equals(playlist.id));
-
-    queryBuilder.order(PlaylistRecord_.rank, flags: Order.descending);
-
-    final query = queryBuilder.build();
-    final lastRank = afterRank ?? query.findFirst()?.rank ?? -1;
-
-    query.close();
-
-    final playlistRecord = PlaylistRecord(
-      id: _nextPlaylistRecordId++,
-      rank: lastRank + 1,
-      songLyric: ToOne(target: songLyric),
-      userText: ToOne(target: userText),
-      biblePassage: ToOne(target: biblePassage),
-      playlist: ToOne(target: playlist),
+    final record = PlaylistRecord.songLyric(
+      id: _store.box<PlaylistRecord>().nextId(PlaylistRecord_.id),
+      rank: atRank ?? state.records.length,
+      playlist: state,
+      songLyric: songLyric,
     );
 
-    if (afterRank != null) {
-      playlist.records.insert(afterRank + 1, playlistRecord);
+    _addRecord(record, atRank);
 
-      final playlistRecords =
-          playlist.records.mapIndexed((i, playlistRecord) => playlistRecord.copyWith(rank: i)).toList();
+    // make sure the song lyric is updated without reloading it from DB
+    songLyric.playlistRecords.add(record);
 
-      playlist.records.clear();
-      playlist.records.addAll(playlistRecords);
-
-      _playlistRecordsBox.putMany(playlistRecords);
-    } else {
-      _playlistRecordsBox.put(playlistRecord);
-
-      playlist.records.add(playlistRecord);
-    }
-
-    songLyric?.playlistRecords.add(playlistRecord);
+    return true;
   }
 
-  void removeFromPlaylist(Playlist playlist, PlaylistRecord playlistRecordToRemove) {
-    _playlistRecordsBox.remove(playlistRecordToRemove.id);
-
-    playlist.records.removeWhere((playlistRecord) => playlistRecord.id == playlistRecordToRemove.id);
-
-    if (playlistRecordToRemove.userText.targetId != 0) {
-      _userTextBox.remove(playlistRecordToRemove.userText.targetId);
-    } else if (playlistRecordToRemove.biblePassage.targetId != 0) {
-      _biblePassageBox.remove(playlistRecordToRemove.biblePassage.targetId);
-    }
-  }
-
-  void toggleFavorite(SongLyric songLyric) {
-    final favoritePlaylist = ref.read(favoritePlaylistProvider);
-
-    if (songLyric.isFavorite) {
-      final playlistRecordToRemove = favoritePlaylist.records
-          .firstWhereOrNull((playlistRecord) => playlistRecord.songLyric.targetId == songLyric.id);
-
-      if (playlistRecordToRemove != null) {
-        removeFromPlaylist(favoritePlaylist, playlistRecordToRemove);
-
-        songLyric.playlistRecords.removeWhere((playlistRecord) => playlistRecord.id == playlistRecordToRemove.id);
+  // will add user text to records, when the user text is not yet stored in db (id == 0) it will also store it
+  bool addUserText(UserText userText, {int? atRank}) {
+    return _store.runInTransaction(TxMode.write, () {
+      if (userText.id != 0 && state.records.any((record) => record.userText.targetId == userText.id)) {
+        return false;
       }
+
+      final record = PlaylistRecord.userText(
+        id: _store.box<PlaylistRecord>().nextId(PlaylistRecord_.id),
+        rank: atRank ?? state.records.length,
+        playlist: state,
+        userText: _storeUserText(userText),
+      );
+
+      _addRecord(record, atRank);
+
+      return true;
+    });
+  }
+
+  bool removeRecord(PlaylistRecord recordToRemove) {
+    state.records.removeWhere((record) => record == recordToRemove);
+
+    return _store.runInTransaction(TxMode.write, () {
+      // remove linked bible passage or user text
+      if (recordToRemove.biblePassage.target case final biblePassage?) {
+        _store.box<BiblePassage>().remove(biblePassage.id);
+      } else if (recordToRemove.userText.target case final userText?) {
+        _store.box<UserText>().remove(userText.id);
+      }
+
+      return _store.box<PlaylistRecord>().remove(recordToRemove.id);
+    });
+  }
+
+  bool remove() {
+    return _store.runInTransaction(TxMode.write, () {
+      _store.box<PlaylistRecord>().removeMany(state.records.map((record) => record.id).toList());
+
+      // remove linked bible passages and user texts
+      _store.box<BiblePassage>().removeMany(
+        state.records
+            .where((record) => record.biblePassage.targetId != 0)
+            .map((record) => record.biblePassage.targetId)
+            .toList(),
+      );
+      _store.box<UserText>().removeMany(
+        state.records
+            .where((record) => record.userText.targetId != 0)
+            .map((record) => record.userText.targetId)
+            .toList(),
+      );
+
+      return _store.box<Playlist>().remove(state.id);
+    });
+  }
+
+  void _addRecord(PlaylistRecord record, int? atRank) {
+    final box = _store.box<PlaylistRecord>();
+
+    box.put(record);
+
+    // update records rank, if inserted somewhere in the middle
+    if (atRank != null) {
+      final recordsAfter = state.records
+          .sublist(atRank)
+          .map((record) => record.copyWith(rank: record.rank + 1))
+          .toList();
+
+      box.putMany(recordsAfter);
+
+      state.records.replaceRange(atRank, state.records.length, [record, ...recordsAfter]);
     } else {
-      addToPlaylist(favoritePlaylist, songLyric: songLyric);
+      state.records.add(record);
     }
+  }
+
+  BiblePassage _storeBiblePassage(BiblePassage biblePassage) {
+    final biblePassageBox = _store.box<BiblePassage>();
+
+    final storedBiblePassage = biblePassage.copyWith(id: biblePassageBox.nextId(BiblePassage_.id));
+    biblePassageBox.put(storedBiblePassage);
+
+    return storedBiblePassage;
+  }
+
+  UserText _storeUserText(UserText userText) {
+    final userTextBox = _store.box<UserText>();
+
+    final storedUserText = userText.copyWith(id: userTextBox.nextId(UserText_.id));
+    userTextBox.put(storedUserText);
+
+    return storedUserText;
+  }
+}
+
+@riverpod
+class Playlists extends _$Playlists {
+  Store get _store => ref.read(appDependenciesProvider).store;
+
+  @override
+  List<Playlist> build() {
+    final stream = _store.watchQuery(condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
+    final subscription = stream.listen((playlists) => state = playlists);
+
+    ref.onDispose(subscription.cancel);
+
+    return _store.query(condition: Playlist_.id.notEquals(favoritesPlaylistId), orderBy: Playlist_.rank);
+  }
+
+  Playlist addPlaylist(Playlist playlist) {
+    final addedPlaylist = playlist.copyWith(id: _store.box<Playlist>().nextId(Playlist_.id));
+
+    // increase rank of playlists after added
+    final playlists = state;
+
+    playlists.insert(playlist.rank, addedPlaylist);
+
+    _store.box<Playlist>().putMany(playlists.mapIndexed((index, playlist) => playlist.copyWith(rank: index)).toList());
+
+    return addedPlaylist;
   }
 
   void reorderPlaylists(int oldIndex, int newIndex) {
@@ -349,41 +238,6 @@ class Playlists extends _$Playlists {
 
     playlists.insert(newIndex, playlists.removeAt(oldIndex));
 
-    state = playlists.mapIndexed((index, playlist) => playlist.copyWith(rank: index)).toList();
-
-    _playlistsBox.putMany(state);
-  }
-
-  BiblePassage createBiblePassage({
-    required int book,
-    required int chapter,
-    required int startVerse,
-    int? endVerse,
-    required String text,
-  }) {
-    final biblePassage = BiblePassage(
-      id: _nextBiblePassageId++,
-      book: book,
-      chapter: chapter,
-      startVerse: startVerse,
-      endVerse: endVerse,
-      text: text,
-    );
-
-    _biblePassageBox.put(biblePassage);
-
-    return biblePassage;
-  }
-
-  UserText createUserText({required String name, required String content}) {
-    final userText = UserText(
-      id: _nextUserTextId++,
-      name: name,
-      content: content,
-    );
-
-    _userTextBox.put(userText);
-
-    return userText;
+    _store.box<Playlist>().putMany(playlists.mapIndexed((index, playlist) => playlist.copyWith(rank: index)).toList());
   }
 }

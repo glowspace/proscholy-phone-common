@@ -10,8 +10,16 @@ sealed class UserText extends Model with _$UserText, ContentItem, RecentItem {
 
   @Entity(realClass: UserText)
   const factory UserText({
-    @Id(assignable: true) required int id,
+    @Id(assignable: true) @Default(0) int id,
     required String name,
     required String content,
   }) = _UserText;
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || (other is UserText && id == other.id && name == other.name);
+  }
 }

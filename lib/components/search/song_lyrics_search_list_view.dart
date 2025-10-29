@@ -44,7 +44,7 @@ class SongLyricsSearchListView extends StatelessWidget {
     final selectedTags = context.read(selectedTagsProvider);
     final playlist = selectedTags.length != 1 || selectedTags.firstOrNull?.type != TagType.playlist
         ? null
-        : context.read(playlistProvider(selectedTags.first.id - playlistIdOffset));
+        : null; // context.read(playlistProvider(selectedTags.first.id - playlistIdOffset));
 
     return SafeArea(
       bottom: false,

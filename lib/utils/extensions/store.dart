@@ -2,6 +2,17 @@ import 'dart:async';
 
 import 'package:proscholy_common/models/generated/objectbox.g.dart';
 
+extension BoxExtension<T> on Box<T> {
+  int nextId(QueryProperty<T, int> idProperty) {
+    final query = this.query().build();
+    final lastId = query.property(idProperty).max();
+
+    query.close();
+
+    return lastId + 1;
+  }
+}
+
 extension StoreExtension on Store {
   List<T> query<T, D>({
     Condition<T>? condition,
@@ -32,15 +43,6 @@ extension StoreExtension on Store {
     return stream.listen(onData);
   }
 
-  int nextId<T>(QueryProperty<T, int> idProperty) {
-    final box = this.box<T>();
-    final query = box.query().build();
-    final lastId = query.property(idProperty).max();
-
-    query.close();
-
-    return lastId + 1;
-  }
 
   QueryBuilder<T> _queryBuilder<T, D>(Condition<T>? condition, QueryProperty<T, D>? orderBy, int orderFlags) {
     final box = this.box<T>();

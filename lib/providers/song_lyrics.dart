@@ -15,6 +15,14 @@ SongLyric? songLyric(Ref ref, int id) {
   return ref.read(appDependenciesProvider).store.box<SongLyric>().get(id);
 }
 
+@Riverpod(keepAlive: true)
+List<SongLyric> songLyrics(Ref ref) {
+  final songLyrics = ref.read(appDependenciesProvider).store.box<SongLyric>().getAll();
+  // .where((songLyric) => songLyric.shouldAppearToUser || ref.read(svgProvider(songLyric.id)).isNotEmpty)
+
+  return songLyrics;
+}
+
 @riverpod
 class RecentSongLyrics extends _$RecentSongLyrics {
   @override

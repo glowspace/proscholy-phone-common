@@ -97,7 +97,7 @@ class SongLyricSettings extends _$SongLyricSettings {
     } else {
       // decide id for new objects
       if (songLyricSettings.id == 0) {
-        songLyricSettings = songLyricSettings.copyWith(id: store.nextId(SongLyricSettingsModel_.id));
+        songLyricSettings = songLyricSettings.copyWith(id: store.box<SongLyricSettingsModel>().nextId(SongLyricSettingsModel_.id));
       }
 
       songLyricSettingsBox.put(songLyricSettings);
