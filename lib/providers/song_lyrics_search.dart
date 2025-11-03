@@ -10,7 +10,6 @@ import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
 import 'package:proscholy_common/models/tag.dart';
 import 'package:proscholy_common/providers/comparators/songbook.dart';
-import 'package:proscholy_common/providers/playlists.dart';
 import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
@@ -31,7 +30,7 @@ final RegExp _songbookRecordNumberRE = RegExp(r'([a-zA-Z]*)\s*([1-9][0-9]*[a-zA-
 enum SortType { random, alpha, numeric }
 
 @riverpod
-class Sort extends _$Sort {
+class SortNotifier extends _$SortNotifier {
   @override
   SortType build() {
     final prefs = ref.read(appDependenciesProvider).sharedPreferences;
@@ -60,7 +59,7 @@ List<SongLyric> songLyricsSorted(Ref ref) {
 }
 
 @riverpod
-class SongLyricsSearch extends _$SongLyricsSearch {
+class SongLyricsSearchNotifier extends _$SongLyricsSearchNotifier {
   @override
   SongLyricsSearchResult build() {
     return SongLyricsSearchResult(songLyrics: ref.watch(songLyricsSortedProvider));
@@ -155,10 +154,10 @@ class SongLyricsSearch extends _$SongLyricsSearch {
 }
 
 @riverpod
-class SelectedTags extends _$SelectedTags {
+class SelectedTagsNotifier extends _$SelectedTagsNotifier {
   final List<Tag>? initialSelectedTags;
 
-  SelectedTags({this.initialSelectedTags});
+  SelectedTagsNotifier({this.initialSelectedTags});
 
   @override
   List<Tag> build() => initialSelectedTags ?? [];
@@ -175,7 +174,7 @@ class SelectedTags extends _$SelectedTags {
 }
 
 @riverpod
-class SongLyricsSearchFiltered extends _$SongLyricsSearchFiltered {
+class SongLyricsSearchFilteredNotifier extends _$SongLyricsSearchFilteredNotifier {
   @override
   SongLyricsSearchResult build() {
     final unfilteredResult = ref.watch(songLyricsSearchProvider);

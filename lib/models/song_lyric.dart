@@ -53,7 +53,7 @@ sealed class SongLyric extends Model with _$SongLyric, ContentItem, RecentItem {
     @Backlink() @JsonKey(fromJson: _songbookRecordsFromJson) required ToMany<SongbookRecord> songbookRecords,
     @JsonKey(fromJson: _tagsFromJson) required ToMany<Tag> tags,
     // these last two are not loaded from API, but are only local
-    @JsonKey(fromJson: _settingsFromJson) required ToOne<SongLyricSettingsModel> settings,
+    @JsonKey(fromJson: _settingsFromJson) required ToOne<SongLyricSettings> settings,
     @Backlink() @JsonKey(fromJson: _playlistRecordsFromJson) required ToMany<PlaylistRecord> playlistRecords,
   }) = _SongLyric;
 
@@ -80,6 +80,6 @@ ToMany<Tag> _tagsFromJson(List<dynamic> jsonList) {
   return ToMany(items: tags);
 }
 
-ToOne<SongLyricSettingsModel> _settingsFromJson(Map<String, dynamic>? json) => ToOne();
+ToOne<SongLyricSettings> _settingsFromJson(Map<String, dynamic>? json) => ToOne();
 
 ToMany<PlaylistRecord> _playlistRecordsFromJson(List<dynamic>? jsonList) => ToMany();

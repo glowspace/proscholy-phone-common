@@ -9,12 +9,12 @@ part of '../recent_items.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(RecentItems)
-const recentItemsProvider = RecentItemsProvider._();
+@ProviderFor(RecentItemsNotifier)
+const recentItemsProvider = RecentItemsNotifierProvider._();
 
-final class RecentItemsProvider
-    extends $NotifierProvider<RecentItems, List<RecentItem>> {
-  const RecentItemsProvider._()
+final class RecentItemsNotifierProvider
+    extends $NotifierProvider<RecentItemsNotifier, List<RecentItem>> {
+  const RecentItemsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -26,11 +26,11 @@ final class RecentItemsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$recentItemsHash();
+  String debugGetCreateSourceHash() => _$recentItemsNotifierHash();
 
   @$internal
   @override
-  RecentItems create() => RecentItems();
+  RecentItemsNotifier create() => RecentItemsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<RecentItem> value) {
@@ -41,9 +41,10 @@ final class RecentItemsProvider
   }
 }
 
-String _$recentItemsHash() => r'de101feeaf1b13cda2b7dd445d37cbf33d57e3a7';
+String _$recentItemsNotifierHash() =>
+    r'fc0ed59d933ea89b48a4142a3ac6f37b691b2728';
 
-abstract class _$RecentItems extends $Notifier<List<RecentItem>> {
+abstract class _$RecentItemsNotifier extends $Notifier<List<RecentItem>> {
   List<RecentItem> build();
   @$mustCallSuper
   @override

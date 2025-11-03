@@ -148,12 +148,12 @@ abstract class _$PlaylistNotifier extends $Notifier<Playlist> {
   }
 }
 
-@ProviderFor(Playlists)
-const playlistsProvider = PlaylistsProvider._();
+@ProviderFor(PlaylistsNotifier)
+const playlistsProvider = PlaylistsNotifierProvider._();
 
-final class PlaylistsProvider
-    extends $NotifierProvider<Playlists, List<Playlist>> {
-  const PlaylistsProvider._()
+final class PlaylistsNotifierProvider
+    extends $NotifierProvider<PlaylistsNotifier, List<Playlist>> {
+  const PlaylistsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -165,11 +165,11 @@ final class PlaylistsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$playlistsHash();
+  String debugGetCreateSourceHash() => _$playlistsNotifierHash();
 
   @$internal
   @override
-  Playlists create() => Playlists();
+  PlaylistsNotifier create() => PlaylistsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<Playlist> value) {
@@ -180,9 +180,9 @@ final class PlaylistsProvider
   }
 }
 
-String _$playlistsHash() => r'939bdbb6e2267b01ceeff2fff121c5f73f3b1fe4';
+String _$playlistsNotifierHash() => r'6dc209db5bf39ff8df399c29e303e8be6b382abb';
 
-abstract class _$Playlists extends $Notifier<List<Playlist>> {
+abstract class _$PlaylistsNotifier extends $Notifier<List<Playlist>> {
   List<Playlist> build();
   @$mustCallSuper
   @override

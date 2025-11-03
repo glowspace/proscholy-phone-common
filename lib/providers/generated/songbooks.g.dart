@@ -9,88 +9,12 @@ part of '../songbooks.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(songbook)
-const songbookProvider = SongbookFamily._();
+@ProviderFor(PinnedSongbookIdsNotifier)
+const pinnedSongbookIdsProvider = PinnedSongbookIdsNotifierProvider._();
 
-final class SongbookProvider
-    extends $FunctionalProvider<Songbook?, Songbook?, Songbook?>
-    with $Provider<Songbook?> {
-  const SongbookProvider._({
-    required SongbookFamily super.from,
-    required int super.argument,
-  }) : super(
-         retry: null,
-         name: r'songbookProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$songbookHash();
-
-  @override
-  String toString() {
-    return r'songbookProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  $ProviderElement<Songbook?> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  Songbook? create(Ref ref) {
-    final argument = this.argument as int;
-    return songbook(ref, argument);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Songbook? value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<Songbook?>(value),
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SongbookProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$songbookHash() => r'2856322be94db22ad46965b2371a2578999681db';
-
-final class SongbookFamily extends $Family
-    with $FunctionalFamilyOverride<Songbook?, int> {
-  const SongbookFamily._()
-    : super(
-        retry: null,
-        name: r'songbookProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  SongbookProvider call(int id) => SongbookProvider._(argument: id, from: this);
-
-  @override
-  String toString() => r'songbookProvider';
-}
-
-@ProviderFor(PinnedSongbookIds)
-const pinnedSongbookIdsProvider = PinnedSongbookIdsProvider._();
-
-final class PinnedSongbookIdsProvider
-    extends $NotifierProvider<PinnedSongbookIds, List<int>> {
-  const PinnedSongbookIdsProvider._()
+final class PinnedSongbookIdsNotifierProvider
+    extends $NotifierProvider<PinnedSongbookIdsNotifier, List<int>> {
+  const PinnedSongbookIdsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -102,11 +26,11 @@ final class PinnedSongbookIdsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$pinnedSongbookIdsHash();
+  String debugGetCreateSourceHash() => _$pinnedSongbookIdsNotifierHash();
 
   @$internal
   @override
-  PinnedSongbookIds create() => PinnedSongbookIds();
+  PinnedSongbookIdsNotifier create() => PinnedSongbookIdsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<int> value) {
@@ -117,9 +41,10 @@ final class PinnedSongbookIdsProvider
   }
 }
 
-String _$pinnedSongbookIdsHash() => r'3344c100969bead3a0686c91bcc1e968dea7dcf6';
+String _$pinnedSongbookIdsNotifierHash() =>
+    r'b510cfea8df3fe03b4dbe5e06df96e46690166ec';
 
-abstract class _$PinnedSongbookIds extends $Notifier<List<int>> {
+abstract class _$PinnedSongbookIdsNotifier extends $Notifier<List<int>> {
   List<int> build();
   @$mustCallSuper
   @override

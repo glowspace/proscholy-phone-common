@@ -287,20 +287,20 @@ as int,
 }
 
 /// @nodoc
-mixin _$SongLyricSettingsModel {
+mixin _$SongLyricSettings {
 
 @Id(assignable: true) int get id; bool get showChords; bool get showMusicalNotes; int? get accidentals; int get transposition; ToOne<SongLyric> get songLyric;
-/// Create a copy of SongLyricSettingsModel
+/// Create a copy of SongLyricSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SongLyricSettingsModelCopyWith<SongLyricSettingsModel> get copyWith => _$SongLyricSettingsModelCopyWithImpl<SongLyricSettingsModel>(this as SongLyricSettingsModel, _$identity);
+$SongLyricSettingsCopyWith<SongLyricSettings> get copyWith => _$SongLyricSettingsCopyWithImpl<SongLyricSettings>(this as SongLyricSettings, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SongLyricSettingsModel&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.showChords, showChords) || other.showChords == showChords)&&(identical(other.showMusicalNotes, showMusicalNotes) || other.showMusicalNotes == showMusicalNotes)&&(identical(other.accidentals, accidentals) || other.accidentals == accidentals)&&(identical(other.transposition, transposition) || other.transposition == transposition)&&(identical(other.songLyric, songLyric) || other.songLyric == songLyric));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SongLyricSettings&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.showChords, showChords) || other.showChords == showChords)&&(identical(other.showMusicalNotes, showMusicalNotes) || other.showMusicalNotes == showMusicalNotes)&&(identical(other.accidentals, accidentals) || other.accidentals == accidentals)&&(identical(other.transposition, transposition) || other.transposition == transposition)&&(identical(other.songLyric, songLyric) || other.songLyric == songLyric));
 }
 
 
@@ -309,15 +309,15 @@ int get hashCode => Object.hash(runtimeType,super.hashCode,id,showChords,showMus
 
 @override
 String toString() {
-  return 'SongLyricSettingsModel(id: $id, showChords: $showChords, showMusicalNotes: $showMusicalNotes, accidentals: $accidentals, transposition: $transposition, songLyric: $songLyric)';
+  return 'SongLyricSettings(id: $id, showChords: $showChords, showMusicalNotes: $showMusicalNotes, accidentals: $accidentals, transposition: $transposition, songLyric: $songLyric)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $SongLyricSettingsModelCopyWith<$Res>  {
-  factory $SongLyricSettingsModelCopyWith(SongLyricSettingsModel value, $Res Function(SongLyricSettingsModel) _then) = _$SongLyricSettingsModelCopyWithImpl;
+abstract mixin class $SongLyricSettingsCopyWith<$Res>  {
+  factory $SongLyricSettingsCopyWith(SongLyricSettings value, $Res Function(SongLyricSettings) _then) = _$SongLyricSettingsCopyWithImpl;
 @useResult
 $Res call({
 @Id(assignable: true) int id, bool showChords, bool showMusicalNotes, int? accidentals, int transposition, ToOne<SongLyric> songLyric
@@ -328,14 +328,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$SongLyricSettingsModelCopyWithImpl<$Res>
-    implements $SongLyricSettingsModelCopyWith<$Res> {
-  _$SongLyricSettingsModelCopyWithImpl(this._self, this._then);
+class _$SongLyricSettingsCopyWithImpl<$Res>
+    implements $SongLyricSettingsCopyWith<$Res> {
+  _$SongLyricSettingsCopyWithImpl(this._self, this._then);
 
-  final SongLyricSettingsModel _self;
-  final $Res Function(SongLyricSettingsModel) _then;
+  final SongLyricSettings _self;
+  final $Res Function(SongLyricSettings) _then;
 
-/// Create a copy of SongLyricSettingsModel
+/// Create a copy of SongLyricSettings
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? showChords = null,Object? showMusicalNotes = null,Object? accidentals = freezed,Object? transposition = null,Object? songLyric = null,}) {
   return _then(_self.copyWith(
@@ -352,8 +352,8 @@ as ToOne<SongLyric>,
 }
 
 
-/// Adds pattern-matching-related methods to [SongLyricSettingsModel].
-extension SongLyricSettingsModelPatterns on SongLyricSettingsModel {
+/// Adds pattern-matching-related methods to [SongLyricSettings].
+extension SongLyricSettingsPatterns on SongLyricSettings {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -366,10 +366,10 @@ extension SongLyricSettingsModelPatterns on SongLyricSettingsModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SongLyricSettingsModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SongLyricSettings value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel() when $default != null:
+case _SongLyricSettings() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -388,10 +388,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SongLyricSettingsModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SongLyricSettings value)  $default,){
 final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel():
+case _SongLyricSettings():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -406,10 +406,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SongLyricSettingsModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SongLyricSettings value)?  $default,){
 final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel() when $default != null:
+case _SongLyricSettings() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -429,7 +429,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  bool showChords,  bool showMusicalNotes,  int? accidentals,  int transposition,  ToOne<SongLyric> songLyric)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel() when $default != null:
+case _SongLyricSettings() when $default != null:
 return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidentals,_that.transposition,_that.songLyric);case _:
   return orElse();
 
@@ -450,7 +450,7 @@ return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidenta
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(assignable: true)  int id,  bool showChords,  bool showMusicalNotes,  int? accidentals,  int transposition,  ToOne<SongLyric> songLyric)  $default,) {final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel():
+case _SongLyricSettings():
 return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidentals,_that.transposition,_that.songLyric);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -467,7 +467,7 @@ return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidenta
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(assignable: true)  int id,  bool showChords,  bool showMusicalNotes,  int? accidentals,  int transposition,  ToOne<SongLyric> songLyric)?  $default,) {final _that = this;
 switch (_that) {
-case _SongLyricSettingsModel() when $default != null:
+case _SongLyricSettings() when $default != null:
 return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidentals,_that.transposition,_that.songLyric);case _:
   return null;
 
@@ -478,9 +478,9 @@ return $default(_that.id,_that.showChords,_that.showMusicalNotes,_that.accidenta
 
 /// @nodoc
 
-@Entity(realClass: SongLyricSettingsModel)
-class _SongLyricSettingsModel extends SongLyricSettingsModel {
-  const _SongLyricSettingsModel({@Id(assignable: true) required this.id, required this.showChords, required this.showMusicalNotes, this.accidentals, required this.transposition, required this.songLyric}): super._();
+@Entity(realClass: SongLyricSettings)
+class _SongLyricSettings extends SongLyricSettings {
+  const _SongLyricSettings({@Id(assignable: true) required this.id, required this.showChords, required this.showMusicalNotes, this.accidentals, required this.transposition, required this.songLyric}): super._();
   
 
 @override@Id(assignable: true) final  int id;
@@ -490,17 +490,17 @@ class _SongLyricSettingsModel extends SongLyricSettingsModel {
 @override final  int transposition;
 @override final  ToOne<SongLyric> songLyric;
 
-/// Create a copy of SongLyricSettingsModel
+/// Create a copy of SongLyricSettings
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SongLyricSettingsModelCopyWith<_SongLyricSettingsModel> get copyWith => __$SongLyricSettingsModelCopyWithImpl<_SongLyricSettingsModel>(this, _$identity);
+_$SongLyricSettingsCopyWith<_SongLyricSettings> get copyWith => __$SongLyricSettingsCopyWithImpl<_SongLyricSettings>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SongLyricSettingsModel&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.showChords, showChords) || other.showChords == showChords)&&(identical(other.showMusicalNotes, showMusicalNotes) || other.showMusicalNotes == showMusicalNotes)&&(identical(other.accidentals, accidentals) || other.accidentals == accidentals)&&(identical(other.transposition, transposition) || other.transposition == transposition)&&(identical(other.songLyric, songLyric) || other.songLyric == songLyric));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SongLyricSettings&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.showChords, showChords) || other.showChords == showChords)&&(identical(other.showMusicalNotes, showMusicalNotes) || other.showMusicalNotes == showMusicalNotes)&&(identical(other.accidentals, accidentals) || other.accidentals == accidentals)&&(identical(other.transposition, transposition) || other.transposition == transposition)&&(identical(other.songLyric, songLyric) || other.songLyric == songLyric));
 }
 
 
@@ -509,15 +509,15 @@ int get hashCode => Object.hash(runtimeType,super.hashCode,id,showChords,showMus
 
 @override
 String toString() {
-  return 'SongLyricSettingsModel(id: $id, showChords: $showChords, showMusicalNotes: $showMusicalNotes, accidentals: $accidentals, transposition: $transposition, songLyric: $songLyric)';
+  return 'SongLyricSettings(id: $id, showChords: $showChords, showMusicalNotes: $showMusicalNotes, accidentals: $accidentals, transposition: $transposition, songLyric: $songLyric)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SongLyricSettingsModelCopyWith<$Res> implements $SongLyricSettingsModelCopyWith<$Res> {
-  factory _$SongLyricSettingsModelCopyWith(_SongLyricSettingsModel value, $Res Function(_SongLyricSettingsModel) _then) = __$SongLyricSettingsModelCopyWithImpl;
+abstract mixin class _$SongLyricSettingsCopyWith<$Res> implements $SongLyricSettingsCopyWith<$Res> {
+  factory _$SongLyricSettingsCopyWith(_SongLyricSettings value, $Res Function(_SongLyricSettings) _then) = __$SongLyricSettingsCopyWithImpl;
 @override @useResult
 $Res call({
 @Id(assignable: true) int id, bool showChords, bool showMusicalNotes, int? accidentals, int transposition, ToOne<SongLyric> songLyric
@@ -528,17 +528,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$SongLyricSettingsModelCopyWithImpl<$Res>
-    implements _$SongLyricSettingsModelCopyWith<$Res> {
-  __$SongLyricSettingsModelCopyWithImpl(this._self, this._then);
+class __$SongLyricSettingsCopyWithImpl<$Res>
+    implements _$SongLyricSettingsCopyWith<$Res> {
+  __$SongLyricSettingsCopyWithImpl(this._self, this._then);
 
-  final _SongLyricSettingsModel _self;
-  final $Res Function(_SongLyricSettingsModel) _then;
+  final _SongLyricSettings _self;
+  final $Res Function(_SongLyricSettings) _then;
 
-/// Create a copy of SongLyricSettingsModel
+/// Create a copy of SongLyricSettings
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? showChords = null,Object? showMusicalNotes = null,Object? accidentals = freezed,Object? transposition = null,Object? songLyric = null,}) {
-  return _then(_SongLyricSettingsModel(
+  return _then(_SongLyricSettings(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,showChords: null == showChords ? _self.showChords : showChords // ignore: cast_nullable_to_non_nullable
 as bool,showMusicalNotes: null == showMusicalNotes ? _self.showMusicalNotes : showMusicalNotes // ignore: cast_nullable_to_non_nullable

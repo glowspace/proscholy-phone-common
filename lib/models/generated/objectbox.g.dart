@@ -273,7 +273,7 @@ final _entities = <obx_int.ModelEntity>[
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(22, 6689134858203517923),
-        relationTarget: 'SongLyricSettingsModel',
+        relationTarget: 'SongLyricSettings',
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(30, 4993132736196042096),
@@ -565,7 +565,7 @@ final _entities = <obx_int.ModelEntity>[
   ),
   obx_int.ModelEntity(
     id: const obx_int.IdUid(22, 3313311911381561450),
-    name: 'SongLyricSettingsModel',
+    name: 'SongLyricSettings',
     lastPropertyId: const obx_int.IdUid(6, 6538238091134320076),
     flags: 0,
     properties: <obx_int.ModelProperty>[
@@ -1203,7 +1203,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final externalsParam = obx.ToMany<External>();
         final songbookRecordsParam = obx.ToMany<SongbookRecord>();
         final tagsParam = obx.ToMany<Tag>();
-        final settingsParam = obx.ToOne<SongLyricSettingsModel>(
+        final settingsParam = obx.ToOne<SongLyricSettings>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 56, 0),
         );
         final playlistRecordsParam = obx.ToMany<PlaylistRecord>();
@@ -1667,15 +1667,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
-    SongLyricSettingsModel: obx_int.EntityDefinition<SongLyricSettingsModel>(
+    SongLyricSettings: obx_int.EntityDefinition<SongLyricSettings>(
       model: _entities[12],
-      toOneRelations: (SongLyricSettingsModel object) => [object.songLyric],
-      toManyRelations: (SongLyricSettingsModel object) => {},
-      getId: (SongLyricSettingsModel object) => object.id,
-      setId: (SongLyricSettingsModel object, int id) {
+      toOneRelations: (SongLyricSettings object) => [object.songLyric],
+      toManyRelations: (SongLyricSettings object) => {},
+      getId: (SongLyricSettings object) => object.id,
+      setId: (SongLyricSettings object, int id) {
         if (object.id != id) {
           throw ArgumentError(
-            'Field SongLyricSettingsModel.id is read-only '
+            'Field SongLyricSettings.id is read-only '
             '(final or getter-only) and it was declared to be self-assigned. '
             'However, the currently inserted object (.id=${object.id}) '
             "doesn't match the inserted ID (ID $id). "
@@ -1683,7 +1683,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           );
         }
       },
-      objectToFB: (SongLyricSettingsModel object, fb.Builder fbb) {
+      objectToFB: (SongLyricSettings object, fb.Builder fbb) {
         fbb.startTable(7);
         fbb.addInt64(0, object.id);
         fbb.addBool(1, object.showChords);
@@ -1729,7 +1729,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final songLyricParam = obx.ToOne<SongLyric>(
           targetId: const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
         );
-        final object = SongLyricSettingsModel(
+        final object = SongLyricSettings(
           id: idParam,
           showChords: showChordsParam,
           showMusicalNotes: showMusicalNotesParam,
@@ -1901,10 +1901,9 @@ class SongLyric_ {
   );
 
   /// See [SongLyric.settings].
-  static final settings =
-      obx.QueryRelationToOne<SongLyric, SongLyricSettingsModel>(
-        _entities[5].properties[8],
-      );
+  static final settings = obx.QueryRelationToOne<SongLyric, SongLyricSettings>(
+    _entities[5].properties[8],
+  );
 
   /// See [SongLyric.hymnology].
   static final hymnology = obx.QueryStringProperty<SongLyric>(
@@ -2108,37 +2107,35 @@ class UserText_ {
   );
 }
 
-/// [SongLyricSettingsModel] entity fields to define ObjectBox queries.
-class SongLyricSettingsModel_ {
-  /// See [SongLyricSettingsModel.id].
-  static final id = obx.QueryIntegerProperty<SongLyricSettingsModel>(
+/// [SongLyricSettings] entity fields to define ObjectBox queries.
+class SongLyricSettings_ {
+  /// See [SongLyricSettings.id].
+  static final id = obx.QueryIntegerProperty<SongLyricSettings>(
     _entities[12].properties[0],
   );
 
-  /// See [SongLyricSettingsModel.showChords].
-  static final showChords = obx.QueryBooleanProperty<SongLyricSettingsModel>(
+  /// See [SongLyricSettings.showChords].
+  static final showChords = obx.QueryBooleanProperty<SongLyricSettings>(
     _entities[12].properties[1],
   );
 
-  /// See [SongLyricSettingsModel.showMusicalNotes].
-  static final showMusicalNotes =
-      obx.QueryBooleanProperty<SongLyricSettingsModel>(
-        _entities[12].properties[2],
-      );
+  /// See [SongLyricSettings.showMusicalNotes].
+  static final showMusicalNotes = obx.QueryBooleanProperty<SongLyricSettings>(
+    _entities[12].properties[2],
+  );
 
-  /// See [SongLyricSettingsModel.accidentals].
-  static final accidentals = obx.QueryIntegerProperty<SongLyricSettingsModel>(
+  /// See [SongLyricSettings.accidentals].
+  static final accidentals = obx.QueryIntegerProperty<SongLyricSettings>(
     _entities[12].properties[3],
   );
 
-  /// See [SongLyricSettingsModel.transposition].
-  static final transposition = obx.QueryIntegerProperty<SongLyricSettingsModel>(
+  /// See [SongLyricSettings.transposition].
+  static final transposition = obx.QueryIntegerProperty<SongLyricSettings>(
     _entities[12].properties[4],
   );
 
-  /// See [SongLyricSettingsModel.songLyric].
-  static final songLyric =
-      obx.QueryRelationToOne<SongLyricSettingsModel, SongLyric>(
-        _entities[12].properties[5],
-      );
+  /// See [SongLyricSettings.songLyric].
+  static final songLyric = obx.QueryRelationToOne<SongLyricSettings, SongLyric>(
+    _entities[12].properties[5],
+  );
 }

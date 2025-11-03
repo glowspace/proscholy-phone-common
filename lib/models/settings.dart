@@ -38,21 +38,21 @@ sealed class GlobalSettings with _$GlobalSettings {
 }
 
 @Freezed(equal: true)
-sealed class SongLyricSettingsModel extends Model with _$SongLyricSettingsModel {
-  const SongLyricSettingsModel._();
+sealed class SongLyricSettings extends Model with _$SongLyricSettings {
+  const SongLyricSettings._();
 
-  @Entity(realClass: SongLyricSettingsModel)
-  const factory SongLyricSettingsModel({
+  @Entity(realClass: SongLyricSettings)
+  const factory SongLyricSettings({
     @Id(assignable: true) required int id,
     required bool showChords,
     required bool showMusicalNotes,
     int? accidentals,
     required int transposition,
     required ToOne<SongLyric> songLyric,
-  }) = _SongLyricSettingsModel;
+  }) = _SongLyricSettings;
 
-  factory SongLyricSettingsModel.defaultFromGlobalSettings(GlobalSettings globalSettings) {
-    return SongLyricSettingsModel(
+  factory SongLyricSettings.defaultFromGlobalSettings(GlobalSettings globalSettings) {
+    return SongLyricSettings(
       id: 0,
       showChords: globalSettings.showChords,
       showMusicalNotes: globalSettings.showMusicalNotes,

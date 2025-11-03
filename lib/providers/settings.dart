@@ -12,7 +12,7 @@ part 'generated/settings.g.dart';
 const String _settingsKey = 'settings';
 
 @riverpod
-class Settings extends _$Settings {
+class SettingsNotifier extends _$SettingsNotifier {
   @override
   GlobalSettings build() {
     final prefs = ref.read(appDependenciesProvider).sharedPreferences;
@@ -53,17 +53,17 @@ class Settings extends _$Settings {
 }
 
 @riverpod
-class SongLyricSettings extends _$SongLyricSettings {
-  SongLyricSettingsModel get _defaultSongLyricSettings =>
-      SongLyricSettingsModel.defaultFromGlobalSettings(ref.read(settingsProvider));
+class SongLyricSettingsNotifier extends _$SongLyricSettingsNotifier {
+  SongLyricSettings get _defaultSongLyricSettings =>
+      SongLyricSettings.defaultFromGlobalSettings(ref.read(settingsProvider));
 
   @override
-  SongLyricSettingsModel build(int songLyricId) {
+  SongLyricSettings build(int songLyricId) {
     if (songLyricId == 0) return _defaultSongLyricSettings;
 
-    final box = ref.read(appDependenciesProvider).store.box<SongLyricSettingsModel>();
+    final box = ref.read(appDependenciesProvider).store.box<SongLyricSettings>();
 
-    final query = box.query(SongLyricSettingsModel_.songLyric.equals(songLyricId)).build();
+    final query = box.query(SongLyricSettings_.songLyric.equals(songLyricId)).build();
 
     final songLyricSettings = query.findFirst();
 
@@ -88,16 +88,16 @@ class SongLyricSettings extends _$SongLyricSettings {
 
   void reset() => _updateState(_defaultSongLyricSettings);
 
-  void _updateState(SongLyricSettingsModel songLyricSettings) {
+  void _updateState(SongLyricSettings songLyricSettings) {
     final store = ref.read(appDependenciesProvider).store;
-    final songLyricSettingsBox = store.box<SongLyricSettingsModel>();
+    final songLyricSettingsBox = store.box<SongLyricSettings>();
 
     if (songLyricSettings == _defaultSongLyricSettings && state != _defaultSongLyricSettings) {
       songLyricSettingsBox.remove(state.id);
     } else {
       // decide id for new objects
       if (songLyricSettings.id == 0) {
-        songLyricSettings = songLyricSettings.copyWith(id: store.box<SongLyricSettingsModel>().nextId(SongLyricSettingsModel_.id));
+        songLyricSettings = songLyricSettings.copyWith(id: store.box<SongLyricSettings>().nextId(SongLyricSettings_.id));
       }
 
       songLyricSettingsBox.put(songLyricSettings);

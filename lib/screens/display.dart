@@ -28,7 +28,6 @@ import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/models/playlist.dart';
 import 'package:proscholy_common/models/song_lyric.dart';
 import 'package:proscholy_common/models/songbook.dart';
-import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/providers/display_screen_status.dart';
 import 'package:proscholy_common/providers/menu_collapsed.dart';
 import 'package:proscholy_common/providers/presentation.dart';

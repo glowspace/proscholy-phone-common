@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-const kDefaultSplitViewChildMinWidth = 240.0;
-const kDefaultSplitViewChildMaxWidth = 320.0;
-const kDefaultSplitViewDetailMinWidth = 420.0;
-const kDefaultSplitViewChildWidthFactor = 0.3;
+const double kDefaultSplitViewChildMinWidth = 240.0;
+const double kDefaultSplitViewChildMaxWidth = 320.0;
+const double kDefaultSplitViewDetailMinWidth = 420.0;
+const double kDefaultSplitViewChildWidthFactor = 0.3;
 
 class SplitView extends StatelessWidget {
   final Widget child;

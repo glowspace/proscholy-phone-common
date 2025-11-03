@@ -21,7 +21,7 @@ const String _recentItemsKey = 'recent_items';
 // recent items are only stored in shared preferences as string list in format ['RECENT_ITEM_TYPE;RECENT_ITEM_ID', ...]
 
 @riverpod
-class RecentItems extends _$RecentItems {
+class RecentItemsNotifier extends _$RecentItemsNotifier {
   final _subscriptions = <RecentItem, StreamSubscription>{};
 
   @override

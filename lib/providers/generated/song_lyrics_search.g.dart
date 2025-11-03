@@ -9,11 +9,12 @@ part of '../song_lyrics_search.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Sort)
-const sortProvider = SortProvider._();
+@ProviderFor(SortNotifier)
+const sortProvider = SortNotifierProvider._();
 
-final class SortProvider extends $NotifierProvider<Sort, SortType> {
-  const SortProvider._()
+final class SortNotifierProvider
+    extends $NotifierProvider<SortNotifier, SortType> {
+  const SortNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -25,11 +26,11 @@ final class SortProvider extends $NotifierProvider<Sort, SortType> {
       );
 
   @override
-  String debugGetCreateSourceHash() => _$sortHash();
+  String debugGetCreateSourceHash() => _$sortNotifierHash();
 
   @$internal
   @override
-  Sort create() => Sort();
+  SortNotifier create() => SortNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(SortType value) {
@@ -40,9 +41,9 @@ final class SortProvider extends $NotifierProvider<Sort, SortType> {
   }
 }
 
-String _$sortHash() => r'ddf89b3ee4e872a2ab193d66d217282e33f13560';
+String _$sortNotifierHash() => r'6835ea0d4094153fa2076f4dbedd1525d2a6dadd';
 
-abstract class _$Sort extends $Notifier<SortType> {
+abstract class _$SortNotifier extends $Notifier<SortType> {
   SortType build();
   @$mustCallSuper
   @override
@@ -103,12 +104,13 @@ final class SongLyricsSortedProvider
 
 String _$songLyricsSortedHash() => r'f38b3857eeea873f6a078b043eb882e96f6f3ed4';
 
-@ProviderFor(SongLyricsSearch)
-const songLyricsSearchProvider = SongLyricsSearchProvider._();
+@ProviderFor(SongLyricsSearchNotifier)
+const songLyricsSearchProvider = SongLyricsSearchNotifierProvider._();
 
-final class SongLyricsSearchProvider
-    extends $NotifierProvider<SongLyricsSearch, SongLyricsSearchResult> {
-  const SongLyricsSearchProvider._()
+final class SongLyricsSearchNotifierProvider
+    extends
+        $NotifierProvider<SongLyricsSearchNotifier, SongLyricsSearchResult> {
+  const SongLyricsSearchNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -120,11 +122,11 @@ final class SongLyricsSearchProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$songLyricsSearchHash();
+  String debugGetCreateSourceHash() => _$songLyricsSearchNotifierHash();
 
   @$internal
   @override
-  SongLyricsSearch create() => SongLyricsSearch();
+  SongLyricsSearchNotifier create() => SongLyricsSearchNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(SongLyricsSearchResult value) {
@@ -135,9 +137,11 @@ final class SongLyricsSearchProvider
   }
 }
 
-String _$songLyricsSearchHash() => r'5bb4dd1952503f656c1c9ce22fd0aa09ecb733db';
+String _$songLyricsSearchNotifierHash() =>
+    r'5b249f3a05405c5273a50b2bc9ba35aa8cb841a7';
 
-abstract class _$SongLyricsSearch extends $Notifier<SongLyricsSearchResult> {
+abstract class _$SongLyricsSearchNotifier
+    extends $Notifier<SongLyricsSearchResult> {
   SongLyricsSearchResult build();
   @$mustCallSuper
   @override
@@ -157,12 +161,12 @@ abstract class _$SongLyricsSearch extends $Notifier<SongLyricsSearchResult> {
   }
 }
 
-@ProviderFor(SelectedTags)
-const selectedTagsProvider = SelectedTagsProvider._();
+@ProviderFor(SelectedTagsNotifier)
+const selectedTagsProvider = SelectedTagsNotifierProvider._();
 
-final class SelectedTagsProvider
-    extends $NotifierProvider<SelectedTags, List<Tag>> {
-  const SelectedTagsProvider._()
+final class SelectedTagsNotifierProvider
+    extends $NotifierProvider<SelectedTagsNotifier, List<Tag>> {
+  const SelectedTagsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -174,11 +178,11 @@ final class SelectedTagsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$selectedTagsHash();
+  String debugGetCreateSourceHash() => _$selectedTagsNotifierHash();
 
   @$internal
   @override
-  SelectedTags create() => SelectedTags();
+  SelectedTagsNotifier create() => SelectedTagsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<Tag> value) {
@@ -189,9 +193,10 @@ final class SelectedTagsProvider
   }
 }
 
-String _$selectedTagsHash() => r'5a287c290903dc4172dd2321b6fa5c015ee0259d';
+String _$selectedTagsNotifierHash() =>
+    r'dc7f22600784db9f75d605cd9d3703b299975d7e';
 
-abstract class _$SelectedTags extends $Notifier<List<Tag>> {
+abstract class _$SelectedTagsNotifier extends $Notifier<List<Tag>> {
   List<Tag> build();
   @$mustCallSuper
   @override
@@ -210,13 +215,17 @@ abstract class _$SelectedTags extends $Notifier<List<Tag>> {
   }
 }
 
-@ProviderFor(SongLyricsSearchFiltered)
-const songLyricsSearchFilteredProvider = SongLyricsSearchFilteredProvider._();
+@ProviderFor(SongLyricsSearchFilteredNotifier)
+const songLyricsSearchFilteredProvider =
+    SongLyricsSearchFilteredNotifierProvider._();
 
-final class SongLyricsSearchFilteredProvider
+final class SongLyricsSearchFilteredNotifierProvider
     extends
-        $NotifierProvider<SongLyricsSearchFiltered, SongLyricsSearchResult> {
-  const SongLyricsSearchFilteredProvider._()
+        $NotifierProvider<
+          SongLyricsSearchFilteredNotifier,
+          SongLyricsSearchResult
+        > {
+  const SongLyricsSearchFilteredNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -228,11 +237,12 @@ final class SongLyricsSearchFilteredProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$songLyricsSearchFilteredHash();
+  String debugGetCreateSourceHash() => _$songLyricsSearchFilteredNotifierHash();
 
   @$internal
   @override
-  SongLyricsSearchFiltered create() => SongLyricsSearchFiltered();
+  SongLyricsSearchFilteredNotifier create() =>
+      SongLyricsSearchFilteredNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(SongLyricsSearchResult value) {
@@ -243,10 +253,10 @@ final class SongLyricsSearchFilteredProvider
   }
 }
 
-String _$songLyricsSearchFilteredHash() =>
-    r'c43402a043e48e6781093bb6c91c6241f2e471d1';
+String _$songLyricsSearchFilteredNotifierHash() =>
+    r'8be4ae4a80d017dadd05d06c596d565d2e97a692';
 
-abstract class _$SongLyricsSearchFiltered
+abstract class _$SongLyricsSearchFilteredNotifier
     extends $Notifier<SongLyricsSearchResult> {
   SongLyricsSearchResult build();
   @$mustCallSuper

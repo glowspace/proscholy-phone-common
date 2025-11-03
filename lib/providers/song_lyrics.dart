@@ -24,7 +24,7 @@ List<SongLyric> songLyrics(Ref ref) {
 }
 
 @riverpod
-class RecentSongLyrics extends _$RecentSongLyrics {
+class RecentSongLyricsNotifier extends _$RecentSongLyricsNotifier {
   @override
   List<SongLyric> build() {
     final appDependencies = ref.read(appDependenciesProvider);

@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:proscholy_common/providers/song_lyrics_search.dart';
 import 'package:proscholy_common/utils/extensions/store.dart';
 import 'package:proscholy_common/views/song_lyric.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,13 +10,6 @@ import 'package:proscholy_common/providers/song_lyrics.dart';
 import 'package:proscholy_common/providers/songbooks.dart';
 
 part 'generated/tags.g.dart';
-
-@riverpod
-Tag? tag(Ref ref, int id) {
-  if (id == 0) return null;
-
-  return ref.read(appDependenciesProvider).store.box<Tag>().get(id);
-}
 
 // provides tags for given `tagType`
 // for songbooks, playlists and languages it creates corresponding tags,

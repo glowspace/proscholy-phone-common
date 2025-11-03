@@ -128,12 +128,12 @@ final class SongLyricsProvider
 
 String _$songLyricsHash() => r'181ad5d263650ed4568154dffb7ab893227e1567';
 
-@ProviderFor(RecentSongLyrics)
-const recentSongLyricsProvider = RecentSongLyricsProvider._();
+@ProviderFor(RecentSongLyricsNotifier)
+const recentSongLyricsProvider = RecentSongLyricsNotifierProvider._();
 
-final class RecentSongLyricsProvider
-    extends $NotifierProvider<RecentSongLyrics, List<SongLyric>> {
-  const RecentSongLyricsProvider._()
+final class RecentSongLyricsNotifierProvider
+    extends $NotifierProvider<RecentSongLyricsNotifier, List<SongLyric>> {
+  const RecentSongLyricsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -145,11 +145,11 @@ final class RecentSongLyricsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$recentSongLyricsHash();
+  String debugGetCreateSourceHash() => _$recentSongLyricsNotifierHash();
 
   @$internal
   @override
-  RecentSongLyrics create() => RecentSongLyrics();
+  RecentSongLyricsNotifier create() => RecentSongLyricsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<SongLyric> value) {
@@ -160,9 +160,10 @@ final class RecentSongLyricsProvider
   }
 }
 
-String _$recentSongLyricsHash() => r'1e35b9efc5d0fd755363fb702944271d6e13ee78';
+String _$recentSongLyricsNotifierHash() =>
+    r'1d525b318043a4f4fcb0d17e9e14a9927cf7dbf3';
 
-abstract class _$RecentSongLyrics extends $Notifier<List<SongLyric>> {
+abstract class _$RecentSongLyricsNotifier extends $Notifier<List<SongLyric>> {
   List<SongLyric> build();
   @$mustCallSuper
   @override

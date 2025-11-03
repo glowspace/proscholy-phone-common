@@ -1,3 +1,4 @@
+import 'package:proscholy_common/models/model.dart';
 import 'package:proscholy_common/utils/extensions/ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:proscholy_common/models/bible_passage.dart';

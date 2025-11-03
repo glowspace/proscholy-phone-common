@@ -12,6 +12,11 @@ abstract class Model {
   }
 }
 
+// models that have content
 mixin ContentItem on Model {}
 
+// models that can be in recent items view
 mixin RecentItem on Model {}
+
+// models that can be highlighted as selected in lists
+mixin SelectedItem on Model {}

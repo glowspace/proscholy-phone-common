@@ -11,14 +11,7 @@ part 'generated/songbooks.g.dart';
 const _pinnedSongbookIdsKey = 'pinned_songbook_ids';
 
 @riverpod
-Songbook? songbook(Ref ref, int id) {
-  if (id == 0) return null;
-
-  return ref.read(appDependenciesProvider).store.box<Songbook>().get(id);
-}
-
-@riverpod
-class PinnedSongbookIds extends _$PinnedSongbookIds {
+class PinnedSongbookIdsNotifier extends _$PinnedSongbookIdsNotifier {
   SharedPreferences get _sharedPreferences {
     return ref.read(appDependenciesProvider).sharedPreferences;
   }

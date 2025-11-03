@@ -204,7 +204,7 @@
           "indexId": "22:6689134858203517923",
           "type": 11,
           "flags": 520,
-          "relationTarget": "SongLyricSettingsModel"
+          "relationTarget": "SongLyricSettings"
         },
         {
           "id": "30:4993132736196042096",
@@ -444,7 +444,7 @@
     {
       "id": "22:3313311911381561450",
       "lastPropertyId": "6:6538238091134320076",
-      "name": "SongLyricSettingsModel",
+      "name": "SongLyricSettings",
       "properties": [
         {
           "id": "1:6941247299300405071",

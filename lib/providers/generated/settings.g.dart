@@ -9,12 +9,12 @@ part of '../settings.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Settings)
-const settingsProvider = SettingsProvider._();
+@ProviderFor(SettingsNotifier)
+const settingsProvider = SettingsNotifierProvider._();
 
-final class SettingsProvider
-    extends $NotifierProvider<Settings, GlobalSettings> {
-  const SettingsProvider._()
+final class SettingsNotifierProvider
+    extends $NotifierProvider<SettingsNotifier, GlobalSettings> {
+  const SettingsNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -26,11 +26,11 @@ final class SettingsProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$settingsHash();
+  String debugGetCreateSourceHash() => _$settingsNotifierHash();
 
   @$internal
   @override
-  Settings create() => Settings();
+  SettingsNotifier create() => SettingsNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(GlobalSettings value) {
@@ -41,9 +41,9 @@ final class SettingsProvider
   }
 }
 
-String _$settingsHash() => r'7329639d7462d63ea8928d2fe12c68428e2f0bee';
+String _$settingsNotifierHash() => r'1f0605f7d380919f49dfb5dc584979aafe7c15f7';
 
-abstract class _$Settings extends $Notifier<GlobalSettings> {
+abstract class _$SettingsNotifier extends $Notifier<GlobalSettings> {
   GlobalSettings build();
   @$mustCallSuper
   @override
@@ -62,13 +62,13 @@ abstract class _$Settings extends $Notifier<GlobalSettings> {
   }
 }
 
-@ProviderFor(SongLyricSettings)
-const songLyricSettingsProvider = SongLyricSettingsFamily._();
+@ProviderFor(SongLyricSettingsNotifier)
+const songLyricSettingsProvider = SongLyricSettingsNotifierFamily._();
 
-final class SongLyricSettingsProvider
-    extends $NotifierProvider<SongLyricSettings, SongLyricSettingsModel> {
-  const SongLyricSettingsProvider._({
-    required SongLyricSettingsFamily super.from,
+final class SongLyricSettingsNotifierProvider
+    extends $NotifierProvider<SongLyricSettingsNotifier, SongLyricSettings> {
+  const SongLyricSettingsNotifierProvider._({
+    required SongLyricSettingsNotifierFamily super.from,
     required int super.argument,
   }) : super(
          retry: null,
@@ -79,7 +79,7 @@ final class SongLyricSettingsProvider
        );
 
   @override
-  String debugGetCreateSourceHash() => _$songLyricSettingsHash();
+  String debugGetCreateSourceHash() => _$songLyricSettingsNotifierHash();
 
   @override
   String toString() {
@@ -90,19 +90,20 @@ final class SongLyricSettingsProvider
 
   @$internal
   @override
-  SongLyricSettings create() => SongLyricSettings();
+  SongLyricSettingsNotifier create() => SongLyricSettingsNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SongLyricSettingsModel value) {
+  Override overrideWithValue(SongLyricSettings value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<SongLyricSettingsModel>(value),
+      providerOverride: $SyncValueProvider<SongLyricSettings>(value),
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SongLyricSettingsProvider && other.argument == argument;
+    return other is SongLyricSettingsNotifierProvider &&
+        other.argument == argument;
   }
 
   @override
@@ -111,18 +112,19 @@ final class SongLyricSettingsProvider
   }
 }
 
-String _$songLyricSettingsHash() => r'17951ed5adbf0c4904b89952b6c4a81bb0ab18a7';
+String _$songLyricSettingsNotifierHash() =>
+    r'37d773d80c0746708d2ce7b728b6c1fe8d1dee18';
 
-final class SongLyricSettingsFamily extends $Family
+final class SongLyricSettingsNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
+          SongLyricSettingsNotifier,
           SongLyricSettings,
-          SongLyricSettingsModel,
-          SongLyricSettingsModel,
-          SongLyricSettingsModel,
+          SongLyricSettings,
+          SongLyricSettings,
           int
         > {
-  const SongLyricSettingsFamily._()
+  const SongLyricSettingsNotifierFamily._()
     : super(
         retry: null,
         name: r'songLyricSettingsProvider',
@@ -131,29 +133,29 @@ final class SongLyricSettingsFamily extends $Family
         isAutoDispose: true,
       );
 
-  SongLyricSettingsProvider call(int songLyricId) =>
-      SongLyricSettingsProvider._(argument: songLyricId, from: this);
+  SongLyricSettingsNotifierProvider call(int songLyricId) =>
+      SongLyricSettingsNotifierProvider._(argument: songLyricId, from: this);
 
   @override
   String toString() => r'songLyricSettingsProvider';
 }
 
-abstract class _$SongLyricSettings extends $Notifier<SongLyricSettingsModel> {
+abstract class _$SongLyricSettingsNotifier
+    extends $Notifier<SongLyricSettings> {
   late final _$args = ref.$arg as int;
   int get songLyricId => _$args;
 
-  SongLyricSettingsModel build(int songLyricId);
+  SongLyricSettings build(int songLyricId);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref =
-        this.ref as $Ref<SongLyricSettingsModel, SongLyricSettingsModel>;
+    final ref = this.ref as $Ref<SongLyricSettings, SongLyricSettings>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<SongLyricSettingsModel, SongLyricSettingsModel>,
-              SongLyricSettingsModel,
+              AnyNotifier<SongLyricSettings, SongLyricSettings>,
+              SongLyricSettings,
               Object?,
               Object?
             >;

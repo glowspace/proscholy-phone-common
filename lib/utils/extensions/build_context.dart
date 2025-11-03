@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:proscholy_common/models/tag.dart';
-import 'package:proscholy_common/providers/tags.dart';
+import 'package:proscholy_common/providers/app_dependencies.dart';
 import 'package:proscholy_common/routing/navigator_observer.dart';
 
 extension BuildContextExtension on BuildContext {
@@ -28,7 +28,7 @@ extension BuildContextExtension on BuildContext {
     if (uri.queryParameters.containsKey('stitky')) {
       final selectedTags = uri.queryParameters['stitky']!
           .split(',')
-          .map((id) => providers.read(tagProvider(int.parse(id))))
+          .map((id) => read(appDependenciesProvider).store.box<Tag>().get(int.parse(id)))
           .where((tag) => tag != null)
           .cast<Tag>()
           .toList();

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$SongLyric {
 
 @Id(assignable: true)@JsonKey(fromJson: int.parse) int get id; String get name;@JsonKey(name: 'secondary_name_1') String get secondaryName1;@JsonKey(name: 'secondary_name_2') String get secondaryName2; String get lyrics;@JsonKey(name: 'hymnology') String get hymnology; String get lang;@JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString) int get dbType; bool get isArrangement;@JsonKey(fromJson: _songFromJson) ToOne<Song> get song;@JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) ToMany<Author> get authors;@Backlink()@JsonKey(fromJson: _externalsFromJson) ToMany<External> get externals;@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) ToMany<SongbookRecord> get songbookRecords;@JsonKey(fromJson: _tagsFromJson) ToMany<Tag> get tags;// these last two are not loaded from API, but are only local
-@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettingsModel> get settings;@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> get playlistRecords;
+@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettings> get settings;@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> get playlistRecords;
 /// Create a copy of SongLyric
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -40,7 +40,7 @@ abstract mixin class $SongLyricCopyWith<$Res>  {
   factory $SongLyricCopyWith(SongLyric value, $Res Function(SongLyric) _then) = _$SongLyricCopyWithImpl;
 @useResult
 $Res call({
-@Id(assignable: true)@JsonKey(fromJson: int.parse) int id, String name,@JsonKey(name: 'secondary_name_1') String secondaryName1,@JsonKey(name: 'secondary_name_2') String secondaryName2, String lyrics,@JsonKey(name: 'hymnology') String hymnology, String lang,@JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString) int dbType, bool isArrangement,@JsonKey(fromJson: _songFromJson) ToOne<Song> song,@JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) ToMany<Author> authors,@Backlink()@JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) ToMany<SongbookRecord> songbookRecords,@JsonKey(fromJson: _tagsFromJson) ToMany<Tag> tags,@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettingsModel> settings,@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> playlistRecords
+@Id(assignable: true)@JsonKey(fromJson: int.parse) int id, String name,@JsonKey(name: 'secondary_name_1') String secondaryName1,@JsonKey(name: 'secondary_name_2') String secondaryName2, String lyrics,@JsonKey(name: 'hymnology') String hymnology, String lang,@JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString) int dbType, bool isArrangement,@JsonKey(fromJson: _songFromJson) ToOne<Song> song,@JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) ToMany<Author> authors,@Backlink()@JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) ToMany<SongbookRecord> songbookRecords,@JsonKey(fromJson: _tagsFromJson) ToMany<Tag> tags,@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettings> settings,@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> playlistRecords
 });
 
 
@@ -74,7 +74,7 @@ as ToMany<Author>,externals: null == externals ? _self.externals : externals // 
 as ToMany<External>,songbookRecords: null == songbookRecords ? _self.songbookRecords : songbookRecords // ignore: cast_nullable_to_non_nullable
 as ToMany<SongbookRecord>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as ToMany<Tag>,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
-as ToOne<SongLyricSettingsModel>,playlistRecords: null == playlistRecords ? _self.playlistRecords : playlistRecords // ignore: cast_nullable_to_non_nullable
+as ToOne<SongLyricSettings>,playlistRecords: null == playlistRecords ? _self.playlistRecords : playlistRecords // ignore: cast_nullable_to_non_nullable
 as ToMany<PlaylistRecord>,
   ));
 }
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettingsModel> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettings> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SongLyric() when $default != null:
 return $default(_that.id,_that.name,_that.secondaryName1,_that.secondaryName2,_that.lyrics,_that.hymnology,_that.lang,_that.dbType,_that.isArrangement,_that.song,_that.authors,_that.externals,_that.songbookRecords,_that.tags,_that.settings,_that.playlistRecords);case _:
@@ -178,7 +178,7 @@ return $default(_that.id,_that.name,_that.secondaryName1,_that.secondaryName2,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettingsModel> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettings> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)  $default,) {final _that = this;
 switch (_that) {
 case _SongLyric():
 return $default(_that.id,_that.name,_that.secondaryName1,_that.secondaryName2,_that.lyrics,_that.hymnology,_that.lang,_that.dbType,_that.isArrangement,_that.song,_that.authors,_that.externals,_that.songbookRecords,_that.tags,_that.settings,_that.playlistRecords);}
@@ -195,7 +195,7 @@ return $default(_that.id,_that.name,_that.secondaryName1,_that.secondaryName2,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettingsModel> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@Id(assignable: true)@JsonKey(fromJson: int.parse)  int id,  String name, @JsonKey(name: 'secondary_name_1')  String secondaryName1, @JsonKey(name: 'secondary_name_2')  String secondaryName2,  String lyrics, @JsonKey(name: 'hymnology')  String hymnology,  String lang, @JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString)  int dbType,  bool isArrangement, @JsonKey(fromJson: _songFromJson)  ToOne<Song> song, @JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson)  ToMany<Author> authors, @Backlink()@JsonKey(fromJson: _externalsFromJson)  ToMany<External> externals, @Backlink()@JsonKey(fromJson: _songbookRecordsFromJson)  ToMany<SongbookRecord> songbookRecords, @JsonKey(fromJson: _tagsFromJson)  ToMany<Tag> tags, @JsonKey(fromJson: _settingsFromJson)  ToOne<SongLyricSettings> settings, @Backlink()@JsonKey(fromJson: _playlistRecordsFromJson)  ToMany<PlaylistRecord> playlistRecords)?  $default,) {final _that = this;
 switch (_that) {
 case _SongLyric() when $default != null:
 return $default(_that.id,_that.name,_that.secondaryName1,_that.secondaryName2,_that.lyrics,_that.hymnology,_that.lang,_that.dbType,_that.isArrangement,_that.song,_that.authors,_that.externals,_that.songbookRecords,_that.tags,_that.settings,_that.playlistRecords);case _:
@@ -228,7 +228,7 @@ class _SongLyric extends SongLyric {
 @override@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) final  ToMany<SongbookRecord> songbookRecords;
 @override@JsonKey(fromJson: _tagsFromJson) final  ToMany<Tag> tags;
 // these last two are not loaded from API, but are only local
-@override@JsonKey(fromJson: _settingsFromJson) final  ToOne<SongLyricSettingsModel> settings;
+@override@JsonKey(fromJson: _settingsFromJson) final  ToOne<SongLyricSettings> settings;
 @override@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) final  ToMany<PlaylistRecord> playlistRecords;
 
 /// Create a copy of SongLyric
@@ -254,7 +254,7 @@ abstract mixin class _$SongLyricCopyWith<$Res> implements $SongLyricCopyWith<$Re
   factory _$SongLyricCopyWith(_SongLyric value, $Res Function(_SongLyric) _then) = __$SongLyricCopyWithImpl;
 @override @useResult
 $Res call({
-@Id(assignable: true)@JsonKey(fromJson: int.parse) int id, String name,@JsonKey(name: 'secondary_name_1') String secondaryName1,@JsonKey(name: 'secondary_name_2') String secondaryName2, String lyrics,@JsonKey(name: 'hymnology') String hymnology, String lang,@JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString) int dbType, bool isArrangement,@JsonKey(fromJson: _songFromJson) ToOne<Song> song,@JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) ToMany<Author> authors,@Backlink()@JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) ToMany<SongbookRecord> songbookRecords,@JsonKey(fromJson: _tagsFromJson) ToMany<Tag> tags,@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettingsModel> settings,@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> playlistRecords
+@Id(assignable: true)@JsonKey(fromJson: int.parse) int id, String name,@JsonKey(name: 'secondary_name_1') String secondaryName1,@JsonKey(name: 'secondary_name_2') String secondaryName2, String lyrics,@JsonKey(name: 'hymnology') String hymnology, String lang,@JsonKey(name: 'type_enum', fromJson: SongLyricType.rawValueFromString) int dbType, bool isArrangement,@JsonKey(fromJson: _songFromJson) ToOne<Song> song,@JsonKey(name: 'authors_pivot', fromJson: _authorsFromJson) ToMany<Author> authors,@Backlink()@JsonKey(fromJson: _externalsFromJson) ToMany<External> externals,@Backlink()@JsonKey(fromJson: _songbookRecordsFromJson) ToMany<SongbookRecord> songbookRecords,@JsonKey(fromJson: _tagsFromJson) ToMany<Tag> tags,@JsonKey(fromJson: _settingsFromJson) ToOne<SongLyricSettings> settings,@Backlink()@JsonKey(fromJson: _playlistRecordsFromJson) ToMany<PlaylistRecord> playlistRecords
 });
 
 
@@ -288,7 +288,7 @@ as ToMany<Author>,externals: null == externals ? _self.externals : externals // 
 as ToMany<External>,songbookRecords: null == songbookRecords ? _self.songbookRecords : songbookRecords // ignore: cast_nullable_to_non_nullable
 as ToMany<SongbookRecord>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as ToMany<Tag>,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
-as ToOne<SongLyricSettingsModel>,playlistRecords: null == playlistRecords ? _self.playlistRecords : playlistRecords // ignore: cast_nullable_to_non_nullable
+as ToOne<SongLyricSettings>,playlistRecords: null == playlistRecords ? _self.playlistRecords : playlistRecords // ignore: cast_nullable_to_non_nullable
 as ToMany<PlaylistRecord>,
   ));
 }

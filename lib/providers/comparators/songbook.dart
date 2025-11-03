@@ -1,4 +1,3 @@
-
 import 'package:proscholy_common/models/songbook.dart';
 
 // prioritized songbook shortcuts in sorting

@@ -70,9 +70,9 @@ final class AppRouter {
           if (tag != null) {
             return ProviderScope(
               overrides: [
-                selectedTagsProvider.overrideWith(() => SelectedTags(initialSelectedTags: [tag])),
-                songLyricsSearchProvider.overrideWith(() => SongLyricsSearch()),
-                songLyricsSearchFilteredProvider.overrideWith(() => SongLyricsSearchFiltered()),
+                selectedTagsProvider.overrideWith(() => SelectedTagsNotifier(initialSelectedTags: [tag])),
+                songLyricsSearchProvider.overrideWith(() => SongLyricsSearchNotifier()),
+                songLyricsSearchFilteredProvider.overrideWith(() => SongLyricsSearchFilteredNotifier()),
               ],
               child: const SearchScreen(),
             );

@@ -205,7 +205,7 @@ class PlaylistNotifier extends _$PlaylistNotifier {
 }
 
 @riverpod
-class Playlists extends _$Playlists {
+class PlaylistsNotifier extends _$PlaylistsNotifier {
   Store get _store => ref.read(appDependenciesProvider).store;
 
   @override
